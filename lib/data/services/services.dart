@@ -1,10 +1,7 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import "package:http/http.dart" as http;
 
-class WeatherApi {
-  //todo: create API call
-
+class Services {
   Future<Position> getCurrentPosition() async {
     bool serviceEnabled;
     LocationPermission permission;

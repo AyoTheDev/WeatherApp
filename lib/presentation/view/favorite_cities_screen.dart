@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app/presentation/constants/strings.dart';
 
 class FavoriteCitiesScreen extends StatefulWidget {
   const FavoriteCitiesScreen({super.key});
@@ -22,7 +23,7 @@ class _FavoriteCitiesScreenState extends State<FavoriteCitiesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorites'),
+        title: const Text(Strings.favorites),
       ),
       backgroundColor: Colors.lightBlueAccent,
       body: ListView.builder(
@@ -32,6 +33,7 @@ class _FavoriteCitiesScreenState extends State<FavoriteCitiesScreen> {
             title: Text(items[index]),
             titleTextStyle: const TextStyle(color: Colors.red, fontSize: 30),
             onTap: () {
+
               //todo: after click get current city weather from APi
             },
           );
