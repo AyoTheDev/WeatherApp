@@ -31,7 +31,7 @@ class _FavoriteCitiesScreenState extends State<FavoriteCitiesScreen> {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(items[index]),
-            titleTextStyle: const TextStyle(color: Colors.red, fontSize: 30),
+            titleTextStyle: const TextStyle(color: Colors.red, fontSize: 15),
             onTap: () {
 
               //todo: after click get current city weather from APi
