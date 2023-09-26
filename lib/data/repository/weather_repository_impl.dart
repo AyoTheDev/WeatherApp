@@ -1,36 +1,36 @@
+import 'package:dio/src/response.dart';
+import 'package:flutter_weather_app/data/api/weather_api.dart';
 import 'package:flutter_weather_app/data/datasource/database/weather_database.dart';
-import 'package:flutter_weather_app/data/mappers/weather_mapper.dart';
-import 'package:flutter_weather_app/data/models/dao/weather_model.dart';
-import 'package:flutter_weather_app/data/mappers/weather_list_mapper.dart';
-
-import '../../domain/repository/weather_repository.dart';
+import 'package:flutter_weather_app/data/models/dao/weather_model_dao.dart';
+import 'package:flutter_weather_app/domain/models/weather_model.dart';
+import 'package:flutter_weather_app/domain/repository/weather_repository.dart';
 
 class WeatherRepositoryImpl implements WeatherRepository {
   final WeatherDatabase database;
+  final WeatherApi weatherApi;
 
-  const WeatherRepositoryImpl(this.database);
-
-  @override
-  Future<WeatherListModel> getWeathersList() async {
-    final weatherListModel = await database.allCities();
-    return WeatherListMapper.transformToModel(weatherListModel);
-  }
+  const WeatherRepositoryImpl(this.database, this.weatherApi);
 
   @override
-  Future<void> deleteWeather(int id) {
-    // TODO: implement logic
+  Future<WeatherListModelDao> getFavouriteWeathersList() async {
+    // TODO: implement getFavouriteWeathersList
     throw UnimplementedError();
   }
 
   @override
-  Future<WeatherModel> createWeather(final String title, final String description, final String temperature) async {
-    //todo: implement logic
-    throw UnimplementedError();
-  }
+  Future<void> deleteFavouriteWeatherByCity(int id, String city) =>
+      // TODO: implement deleteFavouriteWeatherByCity
+      throw UnimplementedError();
 
   @override
-  Future<void> updateWeather(int id, String title, String description, String temperature) {
-    // TODO: implement logic
+  Future<WeatherModelDao> addFavouriteWeather(
+          String city, String description, String temperature) =>
+      // TODO: implement deleteFavouriteWeatherByCity
+      throw UnimplementedError();
+
+  @override
+  Future<WeatherModel> fetchWeatherByCity(String city) {
+    // TODO: implement fetchWeatherByCity
     throw UnimplementedError();
   }
 }

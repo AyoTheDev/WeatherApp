@@ -1,17 +1,13 @@
-import 'package:flutter_weather_app/data/models/dao/weather_model.dart';
+import 'package:flutter_weather_app/data/models/dao/weather_model_dao.dart';
+import 'package:flutter_weather_app/domain/models/weather_model.dart';
 
 abstract class WeatherRepository {
-  Future<WeatherListModel>? getWeathersList();
-  Future<WeatherModel> createWeather(
-      final String title,
+  Future<WeatherModel> fetchWeatherByCity(String city);
+  Future<WeatherListModelDao> getFavouriteWeathersList();
+  Future<WeatherModelDao> addFavouriteWeather(
+      final String city,
       final String description,
       final String temperature,
       );
-  Future<void> updateWeather(
-      final int id,
-      final String title,
-      final String description,
-      final String temperature,
-      );
-  Future<void> deleteWeather(final int id);
+  Future<void> deleteFavouriteWeatherByCity(final int id, final String city);
 }

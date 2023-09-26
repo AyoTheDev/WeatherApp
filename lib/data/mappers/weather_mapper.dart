@@ -5,10 +5,11 @@ class WeatherMapper {
 
   static WeatherModel transformToNewEntityMap(
     final String city,
-    final String description,
     final String temperature,
+    final String description,
   ) {
     return WeatherModel(
-        city: city, description: description, temperature: temperature);
+        city: city, temperature: temperature, description: description,
+    );
   }
 }

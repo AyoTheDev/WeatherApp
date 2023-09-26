@@ -1,8 +1,7 @@
-import 'package:flutter_weather_app/data/models/dao/weather_model.dart';
+import 'package:flutter_weather_app/data/models/dao/weather_model_dao.dart';
 
 abstract class WeatherDatabase {
-  Future<WeatherListModel> allCities();
-  Future<WeatherModel> createWeather(final WeatherModel weatherEntity);
-  Future<void> updateWeather(final WeatherModel weatherEntity);
-  Future<void> deleteWeather(final int id);
+  Future<WeatherModelDao> getAllFavouriteCities();
+  Future<WeatherModelDao> addFavouriteCity(final WeatherModelDao weatherModel);
+  Future<void> deleteFavouriteCity(final int id);
 }

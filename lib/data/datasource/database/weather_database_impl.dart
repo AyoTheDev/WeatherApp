@@ -1,5 +1,5 @@
 import 'package:flutter_weather_app/data/datasource/database/weather_database.dart';
-import 'package:flutter_weather_app/data/models/dao/weather_model.dart';
+import 'package:flutter_weather_app/data/models/dao/weather_model_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -7,45 +7,35 @@ class WeatherDatabaseImpl implements WeatherDatabase {
   static const _databaseName = 'weather_database';
   static const _tableName = 'weather_table';
   static const _databaseVersion = 1;
+  static const _columnCity = 'city';
   static const _columnId = 'id';
-  static const _columnTitle = 'city';
-  static const _columnDescription = 'description';
-  static const _columnTemperature = 'temperature';
   static Database? _database;
 
-  Future<Database> get database async {
+  Future<Database?> get database async {
     _database ??= await _initDatabase();
-    return _database!;
+    return _database;
   }
 
   @override
-  Future<WeatherListModel> allCities() async {
-    final db = await database;
-    return db.query(_tableName);
-  }
-
-  @override
-  Future<void> deleteWeather(int id) {
-    // TODO: implement deleteWeather
+  Future<WeatherModelDao> getAllFavouriteCities() async {
+    // TODO: implement getAllFavouriteCities
     throw UnimplementedError();
   }
 
   @override
-  Future<WeatherModel> createWeather(WeatherModel weatherEntity) {
-    // TODO: implement insertWeather
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> updateWeather(WeatherModel weatherListModel) async {
+  Future<void> deleteFavouriteCity(int id) async {
     final db = await database;
-    final id = weatherListModel['id'];
-    await db.update(
+    await db?.delete(
       _tableName,
-      weatherListModel,
-      where: '$_columnId = ?',
+      // where: '$_columnId = ?',    test how it works and delete if not needed
       whereArgs: [id],
     );
+  }
+
+  @override
+  Future<WeatherModelDao> addFavouriteCity(WeatherModelDao weatherEntity) {
+    // TODO: implement addFavouriteCity
+    throw UnimplementedError();
   }
 
   Future<Database> _initDatabase() async {
@@ -55,9 +45,7 @@ class WeatherDatabaseImpl implements WeatherDatabase {
         db.execute('''
           CREATE TABLE $_tableName(
             $_columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-            $_columnTitle TEXT NOT NULL,
-            $_columnDescription TEXT,
-            $_columnTemperature TEXT NOT NULL
+            $_columnCity TEXT NOT NULL,
           )
         ''');
       },

@@ -6,7 +6,6 @@ import '../constants/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -17,15 +16,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<WeatherModel> getData(bool isCurrentCity, String cityName) async {
     return const WeatherModel(
-        temperature: '30',
         city: 'Yerevan',
+        temperature: '30',
         description: 'Rainy'); //change to real data
   }
 
   @override
   void initState() {
     setState(() {
-      _myData = getData(true, "");
+      _myData = getData(true, "London");
     });
 
     super.initState();

@@ -1,6 +1,5 @@
-import 'package:flutter_weather_app/data/constants/api_key.dart';
-import 'package:flutter_weather_app/presentation/constants/strings.dart';
-import 'package:flutter_weather_app/data/models/dao/weather_model.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_weather_app/data/models/response/weather_model_response.dart';
 import 'package:flutter_weather_app/data/services/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -9,34 +8,38 @@ import 'package:dio/dio.dart';
 class WeatherApi {
   final dio = Dio();
 
-  Future<void> fetchData(bool current, String cityName) async {
+  Future<FavouriteCitiesWeather?> fetchData(bool current, String? cityName) async {
     try {
-      Position currentPosition = await LocationService().getCurrentPosition();
-
       if (current) {
+        Position currentPosition = await LocationService().getCurrentPosition();
+
         List<Placemark> placeMarks = await placemarkFromCoordinates(
             currentPosition.latitude, currentPosition.longitude);
 
         Placemark place = placeMarks[0];
-        cityName = place.locality ?? 'London';
+        cityName = place.locality;
       }
 
-      final response = await dio.get('https://api.weatherapi.com/v1/current.json?q=Yerevan&key=d09502c9205747e2b94110102232109',
+      final Response<FavouriteCitiesWeather> response = await dio.get('${dotenv.env['BASE_URL']}current.json?q=$cityName&key=${dotenv.env['API_KEY']}',
         options: Options(
           headers: {
-            'Authorization': 'Bearer ${ApiKey.apiKey}',
+            'Authorization': 'Bearer ${dotenv.env['API_KEY']}',
           },
         ),);
       if (response.statusCode == 200) {
-        // Successfully fetched data, parse it here
         final data = response.data;
         print('Received data: $data');
+        return data;
       } else {
         // Handle errors here
+        // TODO: show user something like loading or refresh button
         print('Request failed with status: ${response.statusCode}');
+        return null;
       }
     } catch (e) {
+      // TODO: show user refresh button
       print('Error: $e');
+      return null;
     }
   }
 }

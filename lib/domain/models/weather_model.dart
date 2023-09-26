@@ -5,8 +5,8 @@ part 'weather_model.freezed.dart';
 @freezed
 class WeatherModel with _$WeatherModel {
   const factory WeatherModel({
-    required String temperature,
     required String city,
+    required String temperature,
     required String description,
   }) = _WeatherModel;
 

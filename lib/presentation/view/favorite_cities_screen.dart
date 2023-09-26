@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app/presentation/constants/constants.dart';
 import 'package:flutter_weather_app/presentation/constants/strings.dart';
 
 class FavoriteCitiesScreen extends StatefulWidget {
@@ -31,7 +32,7 @@ class _FavoriteCitiesScreenState extends State<FavoriteCitiesScreen> {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(items[index]),
-            titleTextStyle: const TextStyle(color: Colors.red, fontSize: 15),
+            titleTextStyle: const TextStyle(color: Colors.red, fontSize: listItemFontSize),
             onTap: () {
 
               //todo: after click get current city weather from APi
