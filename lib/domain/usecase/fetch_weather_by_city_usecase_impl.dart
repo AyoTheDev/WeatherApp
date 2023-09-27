@@ -11,14 +11,13 @@ class FetchWeatherByCityUseCaseImpl
 
   @override
   Future<WeatherModel> execute({WeatherRequestModel? params}) {
-    // TODO: implement execute
-    throw UnimplementedError();
+      return _weatherRepository.fetchWeatherByCity(params?.isCurrent, params?.cityName);
   }
 }
 
 class WeatherRequestModel {
-  final bool isCurrent;
-  final String cityName;
+  final bool? isCurrent;
+  final String? cityName;
 
   const WeatherRequestModel(this.isCurrent, this.cityName);
 }

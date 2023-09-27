@@ -1,5 +1,4 @@
 import 'package:flutter_weather_app/presentation/constants/strings.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {
@@ -19,8 +18,7 @@ class LocationService {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          Strings.locationPermissionPermanentlyDenied);
+      return Future.error(Strings.locationPermissionPermanentlyDenied);
     }
 
     return await Geolocator.getCurrentPosition(

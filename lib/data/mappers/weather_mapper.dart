@@ -1,15 +1,9 @@
+import 'package:flutter_weather_app/data/models/response/weather_model_response.dart';
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
 
 class WeatherMapper {
-  //todo: create transformToDomain(toModel) and transformToData(toMap)
-
-  static WeatherModel transformToNewEntityMap(
-    final String city,
-    final String temperature,
-    final String description,
-  ) {
-    return WeatherModel(
-        city: city, temperature: temperature, description: description,
-    );
-  }
+  static WeatherModel transformToDomain(final Weather weather) => WeatherModel(
+      city: weather.city,
+      temperature: weather.temperatureC,
+      description: weather.description);
 }
