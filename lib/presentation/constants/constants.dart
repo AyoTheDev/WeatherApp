@@ -6,6 +6,8 @@ const height25 = SizedBox(
   height: 25,
 );
 
+const double listItemFontSize = 15;
+
 TextStyle f14RblackLetterSpacing2 = TextStyle(
     fontSize: 14, fontFamily: 'Poppins', color: textColor, letterSpacing: 2);
 

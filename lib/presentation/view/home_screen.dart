@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app/domain/models/weather_model.dart';
 import 'package:flutter_weather_app/presentation/constants/strings.dart';
 
 import '../constants/constants.dart';
-import '../models/weather_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -15,22 +14,28 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController textController = TextEditingController(text: "");
   Future<WeatherModel>? _myData;
 
-  // Future<WeatherModel> getData(bool isCurrentCity, String cityName) async {
-  //   return await WeatherApi().callWeatherAPi(isCurrentCity, cityName);
-  // }
-  //
-  // @override
-  // void initState() {
-  //   setState(() {
-  //     _myData = getData(true, "");
-  //   });
-  //
-  //   super.initState();
-  // }
+  Future<WeatherModel> getData(bool isCurrentCity, String cityName) async {
+    return const WeatherModel(
+        city: 'Yerevan',
+        temperature: '30',
+        description: 'Rainy'); //change to real data
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      _myData = getData(true, "London");
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(Strings.home),
+      ),
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: FutureBuilder(
@@ -48,7 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
               // if data has no errors
             } else if (snapshot.hasData) {
               final data = snapshot.data as WeatherModel;
-              _myData = data as Future<WeatherModel>;
               return Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
