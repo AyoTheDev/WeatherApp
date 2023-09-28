@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 Color textColor = const Color(0xFF222939);
+Color veryLightTangeloColor = const Color(0xffffb56b);
 
 const height25 = SizedBox(
   height: 25,

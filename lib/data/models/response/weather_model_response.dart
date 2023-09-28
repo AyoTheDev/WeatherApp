@@ -1,7 +1,7 @@
 class Weather {
   final String city;
-  final String temperatureF;
-  final String temperatureC;
+  final double temperatureF;
+  final double temperatureC;
   final String description;
 
   Weather.fromMap(Map<String, dynamic> json)

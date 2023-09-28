@@ -12,23 +12,21 @@ class WeatherRepositoryImpl implements WeatherRepository {
   const WeatherRepositoryImpl(this.database, this.weatherApi);
 
   @override
-  Future<WeatherListModelDao> getFavouriteWeathersList() async =>
+  Future<CitiesListModelDao> getFavouriteWeathersList() async =>
       database.getAllFavouriteCities();
 
   @override
-  Future<void> deleteFavouriteWeatherByCity(int id, String city) =>
-      database.deleteFavouriteCity(id, city);
+  Future<bool> deleteFavouriteWeatherByCity(String city) =>
+      database.deleteFavouriteCity(city);
 
   @override
-  Future<WeatherModelDao> addFavouriteWeather(
-          String city, String description, String temperature) =>
-      // TODO: implement addFavouriteWeather
-      throw UnimplementedError();
+  Future<bool> addFavouriteCity(String city) =>
+      database.addFavouriteCity({"city": city});
 
   @override
   Future<WeatherModel> fetchWeatherByCity(
-      bool? isCurrentCity, String? city) async {
+      bool isCurrentCity, String? city) async {
     var weather = await weatherApi.fetchWeatherByCity(isCurrentCity, city);
-    return WeatherMapper.transformToDomain(weather!);
+    return WeatherMapper.transformToDomain(weather);
   }
 }

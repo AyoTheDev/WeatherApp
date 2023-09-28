@@ -1,8 +1,10 @@
 import 'package:flutter_weather_app/data/datasource/database/weather_database.dart';
+import 'package:flutter_weather_app/data/exceptions/custom_exception_handler.dart';
 import 'package:flutter_weather_app/data/models/dao/weather_model_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+// TODO: test DB calls
 class WeatherDatabaseImpl implements WeatherDatabase {
   static const _databaseName = 'weather_database';
   static const _tableName = 'weather_table';
@@ -11,31 +13,9 @@ class WeatherDatabaseImpl implements WeatherDatabase {
   static const _columnId = 'id';
   static Database? _database;
 
-  Future<Database?> get database async {
+  Future<Database> get database async {
     _database ??= await _initDatabase();
-    return _database;
-  }
-
-  @override
-  Future<WeatherModelDao> getAllFavouriteCities() async {
-    // TODO: implement getAllFavouriteCities
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> deleteFavouriteCity(int id) async {
-    final db = await database;
-    await db?.delete(
-      _tableName,
-      // where: '$_columnId = ?',    test how it works and delete if not needed
-      whereArgs: [id],
-    );
-  }
-
-  @override
-  Future<WeatherModelDao> addFavouriteCity(WeatherModelDao weatherEntity) {
-    // TODO: implement addFavouriteCity
-    throw UnimplementedError();
+    return _database!;
   }
 
   Future<Database> _initDatabase() async {
@@ -51,5 +31,44 @@ class WeatherDatabaseImpl implements WeatherDatabase {
       },
       version: _databaseVersion,
     );
+  }
+
+  @override
+  Future<CitiesListModelDao> getAllFavouriteCities() async {
+    final db = await database;
+    var result = db?.query(_tableName);
+    if (result == null) {
+      throw const CustomException('Something went wrong');
+    } else {
+      return result;
+    }
+  }
+
+  @override
+  Future<bool> addFavouriteCity(CityModelDao city) async {
+    final db = await database;
+    final hasAdded = await db.transaction((txn) async {
+      final id = await txn.insert(
+        _tableName,
+        city,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      final results =
+          await txn.query(_tableName, where: '$_columnId = ?', whereArgs: [id]);
+
+      return results.firstOrNull != null;
+    });
+    return hasAdded;
+  }
+
+  @override
+  Future<bool> deleteFavouriteCity(String city) async {
+    final db = await database;
+    final count = await db.delete(
+      _tableName,
+      where: '$_columnCity = ?',
+      whereArgs: [city],
+    );
+    return count == 1;
   }
 }

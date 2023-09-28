@@ -10,13 +10,14 @@ class FetchWeatherByCityUseCaseImpl
   const FetchWeatherByCityUseCaseImpl(this._weatherRepository);
 
   @override
-  Future<WeatherModel> execute({WeatherRequestModel? params}) {
-      return _weatherRepository.fetchWeatherByCity(params?.isCurrent, params?.cityName);
+  Future<WeatherModel> execute({required WeatherRequestModel input}) async {
+    var result = await _weatherRepository.fetchWeatherByCity(input.isCurrent, input.cityName);
+      return result;
   }
 }
 
 class WeatherRequestModel {
-  final bool? isCurrent;
+  final bool isCurrent;
   final String? cityName;
 
   const WeatherRequestModel(this.isCurrent, this.cityName);

@@ -1,2 +1,2 @@
-typedef WeatherListModelDao = List<WeatherModelDao>;
-typedef WeatherModelDao = Map<String, dynamic>;
+typedef CitiesListModelDao = List<CityModelDao>;
+typedef CityModelDao = Map<String, dynamic>;

@@ -13,9 +13,9 @@ const String baseURL = 'https://api.weatherapi.com/v1/';
 class WeatherApi {
   final dio = Dio();
 
-  Future<Weather?> fetchWeatherByCity(bool? current, String? cityName) async {
+  Future<Weather> fetchWeatherByCity(bool isCurrent, String? cityName) async {
     try {
-      if (current == true) {
+      if (isCurrent) {
         Position currentPosition = await LocationService().getCurrentPosition();
 
         List<Placemark> placeMarks = await placemarkFromCoordinates(
@@ -26,7 +26,7 @@ class WeatherApi {
       }
 
       final response = await dio.get(
-        '$baseURL}current.json?q=$cityName&key=${dotenv.env['API_KEY']}',
+        '${baseURL}current.json?q=$cityName&key=${dotenv.env['API_KEY']}',
         options: Options(
           headers: {
             'Authorization': 'Bearer ${dotenv.env['API_KEY']}',
@@ -35,19 +35,12 @@ class WeatherApi {
       );
       if (response.statusCode == 200) {
         final data = response.data;
-        final Map<String, dynamic> decodedJson = json.decode(data);
-        print('Received data: $data');
-        return Weather.fromMap(decodedJson);
+        return Weather.fromMap(data);
       } else {
-        // Handle errors here
-        // TODO: show user something like loading or refresh button
-        print('Request failed with status: ${response.statusCode}');
         throw CustomException(
             '${response.statusCode.toString()} error code with ${response.statusMessage.toString()} message');
       }
     } catch (e) {
-      // TODO: show user refresh button
-      print('Error: $e');
       throw CustomException(e.toString());
     }
   }
