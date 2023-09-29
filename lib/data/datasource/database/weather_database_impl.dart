@@ -1,8 +1,9 @@
 import 'package:flutter_weather_app/data/datasource/database/weather_database.dart';
-import 'package:flutter_weather_app/data/exceptions/custom_exception_handler.dart';
 import 'package:flutter_weather_app/data/models/dao/weather_model_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../../exceptions/custom_exception_handler.dart';
 
 // TODO: test DB calls
 class WeatherDatabaseImpl implements WeatherDatabase {
@@ -35,40 +36,51 @@ class WeatherDatabaseImpl implements WeatherDatabase {
 
   @override
   Future<CitiesListModelDao> getAllFavouriteCities() async {
-    final db = await database;
-    var result = db?.query(_tableName);
-    if (result == null) {
-      throw const CustomException('Something went wrong');
-    } else {
+    return await _execute(() async {
+      final db = await database;
+      var result = db.query(_tableName);
       return result;
-    }
+    });
   }
 
   @override
   Future<bool> addFavouriteCity(CityModelDao city) async {
     final db = await database;
-    final hasAdded = await db.transaction((txn) async {
-      final id = await txn.insert(
-        _tableName,
-        city,
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-      final results =
-          await txn.query(_tableName, where: '$_columnId = ?', whereArgs: [id]);
 
-      return results.firstOrNull != null;
+    return await _execute(() async {
+      final hasAdded = await db.transaction((txn) async {
+        final id = await txn.insert(
+          _tableName,
+          city,
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+        final results = await txn
+            .query(_tableName, where: '$_columnId = ?', whereArgs: [id]);
+
+        return results.firstOrNull != null;
+      });
+      return hasAdded;
     });
-    return hasAdded;
   }
 
   @override
   Future<bool> deleteFavouriteCity(String city) async {
-    final db = await database;
-    final count = await db.delete(
-      _tableName,
-      where: '$_columnCity = ?',
-      whereArgs: [city],
-    );
-    return count == 1;
+    return await _execute(() async {
+      final db = await database;
+      final count = await db.delete(
+        _tableName,
+        where: '$_columnCity = ?',
+        whereArgs: [city],
+      );
+      return count == 1;
+    });
+  }
+}
+
+Future<T> _execute<T>(Future<T> Function() action) async {
+  try {
+    return await action();
+  } on Exception catch (e) {
+    throw CustomException('${e.toString()} error code');
   }
 }
