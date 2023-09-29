@@ -36,8 +36,9 @@ class WeatherDatabaseImpl implements WeatherDatabase {
 
   @override
   Future<CitiesListModelDao> getAllFavouriteCities() async {
+    final db = await database;
+
     return await _execute(() async {
-      final db = await database;
       var result = db.query(_tableName);
       return result;
     });
@@ -65,8 +66,9 @@ class WeatherDatabaseImpl implements WeatherDatabase {
 
   @override
   Future<bool> deleteFavouriteCity(String city) async {
+    final db = await database;
+
     return await _execute(() async {
-      final db = await database;
       final count = await db.delete(
         _tableName,
         where: '$_columnCity = ?',
