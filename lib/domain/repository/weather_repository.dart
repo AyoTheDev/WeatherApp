@@ -3,15 +3,11 @@ import 'package:flutter_weather_app/domain/models/weather_model.dart';
 
 abstract class WeatherRepository {
   Future<WeatherModel> fetchWeatherByCity(
-      final bool? isCurrentCity, final String? city);
+      final bool isCurrentCity, final String? city);
 
-  Future<WeatherListModelDao> getFavouriteWeathersList();
+  Future<CitiesListModelDao> getFavouriteWeathersList();
 
-  Future<WeatherModelDao> addFavouriteWeather(
-    final String city,
-    final String description,
-    final String temperature,
-  );
+  Future<bool> addFavouriteCity(final String city);
 
-  Future<void> deleteFavouriteWeatherByCity(final int id, final String city);
+  Future<bool> deleteFavouriteWeatherByCity(final String city);
 }

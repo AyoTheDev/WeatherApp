@@ -1,3 +1,3 @@
 abstract class BaseUseCase<Output, Input> {
-  Future<Output> execute({Input? params});
+  Future<Output> execute({required Input input});
 }

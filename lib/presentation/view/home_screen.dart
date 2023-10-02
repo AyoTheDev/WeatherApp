@@ -1,121 +1,147 @@
+import 'dart:developer';
+
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
+import 'package:flutter_weather_app/presentation/constants/constants.dart';
 import 'package:flutter_weather_app/presentation/constants/strings.dart';
+import 'package:flutter_weather_app/presentation/viewmodel/home_screen_viewmodel.dart';
 
-import '../constants/constants.dart';
-
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
+
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController textController = TextEditingController(text: "");
-  Future<WeatherModel>? _myData;
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final _homeViewModelProvider = homeViewModelStateNotifierProvider;
+  late HomeViewModel _viewModel;
 
-  Future<WeatherModel> getData(bool isCurrentCity, String cityName) async {
-    return const WeatherModel(
-        city: 'Yerevan',
-        temperature: '30',
-        description: 'Rainy'); //change to real data
-  }
+  TextEditingController textController = TextEditingController(text: "");
 
   @override
   void initState() {
-    setState(() {
-      _myData = getData(true, "London");
-    });
-
     super.initState();
+    setState(() {
+      _viewModel = ref.read(_homeViewModelProvider.notifier);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(Strings.home),
-      ),
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: FutureBuilder(
-        builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // If error occurred
-            if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  '${snapshot.error.toString()} ${Strings.occurred}',
-                  style: const TextStyle(fontSize: 18),
-                ),
-              );
+        appBar: AppBar(
+          title: const Text(Strings.home),
+        ),
+        resizeToAvoidBottomInset: false,
+        body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+                  Color.fromARGB(255, 65, 89, 224),
+                  Color.fromARGB(255, 83, 92, 215),
+                  Color.fromARGB(255, 162, 163, 208),
+                ],
+                tileMode: TileMode.mirror,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(flex: 10, child: _buildAnimatedSearchBar()),
+                  Flexible(flex: 16, child: _buildConsumer()),
+                ],
+              ),
+            )));
+  }
 
-              // if data has no errors
-            } else if (snapshot.hasData) {
-              final data = snapshot.data as WeatherModel;
-              return Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment(0.8, 1),
-                    colors: <Color>[
-                      Color.fromARGB(255, 65, 89, 224),
-                      Color.fromARGB(255, 83, 92, 215),
-                      Color.fromARGB(255, 86, 88, 177),
-                      Color(0xfff39060),
-                      Color(0xffffb56b),
-                    ],
-                    tileMode: TileMode.mirror,
-                  ),
-                ),
-                width: double.infinity,
-                height: double.infinity,
-                child: SafeArea(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              data.city,
-                              style: f24Rwhitebold,
-                            ),
-                            height25,
-                            Text(
-                              data.description,
-                              style: f16PW,
-                            ),
-                            height25,
-                            Text(
-                              "${data.temperature}${Strings.celsius}",
-                              style: f42Rwhitebold,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            return Center(
-              child: Text("${snapshot.connectionState} ${Strings.occurred}"),
-            );
-          }
-          return const Center(
-            child: Text(Strings.serverTimedOut),
-          );
-        },
-        future: _myData,
+  Widget _buildConsumer() {
+    return Consumer(
+      builder: (context, ref, _) {
+        var data = ref.watch(_homeViewModelProvider).data;
+        if (data == null) {
+          return _buildErrorWidget();
+        } else {
+          return ref.watch(_homeViewModelProvider).maybeWhen(
+              success: (content) => _buildSuccessWidget(data),
+              error: (_) => _buildErrorWidget(),
+              orElse: () => const Center(child: CircularProgressIndicator()));
+        }
+      },
+    );
+  }
+
+  Widget _buildSuccessWidget(WeatherModel weatherModel) {
+    return Column(
+      children: [
+        Text(
+          weatherModel.city,
+          style: f24Rwhitebold,
+        ),
+        Text(
+          '${weatherModel.temperatureC} ${Strings.celsius}',
+          style: f24Rwhitebold,
+        ),
+        Text(
+          weatherModel.description,
+          style: f24Rwhitebold,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAnimatedSearchBar() {
+    return AnimSearchBar(
+      rtl: true,
+      width: 400,
+      textFieldColor: veryLightTangeloColor,
+      color: veryLightTangeloColor,
+      textController: textController,
+      suffixIcon: const Icon(
+        Icons.search,
+        color: Colors.black,
+        size: 20,
       ),
+      onSuffixTap: () async {
+        textController.text == ""
+            ? log("No city entered")
+            : setState(() {
+                _viewModel.fetchWeatherByCity(false, textController.text);
+              });
+
+        FocusScope.of(context).unfocus();
+        textController.clear();
+      },
+      style: f14RblackLetterSpacing2,
+      onSubmitted: (_) {},
+    );
+  }
+
+  Widget _buildErrorWidget() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Text(
+          Strings.somethingWentWrong,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 20), // Spacer between text and button
+        ElevatedButton(
+          onPressed: () {
+            _viewModel.fetchWeatherByCity(true, "");
+          },
+          child: const Text(Strings.refresh),
+        ),
+      ],
     );
   }
 }

@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$WeatherModel {
   String get city => throw _privateConstructorUsedError;
-  String get temperature => throw _privateConstructorUsedError;
+  double get temperatureF => throw _privateConstructorUsedError;
+  double get temperatureC => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +32,11 @@ abstract class $WeatherModelCopyWith<$Res> {
           WeatherModel value, $Res Function(WeatherModel) then) =
       _$WeatherModelCopyWithImpl<$Res, WeatherModel>;
   @useResult
-  $Res call({String city, String temperature, String description});
+  $Res call(
+      {String city,
+      double temperatureF,
+      double temperatureC,
+      String description});
 }
 
 /// @nodoc
@@ -48,7 +53,8 @@ class _$WeatherModelCopyWithImpl<$Res, $Val extends WeatherModel>
   @override
   $Res call({
     Object? city = null,
-    Object? temperature = null,
+    Object? temperatureF = null,
+    Object? temperatureC = null,
     Object? description = null,
   }) {
     return _then(_value.copyWith(
@@ -56,10 +62,14 @@ class _$WeatherModelCopyWithImpl<$Res, $Val extends WeatherModel>
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String,
-      temperature: null == temperature
-          ? _value.temperature
-          : temperature // ignore: cast_nullable_to_non_nullable
-              as String,
+      temperatureF: null == temperatureF
+          ? _value.temperatureF
+          : temperatureF // ignore: cast_nullable_to_non_nullable
+              as double,
+      temperatureC: null == temperatureC
+          ? _value.temperatureC
+          : temperatureC // ignore: cast_nullable_to_non_nullable
+              as double,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -76,7 +86,11 @@ abstract class _$$_WeatherModelCopyWith<$Res>
       __$$_WeatherModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String city, String temperature, String description});
+  $Res call(
+      {String city,
+      double temperatureF,
+      double temperatureC,
+      String description});
 }
 
 /// @nodoc
@@ -91,7 +105,8 @@ class __$$_WeatherModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? city = null,
-    Object? temperature = null,
+    Object? temperatureF = null,
+    Object? temperatureC = null,
     Object? description = null,
   }) {
     return _then(_$_WeatherModel(
@@ -99,10 +114,14 @@ class __$$_WeatherModelCopyWithImpl<$Res>
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String,
-      temperature: null == temperature
-          ? _value.temperature
-          : temperature // ignore: cast_nullable_to_non_nullable
-              as String,
+      temperatureF: null == temperatureF
+          ? _value.temperatureF
+          : temperatureF // ignore: cast_nullable_to_non_nullable
+              as double,
+      temperatureC: null == temperatureC
+          ? _value.temperatureC
+          : temperatureC // ignore: cast_nullable_to_non_nullable
+              as double,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -116,20 +135,23 @@ class __$$_WeatherModelCopyWithImpl<$Res>
 class _$_WeatherModel extends _WeatherModel {
   const _$_WeatherModel(
       {required this.city,
-      required this.temperature,
+      required this.temperatureF,
+      required this.temperatureC,
       required this.description})
       : super._();
 
   @override
   final String city;
   @override
-  final String temperature;
+  final double temperatureF;
+  @override
+  final double temperatureC;
   @override
   final String description;
 
   @override
   String toString() {
-    return 'WeatherModel(city: $city, temperature: $temperature, description: $description)';
+    return 'WeatherModel(city: $city, temperatureF: $temperatureF, temperatureC: $temperatureC, description: $description)';
   }
 
   @override
@@ -138,14 +160,17 @@ class _$_WeatherModel extends _WeatherModel {
         (other.runtimeType == runtimeType &&
             other is _$_WeatherModel &&
             (identical(other.city, city) || other.city == city) &&
-            (identical(other.temperature, temperature) ||
-                other.temperature == temperature) &&
+            (identical(other.temperatureF, temperatureF) ||
+                other.temperatureF == temperatureF) &&
+            (identical(other.temperatureC, temperatureC) ||
+                other.temperatureC == temperatureC) &&
             (identical(other.description, description) ||
                 other.description == description));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, city, temperature, description);
+  int get hashCode =>
+      Object.hash(runtimeType, city, temperatureF, temperatureC, description);
 
   @JsonKey(ignore: true)
   @override
@@ -157,14 +182,17 @@ class _$_WeatherModel extends _WeatherModel {
 abstract class _WeatherModel extends WeatherModel {
   const factory _WeatherModel(
       {required final String city,
-      required final String temperature,
+      required final double temperatureF,
+      required final double temperatureC,
       required final String description}) = _$_WeatherModel;
   const _WeatherModel._() : super._();
 
   @override
   String get city;
   @override
-  String get temperature;
+  double get temperatureF;
+  @override
+  double get temperatureC;
   @override
   String get description;
   @override

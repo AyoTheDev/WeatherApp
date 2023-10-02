@@ -4,6 +4,7 @@ import 'package:flutter_weather_app/domain/models/weather_model.dart';
 class WeatherMapper {
   static WeatherModel transformToDomain(final Weather weather) => WeatherModel(
       city: weather.city,
-      temperature: weather.temperatureC,
+      temperatureF: weather.temperatureF,
+      temperatureC: weather.temperatureC,
       description: weather.description);
 }
