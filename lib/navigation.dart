@@ -23,23 +23,34 @@ class _MainNavigatorState extends State<MainNavigator> {
 
   @override
   Widget build(BuildContext context) {
+    String appBarTitle = "";
+    switch(_selectedIndex) {
+      case 0: appBarTitle = Strings.home;
+      case 1: appBarTitle = Strings.favorites;
+      case 2: appBarTitle = Strings.settings;
+    }
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: (i) {
-            setState(() {
-              _selectedIndex = i;
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home), label: Strings.home),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.favorite), label: Strings.favorites),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: Strings.settings)
-          ],
-        ),
-        body: _screens[_selectedIndex]);
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(appBarTitle),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
+        currentIndex: _selectedIndex,
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home), label: Strings.home),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: Strings.favorites),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: Strings.settings)
+        ],
+        onTap: (i) {
+          setState(() {
+            _selectedIndex = i;
+          });
+        },
+      ),
+      body: _screens[_selectedIndex]);
   }
 }

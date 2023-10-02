@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_weather_app/domain/usecase/add_favourite_city_usecase.dart';
 import 'package:flutter_weather_app/domain/usecase/delete_favourite_city_usecase_impl.dart';
 import 'package:flutter_weather_app/domain/usecase/fetch_weather_by_city_usecase_impl.dart';
 import 'package:flutter_weather_app/domain/usecase/get_favourite_cities_list_usecase_impl.dart';
@@ -14,3 +15,6 @@ final getFavouriteWeatherByCityUseCaseProvider = Provider<BaseUseCase>((ref) =>
 
 final deleteFavouriteWeatherByCityUseCaseProvider = Provider<BaseUseCase>((ref) =>
     DeleteFavouriteCityUseCaseImpl(ref.watch(weathersRepositoryProvider)));
+
+final addFavouriteWeatherByCityUseCaseProvider = Provider<BaseUseCase>((ref) =>
+    AddFavouriteCityUseCaseImpl(ref.watch(weathersRepositoryProvider)));
