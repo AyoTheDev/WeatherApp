@@ -9,6 +9,7 @@ class WeatherModel with _$WeatherModel {
     required double temperatureF,
     required double temperatureC,
     required String description,
+    required bool isFavourite,
   }) = _WeatherModel;
 
   const WeatherModel._();

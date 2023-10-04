@@ -8,6 +8,7 @@ const height25 = SizedBox(
 );
 
 const double listItemFontSize = 15;
+const double snackBarEdgeInsets = 20;
 
 TextStyle f14RblackLetterSpacing2 = TextStyle(
     fontSize: 14, fontFamily: 'Poppins', color: textColor, letterSpacing: 2);

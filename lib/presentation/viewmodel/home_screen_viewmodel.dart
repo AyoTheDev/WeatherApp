@@ -11,18 +11,16 @@ final homeViewModelStateNotifierProvider =
     ref.watch(fetchWeatherByCityUseCaseProvider),
     ref.watch(addFavouriteWeatherByCityUseCaseProvider),
     ref.watch(deleteFavouriteWeatherByCityUseCaseProvider),
-    ref.watch(getFavouriteWeatherByCityUseCaseProvider),
   ),
 );
 
 class HomeViewModel extends StateNotifier<State<WeatherModel>> {
-  final BaseUseCase fetchWeatherByCityUseCase;
-  final BaseUseCase addFavouriteCityUseCase;
-  final BaseUseCase deleteFavouriteCityUseCase;
-  final BaseUseCase getFavouriteCitiesListUseCase;
+  final BaseUseCase<String, bool> _addFavouriteCityUseCase;
+  final BaseUseCase<String, bool> _deleteFavouriteCityUseCase;
+  final BaseUseCase<WeatherRequestModel, WeatherModel> _fetchWeatherByCityUseCase;
 
-  HomeViewModel(this.fetchWeatherByCityUseCase, this.addFavouriteCityUseCase,
-      this.deleteFavouriteCityUseCase, this.getFavouriteCitiesListUseCase)
+  HomeViewModel(this._fetchWeatherByCityUseCase, this._addFavouriteCityUseCase,
+      this._deleteFavouriteCityUseCase)
       : super(const State.init()) {
     fetchWeatherByCity(true, "");
   }
@@ -30,9 +28,31 @@ class HomeViewModel extends StateNotifier<State<WeatherModel>> {
   fetchWeatherByCity(bool isCurrent, String city) async {
     try {
       state = const State.loading();
-      final WeatherModel weather = await fetchWeatherByCityUseCase.execute(
+      final WeatherModel weather = await _fetchWeatherByCityUseCase.execute(
           input: WeatherRequestModel(isCurrent, city));
       state = State.success(weather);
+    } on Exception catch (e) {
+      state = State.error(e);
+    }
+  }
+
+  addFavouriteCity(WeatherModel weatherModel) async {
+    try {
+      state = const State.loading();
+      final bool favouriteCity =
+          await _addFavouriteCityUseCase.execute(input: weatherModel.city);
+      state = State.success(weatherModel.copyWith(isFavourite: favouriteCity));
+    } on Exception catch (e) {
+      state = State.error(e);
+    }
+  }
+
+  deleteFavouriteCity(WeatherModel weatherModel) async {
+    try {
+      state = const State.loading();
+      final bool favouriteCity =
+          await _deleteFavouriteCityUseCase.execute(input: weatherModel.city);
+      state = State.success(weatherModel.copyWith(isFavourite: favouriteCity));
     } on Exception catch (e) {
       state = State.error(e);
     }

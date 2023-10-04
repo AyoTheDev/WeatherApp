@@ -20,6 +20,7 @@ mixin _$WeatherModel {
   double get temperatureF => throw _privateConstructorUsedError;
   double get temperatureC => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  bool get isFavourite => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WeatherModelCopyWith<WeatherModel> get copyWith =>
@@ -36,7 +37,8 @@ abstract class $WeatherModelCopyWith<$Res> {
       {String city,
       double temperatureF,
       double temperatureC,
-      String description});
+      String description,
+      bool isFavourite});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$WeatherModelCopyWithImpl<$Res, $Val extends WeatherModel>
     Object? temperatureF = null,
     Object? temperatureC = null,
     Object? description = null,
+    Object? isFavourite = null,
   }) {
     return _then(_value.copyWith(
       city: null == city
@@ -74,6 +77,10 @@ class _$WeatherModelCopyWithImpl<$Res, $Val extends WeatherModel>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -90,7 +97,8 @@ abstract class _$$_WeatherModelCopyWith<$Res>
       {String city,
       double temperatureF,
       double temperatureC,
-      String description});
+      String description,
+      bool isFavourite});
 }
 
 /// @nodoc
@@ -108,6 +116,7 @@ class __$$_WeatherModelCopyWithImpl<$Res>
     Object? temperatureF = null,
     Object? temperatureC = null,
     Object? description = null,
+    Object? isFavourite = null,
   }) {
     return _then(_$_WeatherModel(
       city: null == city
@@ -126,6 +135,10 @@ class __$$_WeatherModelCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -137,7 +150,8 @@ class _$_WeatherModel extends _WeatherModel {
       {required this.city,
       required this.temperatureF,
       required this.temperatureC,
-      required this.description})
+      required this.description,
+      required this.isFavourite})
       : super._();
 
   @override
@@ -148,10 +162,12 @@ class _$_WeatherModel extends _WeatherModel {
   final double temperatureC;
   @override
   final String description;
+  @override
+  final bool isFavourite;
 
   @override
   String toString() {
-    return 'WeatherModel(city: $city, temperatureF: $temperatureF, temperatureC: $temperatureC, description: $description)';
+    return 'WeatherModel(city: $city, temperatureF: $temperatureF, temperatureC: $temperatureC, description: $description, isFavourite: $isFavourite)';
   }
 
   @override
@@ -165,12 +181,14 @@ class _$_WeatherModel extends _WeatherModel {
             (identical(other.temperatureC, temperatureC) ||
                 other.temperatureC == temperatureC) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, city, temperatureF, temperatureC, description);
+  int get hashCode => Object.hash(
+      runtimeType, city, temperatureF, temperatureC, description, isFavourite);
 
   @JsonKey(ignore: true)
   @override
@@ -184,7 +202,8 @@ abstract class _WeatherModel extends WeatherModel {
       {required final String city,
       required final double temperatureF,
       required final double temperatureC,
-      required final String description}) = _$_WeatherModel;
+      required final String description,
+      required final bool isFavourite}) = _$_WeatherModel;
   const _WeatherModel._() : super._();
 
   @override
@@ -195,6 +214,8 @@ abstract class _WeatherModel extends WeatherModel {
   double get temperatureC;
   @override
   String get description;
+  @override
+  bool get isFavourite;
   @override
   @JsonKey(ignore: true)
   _$$_WeatherModelCopyWith<_$_WeatherModel> get copyWith =>

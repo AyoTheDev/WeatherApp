@@ -1,7 +1,8 @@
 import 'package:flutter_weather_app/data/api/weather_api.dart';
 import 'package:flutter_weather_app/data/datasource/database/weather_database.dart';
+import 'package:flutter_weather_app/data/mappers/cities_list_entity_mapper.dart';
 import 'package:flutter_weather_app/data/mappers/weather_mapper.dart';
-import 'package:flutter_weather_app/data/models/dao/weather_model_dao.dart';
+import 'package:flutter_weather_app/domain/models/cities_list_model.dart';
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
 import 'package:flutter_weather_app/domain/repository/weather_repository.dart';
 
@@ -12,21 +13,25 @@ class WeatherRepositoryImpl implements WeatherRepository {
   const WeatherRepositoryImpl(this.database, this.weatherApi);
 
   @override
-  Future<CitiesListModelDao> getFavouriteWeathersList() async =>
-      database.getAllFavouriteCities();
+  Future<CitiesListModel> getFavouriteWeathersList() async =>
+      CitiesListEntityMapper.transformCitiesListModelDaoToDomain(
+        await database.getAllFavouriteCities(),
+      );
 
   @override
-  Future<bool> deleteFavouriteWeatherByCity(String city) =>
-      database.deleteFavouriteCity(city);
+  Future<bool> deleteFavouriteWeatherByCity(String city) async =>
+      await database.deleteFavouriteCity(city);
 
   @override
-  Future<bool> addFavouriteCity(String city) =>
-      database.addFavouriteCity({"city": city});
+  Future<bool> addFavouriteCity(String city) async =>
+      await database.addFavouriteCity({"city": city});
 
   @override
   Future<WeatherModel> fetchWeatherByCity(
-      bool isCurrentCity, String? city) async {
-    var weather = await weatherApi.fetchWeatherByCity(isCurrentCity, city);
-    return WeatherMapper.transformToDomain(weather);
-  }
+    bool isCurrentCity,
+    String? city,
+  ) async =>
+      WeatherMapper.transformWeatherModelToDomain(
+        await weatherApi.fetchWeatherByCity(isCurrentCity, city),
+      );
 }

@@ -1,4 +1,4 @@
-import 'package:flutter_weather_app/data/models/dao/weather_model_dao.dart';
+import 'package:flutter_weather_app/data/models/dao/city_model_dao.dart';
 
 abstract class WeatherDatabase {
   Future<CitiesListModelDao> getAllFavouriteCities();

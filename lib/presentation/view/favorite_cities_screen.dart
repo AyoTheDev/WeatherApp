@@ -29,7 +29,7 @@ class _FavoriteCitiesScreenState extends ConsumerState<FavoriteCitiesScreen> {
   void initState() {
     super.initState();
     setState(() {
-      _viewModel = ref.watch(_favouriteCitiesViewModelProvider.notifier);
+      _viewModel = ref.read(_favouriteCitiesViewModelProvider.notifier);
     });
   }
 
