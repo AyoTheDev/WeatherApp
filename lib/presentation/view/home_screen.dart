@@ -20,6 +20,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   late HomeViewModel _viewModel;
 
   TextEditingController textController = TextEditingController(text: "");
+  bool _isFavourite = false;
 
   @override
   void initState() {
@@ -31,25 +32,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text(Strings.home),
+    return Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              Color.fromARGB(255, 65, 89, 224),
+              Color.fromARGB(255, 83, 92, 215),
+              Color.fromARGB(255, 162, 163, 208),
+            ],
+            tileMode: TileMode.mirror,
+          ),
         ),
-        resizeToAvoidBottomInset: false,
-        body: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: <Color>[
-                  Color.fromARGB(255, 65, 89, 224),
-                  Color.fromARGB(255, 83, 92, 215),
-                  Color.fromARGB(255, 162, 163, 208),
-                ],
-                tileMode: TileMode.mirror,
-              ),
-            ),
-            child: Padding(
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            body: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,6 +90,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         Text(
           weatherModel.description,
           style: f24Rwhitebold,
+        ),
+        IconButton(
+          onPressed: _toggleFavourite,
+          padding: const EdgeInsets.all(0),
+          icon: (_isFavourite
+              ? const Icon(Icons.favorite)
+              : const Icon(Icons.favorite_border)),
+          color: Colors.red,
+          iconSize: 50,
         ),
       ],
     );
@@ -143,5 +151,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
       ],
     );
+  }
+
+  void _toggleFavourite() {
+    setState(() {
+      _isFavourite ? _isFavourite = false : _isFavourite = true;
+    });
   }
 }

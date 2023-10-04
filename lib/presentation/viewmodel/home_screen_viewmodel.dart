@@ -7,13 +7,23 @@ import 'package:flutter_weather_app/presentation/state/state.dart';
 
 final homeViewModelStateNotifierProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, State<WeatherModel>>(
-  (ref) => HomeViewModel(ref.watch(fetchWeatherByCityUseCaseProvider)),
+  (ref) => HomeViewModel(
+    ref.watch(fetchWeatherByCityUseCaseProvider),
+    ref.watch(addFavouriteWeatherByCityUseCaseProvider),
+    ref.watch(deleteFavouriteWeatherByCityUseCaseProvider),
+    ref.watch(getFavouriteWeatherByCityUseCaseProvider),
+  ),
 );
 
 class HomeViewModel extends StateNotifier<State<WeatherModel>> {
   final BaseUseCase fetchWeatherByCityUseCase;
+  final BaseUseCase addFavouriteCityUseCase;
+  final BaseUseCase deleteFavouriteCityUseCase;
+  final BaseUseCase getFavouriteCitiesListUseCase;
 
-  HomeViewModel(this.fetchWeatherByCityUseCase) : super(const State.init()) {
+  HomeViewModel(this.fetchWeatherByCityUseCase, this.addFavouriteCityUseCase,
+      this.deleteFavouriteCityUseCase, this.getFavouriteCitiesListUseCase)
+      : super(const State.init()) {
     fetchWeatherByCity(true, "");
   }
 
