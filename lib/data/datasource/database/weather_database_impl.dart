@@ -11,6 +11,7 @@ class WeatherDatabaseImpl implements WeatherDatabase {
   static const _tableName = 'weather_table';
   static const _databaseVersion = 1;
   static const _columnCity = 'city';
+  static const _columnCountry = 'country';
   static const _columnId = 'id';
   static Database? _database;
 
@@ -25,8 +26,9 @@ class WeatherDatabaseImpl implements WeatherDatabase {
       onCreate: (db, _) {
         db.execute('''
           CREATE TABLE $_tableName(
-            $_columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-            $_columnCity TEXT NOT NULL
+            $_columnId TEXT PRIMARY KEY,
+            $_columnCity TEXT NOT NULL,
+            $_columnCountry TEXT NOT NULL
           )
         ''');
       },
@@ -49,13 +51,14 @@ class WeatherDatabaseImpl implements WeatherDatabase {
 
     return await _execute(() async {
       final hasAdded = await db.transaction((txn) async {
-        final id = await txn.insert(
+        city[_columnId] = _getCityColumnId(city);
+        await txn.insert(
           _tableName,
           city,
           conflictAlgorithm: ConflictAlgorithm.replace,
         );
         final results = await txn
-            .query(_tableName, where: '$_columnId = ?', whereArgs: [id]);
+            .query(_tableName, where: '$_columnId = ?', whereArgs: [city[_columnId]]);
 
         return results.firstOrNull != null;
       });
@@ -64,16 +67,31 @@ class WeatherDatabaseImpl implements WeatherDatabase {
   }
 
   @override
-  Future<bool> deleteFavouriteCity(String city) async {
+  Future<bool> deleteFavouriteCity(CityModelDao city) async {
     final db = await database;
 
     return await _execute(() async {
+      city[_columnId] = _getCityColumnId(city);
       final count = await db.delete(
         _tableName,
-        where: '$_columnCity = ?',
-        whereArgs: [city],
+        where: '$_columnId = ?',
+        whereArgs: [city[_columnId]],
       );
       return count == 1;
+    });
+  }
+
+  String _getCityColumnId(CityModelDao city) =>
+      "${city["city"]}_${city["country"]}";
+
+  @override
+  Future<CityModelDao?> getCityById(String cityId) async {
+    final db = await database;
+
+    return await _execute(() async {
+      final result = await db.query(
+          _tableName, where: '$_columnId = ?', whereArgs: [cityId]);
+      return result.firstOrNull;
     });
   }
 }
