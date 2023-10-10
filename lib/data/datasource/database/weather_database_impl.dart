@@ -1,5 +1,5 @@
 import 'package:flutter_weather_app/data/datasource/database/weather_database.dart';
-import 'package:flutter_weather_app/data/models/dao/weather_model_dao.dart';
+import 'package:flutter_weather_app/data/models/dao/city_model_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -26,7 +26,7 @@ class WeatherDatabaseImpl implements WeatherDatabase {
         db.execute('''
           CREATE TABLE $_tableName(
             $_columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-            $_columnCity TEXT NOT NULL,
+            $_columnCity TEXT NOT NULL
           )
         ''');
       },
@@ -38,9 +38,8 @@ class WeatherDatabaseImpl implements WeatherDatabase {
   Future<CitiesListModelDao> getAllFavouriteCities() async {
     final db = await database;
 
-    return await _execute(() async {
-      var result = db.query(_tableName);
-      return result;
+    return await _execute(() {
+      return db.query(_tableName);
     });
   }
 

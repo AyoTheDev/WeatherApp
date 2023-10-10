@@ -63,7 +63,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _buildConsumer() {
     return Consumer(
       builder: (context, ref, _) {
-        var data = ref.watch(_homeViewModelProvider).data;
+        var data = ref
+            .watch(_homeViewModelProvider)
+            .data;
         if (data == null) {
           return _buildErrorWidget();
         } else {
@@ -92,9 +94,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           style: f24Rwhitebold,
         ),
         IconButton(
-          onPressed: _toggleFavourite,
+          onPressed: () {
+            _viewModel.addFavouriteCity(weatherModel);
+            _toggleFavourite();
+            _showAddedToFavouritesSnackBar();
+            // TODO: add delay
+          },
           padding: const EdgeInsets.all(0),
-          icon: (_isFavourite
+          icon: (weatherModel.isFavourite
               ? const Icon(Icons.favorite)
               : const Icon(Icons.favorite_border)),
           color: Colors.red,
@@ -118,10 +125,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       onSuffixTap: () async {
         textController.text == ""
-            ? log("No city entered")
+            ? log(Strings.noCityEntered)
             : setState(() {
-                _viewModel.fetchWeatherByCity(false, textController.text);
-              });
+          _viewModel.fetchWeatherByCity(false, textController.text);
+        });
 
         FocusScope.of(context).unfocus();
         textController.clear();
@@ -157,5 +164,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     setState(() {
       _isFavourite ? _isFavourite = false : _isFavourite = true;
     });
+  }
+
+  void _showAddedToFavouritesSnackBar() {
+    var customSnackBar = SnackBar(
+      content: Text(
+          _isFavourite ? Strings.addedToFavourites : Strings.somethingWentWrong,
+          style: const TextStyle(color: Colors.black)),
+      backgroundColor: Colors.white,
+      behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.all(snackBarEdgeInsets),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(customSnackBar);
   }
 }

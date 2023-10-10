@@ -2,9 +2,12 @@ import 'package:flutter_weather_app/data/models/response/weather_model_response.
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
 
 class WeatherMapper {
-  static WeatherModel transformToDomain(final Weather weather) => WeatherModel(
-      city: weather.city,
-      temperatureF: weather.temperatureF,
-      temperatureC: weather.temperatureC,
-      description: weather.description);
+  static WeatherModel transformWeatherModelToDomain(final Weather weather) =>
+      WeatherModel(
+        city: weather.city,
+        temperatureF: weather.temperatureF,
+        temperatureC: weather.temperatureC,
+        description: weather.description,
+        isFavourite: false,
+      );
 }

@@ -1,3 +1,3 @@
-abstract class BaseUseCase<Output, Input> {
+abstract class BaseUseCase<Input, Output> {
   Future<Output> execute({required Input input});
 }
