@@ -1,4 +1,4 @@
-import 'package:flutter_weather_app/data/mappers/city_entity_mapper.dart';
+import 'package:flutter_weather_app/data/mappers/db/city_entity_mapper.dart';
 import 'package:flutter_weather_app/data/models/dao/city_model_dao.dart';
 import 'package:flutter_weather_app/domain/models/cities_list_model.dart';
 

@@ -1,3 +1,3 @@
-class FavouriteCitiesViewModel {
+class SettingsViewModel {
   // TODO: create logic
 }

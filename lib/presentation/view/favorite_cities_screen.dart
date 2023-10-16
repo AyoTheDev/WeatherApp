@@ -31,34 +31,30 @@ class _FavoriteCitiesScreenState extends ConsumerState<FavoriteCitiesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.lightBlueAccent,
-      body: Consumer(
-        builder: (context, ref, _) {
-          var data = ref.watch(_favouriteCitiesViewModelProvider).data;
-          return ref.watch(_favouriteCitiesViewModelProvider).maybeWhen(
-              success: (content) => data?.length != 0
-                  ? _buildSuccessWidget(data!)
-                  : const Center(
-                      child: Text(
-                      Strings.thereIsNoFavouriteCity,
-                      style: TextStyle(fontSize: dp_20),
-                    )),
-              error: (_) => _buildErrorWidget(),
-              loading: () => const CircularProgressIndicator(),
-              orElse: () =>
-                  const Center(child: Text(
+    return Consumer(
+      builder: (context, ref, _) {
+        var data = ref.watch(_favouriteCitiesViewModelProvider).data;
+        return ref.watch(_favouriteCitiesViewModelProvider).maybeWhen(
+            success: (content) => data?.length != 0
+                ? _buildSuccessWidget(data!)
+                : const Center(
+                    child: Text(
                     Strings.thereIsNoFavouriteCity,
                     style: TextStyle(fontSize: dp_20),
-                  )));
-          // }
-        },
-      ),
+                  )),
+            error: (_) => _buildErrorWidget(),
+            loading: () => const CircularProgressIndicator(),
+            orElse: () => const Center(
+                    child: Text(
+                  Strings.thereIsNoFavouriteCity,
+                  style: TextStyle(fontSize: dp_20),
+                )));
+      },
     );
   }
 
   Widget _buildSuccessWidget(CitiesListModel citiesListModel) {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: citiesListModel.length,
       itemBuilder: (context, index) {
         return ListTile(
@@ -83,6 +79,12 @@ class _FavoriteCitiesScreenState extends ConsumerState<FavoriteCitiesScreen> {
           onTap: () {
             fetchSelectedCityWeather(citiesListModel.cityModelList[index].city);
           },
+        );
+      },
+      separatorBuilder: (context, index) {
+        return const Divider(
+          indent: 15,
+          endIndent: 15,
         );
       },
     );
