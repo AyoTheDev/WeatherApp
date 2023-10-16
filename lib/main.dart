@@ -16,8 +16,12 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+      themeAnimationDuration: const Duration(milliseconds: 250),
       debugShowCheckedModeBanner: false,
-      theme: getAppTheme(context, ref.watch(appThemeProvider)),
+      theme: getAppTheme(
+        context,
+        ref.watch(appThemeProvider),
+      ),
       home: const MainNavigator(),
     );
   }

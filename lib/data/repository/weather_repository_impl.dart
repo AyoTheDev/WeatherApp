@@ -1,10 +1,12 @@
 import 'package:flutter_weather_app/data/api/weather_api.dart';
 import 'package:flutter_weather_app/data/datasource/database/weather_database.dart';
-import 'package:flutter_weather_app/data/mappers/cities_list_entity_mapper.dart';
-import 'package:flutter_weather_app/data/mappers/city_entity_mapper.dart';
-import 'package:flutter_weather_app/data/mappers/weather_mapper.dart';
+import 'package:flutter_weather_app/data/mappers/api/suggested_cities_mapper.dart';
+import 'package:flutter_weather_app/data/mappers/api/weather_mapper.dart';
+import 'package:flutter_weather_app/data/mappers/db/cities_list_entity_mapper.dart';
+import 'package:flutter_weather_app/data/mappers/db/city_entity_mapper.dart';
 import 'package:flutter_weather_app/domain/models/cities_list_model.dart';
 import 'package:flutter_weather_app/domain/models/city_model.dart';
+import 'package:flutter_weather_app/domain/models/suggested_cities_model.dart';
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
 import 'package:flutter_weather_app/domain/repository/weather_repository.dart';
 
@@ -21,9 +23,8 @@ class WeatherRepositoryImpl implements WeatherRepository {
       );
 
   @override
-  Future<bool> deleteFavouriteCity(CityModel cityModel) async =>
-      await database
-          .deleteFavouriteCity(CityEntityMapper.transformToData(cityModel));
+  Future<bool> deleteFavouriteCity(CityModel cityModel) async => await database
+      .deleteFavouriteCity(CityEntityMapper.transformToData(cityModel));
 
   @override
   Future<bool> addFavouriteCity(CityModel cityModel) async => await database
@@ -44,5 +45,15 @@ class WeatherRepositoryImpl implements WeatherRepository {
     return (cityModelDao == null)
         ? null
         : CityEntityMapper.transformCityModelDaoToDomain(cityModelDao);
+  }
+
+  @override
+  Future<SuggestedCitiesModel> fetchAutoCompleteSearchData(
+      String citySuggestion) async {
+    final suggestedCities =
+        await weatherApi.fetchAutoCompleteSearchData(citySuggestion);
+    return SuggestedCitiesMapper.transformSuggestedCitiesResponseToDomain(
+      suggestedCities,
+    );
   }
 }
