@@ -6,20 +6,20 @@ import 'package:flutter_weather_app/domain/models/city_model.dart';
 import 'package:flutter_weather_app/domain/models/empty_input.dart';
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
 import 'package:flutter_weather_app/domain/usecase/add_favourite_city_usecase.dart';
-import 'package:flutter_weather_app/domain/usecase/delete_favourite_city_usecase_impl.dart';
-import 'package:flutter_weather_app/domain/usecase/fetch_weather_by_city_usecase_impl.dart';
+import 'package:flutter_weather_app/domain/usecase/delete_favourite_city_usecase.dart';
+import 'package:flutter_weather_app/domain/usecase/fetch_weather_by_city_usecase.dart';
 import 'package:flutter_weather_app/domain/usecase/get_city_by_id_usecase.dart';
-import 'package:flutter_weather_app/domain/usecase/get_favourite_cities_list_usecase_impl.dart';
+import 'package:flutter_weather_app/domain/usecase/get_favourite_cities_list_usecase.dart';
 
 final fetchWeatherByCityUseCaseProvider =
     Provider<BaseUseCase<WeatherRequestModel, WeatherModel>>(
-        (ref) => FetchWeatherByCityUseCaseImpl(
+        (ref) => FetchWeatherByCityUseCase(
               ref.watch(weathersRepositoryProvider),
             ));
 
 final getFavouriteWeatherByCityUseCaseProvider =
     Provider<BaseUseCase<EmptyInput, CitiesListModel>>(
-        (ref) => GetFavouriteCitiesListUseCaseImpl(
+        (ref) => GetFavouriteCitiesListUseCase(
               ref.watch(weathersRepositoryProvider),
             ));
 
@@ -30,12 +30,12 @@ final deleteFavouriteWeatherByCityUseCaseProvider =
             ));
 
 final addFavouriteWeatherByCityUseCaseProvider =
-    Provider<BaseUseCase<CityModel, bool>>((ref) => AddFavouriteCityUseCaseImpl(
+    Provider<BaseUseCase<CityModel, bool>>((ref) => AddFavouriteCityUseCase(
           ref.watch(weathersRepositoryProvider),
         ));
 
 final getCityByIdUseCaseProvider =
 Provider<BaseUseCase<String, CityModel?>>(
-        (ref) => GetCityByIdUseCaseImpl(
+        (ref) => GetCityByIdUseCase(
       ref.watch(weathersRepositoryProvider),
     ));

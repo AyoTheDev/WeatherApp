@@ -28,8 +28,11 @@ class _MainNavigatorState extends ConsumerState<MainNavigator> {
     _selectedScreen = ref.watch(bottomNavControllerProvider);
 
     return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        elevation: dp_0,
+        backgroundColor: Colors.transparent,
+        elevation: 1,
         title: Text(
           _selectedScreen.title,
           style: const TextStyle(
@@ -38,6 +41,7 @@ class _MainNavigatorState extends ConsumerState<MainNavigator> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.transparent,
         elevation: dp_0,
         currentIndex: _selectedScreen.index,
         items: WeatherNavScreens.values

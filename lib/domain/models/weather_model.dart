@@ -11,6 +11,8 @@ class WeatherModel with _$WeatherModel {
     required double temperatureC,
     required String description,
     required bool isFavourite,
+    required String icon,
+    required String windDir,
   }) = _WeatherModel;
 
   const WeatherModel._();

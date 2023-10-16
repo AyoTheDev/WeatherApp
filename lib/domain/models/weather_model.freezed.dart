@@ -22,6 +22,8 @@ mixin _$WeatherModel {
   double get temperatureC => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   bool get isFavourite => throw _privateConstructorUsedError;
+  String get icon => throw _privateConstructorUsedError;
+  String get windDir => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WeatherModelCopyWith<WeatherModel> get copyWith =>
@@ -40,7 +42,9 @@ abstract class $WeatherModelCopyWith<$Res> {
       double temperatureF,
       double temperatureC,
       String description,
-      bool isFavourite});
+      bool isFavourite,
+      String icon,
+      String windDir});
 }
 
 /// @nodoc
@@ -62,6 +66,8 @@ class _$WeatherModelCopyWithImpl<$Res, $Val extends WeatherModel>
     Object? temperatureC = null,
     Object? description = null,
     Object? isFavourite = null,
+    Object? icon = null,
+    Object? windDir = null,
   }) {
     return _then(_value.copyWith(
       city: null == city
@@ -88,6 +94,14 @@ class _$WeatherModelCopyWithImpl<$Res, $Val extends WeatherModel>
           ? _value.isFavourite
           : isFavourite // ignore: cast_nullable_to_non_nullable
               as bool,
+      icon: null == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as String,
+      windDir: null == windDir
+          ? _value.windDir
+          : windDir // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -106,7 +120,9 @@ abstract class _$$_WeatherModelCopyWith<$Res>
       double temperatureF,
       double temperatureC,
       String description,
-      bool isFavourite});
+      bool isFavourite,
+      String icon,
+      String windDir});
 }
 
 /// @nodoc
@@ -126,6 +142,8 @@ class __$$_WeatherModelCopyWithImpl<$Res>
     Object? temperatureC = null,
     Object? description = null,
     Object? isFavourite = null,
+    Object? icon = null,
+    Object? windDir = null,
   }) {
     return _then(_$_WeatherModel(
       city: null == city
@@ -152,6 +170,14 @@ class __$$_WeatherModelCopyWithImpl<$Res>
           ? _value.isFavourite
           : isFavourite // ignore: cast_nullable_to_non_nullable
               as bool,
+      icon: null == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
+              as String,
+      windDir: null == windDir
+          ? _value.windDir
+          : windDir // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -165,7 +191,9 @@ class _$_WeatherModel extends _WeatherModel {
       required this.temperatureF,
       required this.temperatureC,
       required this.description,
-      required this.isFavourite})
+      required this.isFavourite,
+      required this.icon,
+      required this.windDir})
       : super._();
 
   @override
@@ -180,10 +208,14 @@ class _$_WeatherModel extends _WeatherModel {
   final String description;
   @override
   final bool isFavourite;
+  @override
+  final String icon;
+  @override
+  final String windDir;
 
   @override
   String toString() {
-    return 'WeatherModel(city: $city, country: $country, temperatureF: $temperatureF, temperatureC: $temperatureC, description: $description, isFavourite: $isFavourite)';
+    return 'WeatherModel(city: $city, country: $country, temperatureF: $temperatureF, temperatureC: $temperatureC, description: $description, isFavourite: $isFavourite, icon: $icon, windDir: $windDir)';
   }
 
   @override
@@ -200,12 +232,14 @@ class _$_WeatherModel extends _WeatherModel {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.isFavourite, isFavourite) ||
-                other.isFavourite == isFavourite));
+                other.isFavourite == isFavourite) &&
+            (identical(other.icon, icon) || other.icon == icon) &&
+            (identical(other.windDir, windDir) || other.windDir == windDir));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, city, country, temperatureF,
-      temperatureC, description, isFavourite);
+      temperatureC, description, isFavourite, icon, windDir);
 
   @JsonKey(ignore: true)
   @override
@@ -221,7 +255,9 @@ abstract class _WeatherModel extends WeatherModel {
       required final double temperatureF,
       required final double temperatureC,
       required final String description,
-      required final bool isFavourite}) = _$_WeatherModel;
+      required final bool isFavourite,
+      required final String icon,
+      required final String windDir}) = _$_WeatherModel;
   const _WeatherModel._() : super._();
 
   @override
@@ -236,6 +272,10 @@ abstract class _WeatherModel extends WeatherModel {
   String get description;
   @override
   bool get isFavourite;
+  @override
+  String get icon;
+  @override
+  String get windDir;
   @override
   @JsonKey(ignore: true)
   _$$_WeatherModelCopyWith<_$_WeatherModel> get copyWith =>

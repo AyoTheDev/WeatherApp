@@ -5,7 +5,7 @@ import 'package:flutter_weather_app/domain/models/cities_list_model.dart';
 import 'package:flutter_weather_app/domain/models/city_model.dart';
 import 'package:flutter_weather_app/domain/models/empty_input.dart';
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
-import 'package:flutter_weather_app/domain/usecase/fetch_weather_by_city_usecase_impl.dart';
+import 'package:flutter_weather_app/domain/usecase/fetch_weather_by_city_usecase.dart';
 import 'package:flutter_weather_app/presentation/state/state.dart';
 
 final favouriteCitiesViewModelStateNotifierProvider = StateNotifierProvider
