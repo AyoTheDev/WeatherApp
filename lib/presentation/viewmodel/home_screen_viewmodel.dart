@@ -3,7 +3,7 @@ import 'package:flutter_weather_app/domain/base/base_usecase.dart';
 import 'package:flutter_weather_app/domain/domain_module.dart';
 import 'package:flutter_weather_app/domain/models/city_model.dart';
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
-import 'package:flutter_weather_app/domain/usecase/fetch_weather_by_city_usecase_impl.dart';
+import 'package:flutter_weather_app/domain/usecase/fetch_weather_by_city_usecase.dart';
 import 'package:flutter_weather_app/presentation/state/state.dart';
 import 'package:flutter_weather_app/presentation/viewmodel/favourite_cities_viewmodel.dart';
 

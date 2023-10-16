@@ -3,11 +3,11 @@ import 'package:flutter_weather_app/domain/models/weather_model.dart';
 
 import '../repository/weather_repository.dart';
 
-class FetchWeatherByCityUseCaseImpl
+class FetchWeatherByCityUseCase
     implements BaseUseCase<WeatherRequestModel, WeatherModel> {
   final WeatherRepository _weatherRepository;
 
-  const FetchWeatherByCityUseCaseImpl(this._weatherRepository);
+  const FetchWeatherByCityUseCase(this._weatherRepository);
 
   @override
   Future<WeatherModel> execute({required WeatherRequestModel input}) async =>

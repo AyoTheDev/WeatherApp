@@ -31,7 +31,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           indent: dp_15,
           endIndent: dp_15,
         ),
-        // Add a divider between items
         ListTile(
           title: const Text(Strings.termsAndConditions),
           trailing: const Icon(Icons.arrow_forward),
