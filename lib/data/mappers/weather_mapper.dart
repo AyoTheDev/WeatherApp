@@ -5,6 +5,7 @@ class WeatherMapper {
   static WeatherModel transformWeatherModelToDomain(final Weather weather) =>
       WeatherModel(
         city: weather.city,
+        country: weather.country,
         temperatureF: weather.temperatureF,
         temperatureC: weather.temperatureC,
         description: weather.description,

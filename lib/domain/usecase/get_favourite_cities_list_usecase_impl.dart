@@ -10,6 +10,6 @@ class GetFavouriteCitiesListUseCaseImpl implements BaseUseCase<EmptyInput, Citie
 
   @override
   Future<CitiesListModel> execute({required EmptyInput input}) async{
-    return await _weatherRepository.getFavouriteWeathersList();
+    return await _weatherRepository.getFavouriteCitiesList();
   }
 }

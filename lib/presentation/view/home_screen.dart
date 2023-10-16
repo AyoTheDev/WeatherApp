@@ -20,7 +20,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   late HomeViewModel _viewModel;
 
   TextEditingController textController = TextEditingController(text: "");
-  bool _isFavourite = false;
 
   @override
   void initState() {
@@ -49,7 +48,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: false,
             body: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(dp_10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -63,17 +62,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _buildConsumer() {
     return Consumer(
       builder: (context, ref, _) {
-        var data = ref
-            .watch(_homeViewModelProvider)
-            .data;
-        if (data == null) {
-          return _buildErrorWidget();
-        } else {
-          return ref.watch(_homeViewModelProvider).maybeWhen(
-              success: (content) => _buildSuccessWidget(data),
-              error: (_) => _buildErrorWidget(),
-              orElse: () => const Center(child: CircularProgressIndicator()));
-        }
+        var data = ref.watch(_homeViewModelProvider).data;
+        return ref.watch(_homeViewModelProvider).maybeWhen(
+            success: (content) => _buildSuccessWidget(data!),
+            loading: () => const CircularProgressIndicator(),
+            error: (_) => _buildErrorWidget(),
+            orElse: () => const Center(child: CircularProgressIndicator()));
       },
     );
   }
@@ -83,22 +77,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       children: [
         Text(
           weatherModel.city,
-          style: f24Rwhitebold,
+          style: f24RWhiteBold,
         ),
         Text(
           '${weatherModel.temperatureC} ${Strings.celsius}',
-          style: f24Rwhitebold,
+          style: f24RWhiteBold,
         ),
         Text(
           weatherModel.description,
-          style: f24Rwhitebold,
+          style: f24RWhiteBold,
         ),
         IconButton(
-          onPressed: () {
-            _viewModel.addFavouriteCity(weatherModel);
-            _toggleFavourite();
-            _showAddedToFavouritesSnackBar();
-            // TODO: add delay
+          onPressed: () async {
+            weatherModel.isFavourite
+                ? await _viewModel.deleteFavouriteCity(weatherModel)
+                : await _viewModel.addFavouriteCity(weatherModel);
+            _viewModel.getFavouriteCities();
           },
           padding: const EdgeInsets.all(0),
           icon: (weatherModel.isFavourite
@@ -114,26 +108,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _buildAnimatedSearchBar() {
     return AnimSearchBar(
       rtl: true,
-      width: 400,
+      width: dp_400,
       textFieldColor: veryLightTangeloColor,
       color: veryLightTangeloColor,
       textController: textController,
       suffixIcon: const Icon(
         Icons.search,
         color: Colors.black,
-        size: 20,
+        size: dp_20,
       ),
-      onSuffixTap: () async {
+      onSuffixTap: () {
         textController.text == ""
             ? log(Strings.noCityEntered)
-            : setState(() {
-          _viewModel.fetchWeatherByCity(false, textController.text);
-        });
+            : _viewModel.fetchWeatherByCity(false, textController.text);
 
         FocusScope.of(context).unfocus();
         textController.clear();
       },
-      style: f14RblackLetterSpacing2,
+      style: f14RBlackLetterSpacing2,
       onSubmitted: (_) {},
     );
   }
@@ -145,11 +137,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         const Text(
           Strings.somethingWentWrong,
           style: TextStyle(
-            fontSize: 24,
+            fontSize: dp_24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 20), // Spacer between text and button
+        const SizedBox(height: dp_20), // Spacer between text and button
         ElevatedButton(
           onPressed: () {
             _viewModel.fetchWeatherByCity(true, "");
@@ -158,23 +150,5 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
       ],
     );
-  }
-
-  void _toggleFavourite() {
-    setState(() {
-      _isFavourite ? _isFavourite = false : _isFavourite = true;
-    });
-  }
-
-  void _showAddedToFavouritesSnackBar() {
-    var customSnackBar = SnackBar(
-      content: Text(
-          _isFavourite ? Strings.addedToFavourites : Strings.somethingWentWrong,
-          style: const TextStyle(color: Colors.black)),
-      backgroundColor: Colors.white,
-      behavior: SnackBarBehavior.floating,
-      margin: const EdgeInsets.all(snackBarEdgeInsets),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(customSnackBar);
   }
 }
