@@ -1,6 +1,6 @@
 import 'package:flutter_weather_app/data/api/weather_api.dart';
 import 'package:flutter_weather_app/data/datasource/database/weather_database.dart';
-import 'package:flutter_weather_app/data/mappers/api/suggested_cities_mapper.dart';
+import 'package:flutter_weather_app/data/mappers/api/suggested_cities_list_mapper.dart';
 import 'package:flutter_weather_app/data/mappers/api/weather_mapper.dart';
 import 'package:flutter_weather_app/data/mappers/db/cities_list_entity_mapper.dart';
 import 'package:flutter_weather_app/data/mappers/db/city_entity_mapper.dart';
@@ -48,12 +48,10 @@ class WeatherRepositoryImpl implements WeatherRepository {
   }
 
   @override
-  Future<SuggestedCitiesModel> fetchAutoCompleteSearchData(
+  Future<List<SuggestedCitiesModel>> fetchAutoCompleteSearchData(
       String citySuggestion) async {
     final suggestedCities =
         await weatherApi.fetchAutoCompleteSearchData(citySuggestion);
-    return SuggestedCitiesMapper.transformSuggestedCitiesResponseToDomain(
-      suggestedCities,
-    );
+    return SuggestedCitiesMapper.transformSuggestedCitiesListResponseToDomain(suggestedCities);
   }
 }

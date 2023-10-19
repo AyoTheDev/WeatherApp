@@ -1,9 +1,9 @@
-import 'dart:developer';
+import 'dart:async';
 
-import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_weather_app/domain/models/weather_model.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:flutter_weather_app/domain/models/weather_model_wrapper.dart';
 import 'package:flutter_weather_app/presentation/constants/constants.dart';
 import 'package:flutter_weather_app/presentation/constants/strings.dart';
 import 'package:flutter_weather_app/presentation/viewmodel/home_screen_viewmodel.dart';
@@ -19,7 +19,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   final _homeViewModelProvider = homeViewModelStateNotifierProvider;
   late HomeViewModel _viewModel;
 
-  TextEditingController textController = TextEditingController(text: "");
 
   @override
   void initState() {
@@ -31,32 +30,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: <Color>[
-              Color.fromARGB(255, 65, 89, 224),
-              Color.fromARGB(255, 83, 92, 215),
-              Color.fromARGB(255, 162, 163, 208),
-            ],
-            tileMode: TileMode.mirror,
-          ),
-        ),
-        child: Scaffold(
-            backgroundColor: Colors.transparent,
-            resizeToAvoidBottomInset: false,
-            body: Padding(
-              padding: const EdgeInsets.all(dp_10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(flex: 10, child: _buildAnimatedSearchBar()),
-                  Flexible(flex: 16, child: _buildConsumer()),
-                ],
-              ),
-            )));
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: _buildConsumer(),
+    );
   }
 
   Widget _buildConsumer() {
@@ -64,91 +41,176 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       builder: (context, ref, _) {
         var data = ref.watch(_homeViewModelProvider).data;
         return ref.watch(_homeViewModelProvider).maybeWhen(
-            success: (content) => _buildSuccessWidget(data!),
-            loading: () => const CircularProgressIndicator(),
-            error: (_) => _buildErrorWidget(),
-            orElse: () => const Center(child: CircularProgressIndicator()));
+              loading: () => _buildLoadingWidget(),
+              success: (content) => _buildSuccessWidget(data!),
+              error: (_) => _buildErrorWidget(),
+              orElse: () => _buildErrorWidget(),
+            );
       },
     );
   }
 
-  Widget _buildSuccessWidget(WeatherModel weatherModel) {
-    return Column(
-      children: [
-        Text(
-          weatherModel.city,
-          style: f24RWhiteBold,
-        ),
-        Text(
-          '${weatherModel.temperatureC} ${Strings.celsius}',
-          style: f24RWhiteBold,
-        ),
-        Text(
-          weatherModel.description,
-          style: f24RWhiteBold,
-        ),
-        IconButton(
-          onPressed: () async {
-            weatherModel.isFavourite
-                ? await _viewModel.deleteFavouriteCity(weatherModel)
-                : await _viewModel.addFavouriteCity(weatherModel);
-            _viewModel.getFavouriteCities();
-          },
-          padding: const EdgeInsets.all(0),
-          icon: (weatherModel.isFavourite
-              ? const Icon(Icons.favorite)
-              : const Icon(Icons.favorite_border)),
-          color: Colors.red,
-          iconSize: 50,
-        ),
-      ],
-    );
-  }
+  Widget _buildLoadingWidget() => const Center(
+        child: CircularProgressIndicator(),
+      );
 
-  Widget _buildAnimatedSearchBar() {
-    return AnimSearchBar(
-      rtl: true,
-      width: dp_400,
-      textFieldColor: veryLightTangeloColor,
-      color: veryLightTangeloColor,
-      textController: textController,
-      suffixIcon: const Icon(
-        Icons.search,
-        color: Colors.black,
-        size: dp_20,
+  Widget _buildSuccessWidget(WeatherModelWrapper weatherModelWrapper) {
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.only(top: dp_50),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: dp_20, right: dp_20),
+              child: TypeAheadField(
+                debounceDuration: const Duration(milliseconds: durationWithMillis300),
+                getImmediateSuggestions: false,
+                textFieldConfiguration: const TextFieldConfiguration(
+                  style: TextStyle(color: Colors.white),
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: Strings.searchCity,
+                    hintStyle: TextStyle(color: Colors.white),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                suggestionsBoxDecoration: const SuggestionsBoxDecoration(
+                  color: Colors.white12,
+                ),
+                suggestionsCallback: (suggestedKeyWord) {
+                  final autocompleteSearchSuggestions =
+                      _viewModel.fetchAutocompleteSearchCity(suggestedKeyWord);
+                  return Future.sync(
+                      () => autocompleteSearchSuggestions);
+                },
+                itemBuilder: (context, suggestion) {
+                  return ListTile(
+                    title: Text(suggestion, style: const TextStyle(color: Colors.white),),
+                    onTap: () {
+                      _viewModel.fetchWeatherByCity(false, suggestion);
+                    },
+                  );
+                },
+                onSuggestionSelected: (suggestion) {
+                },
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                //TODO: Navigate to Weather Details Screen
+              },
+              child: Container(
+                margin: const EdgeInsets.only(
+                    left: dp_20, right: dp_20, top: dp_150),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(dp_30),
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: <Color>[
+                      Color.fromRGBO(39, 40, 83, 1),
+                      Color.fromRGBO(47, 43, 92, 1),
+                      Color.fromRGBO(56, 49, 106, 1),
+                      Color.fromRGBO(58, 50, 111, 1),
+                      Color.fromRGBO(65, 53, 119, 1),
+                    ],
+                    tileMode: TileMode.mirror,
+                  ),
+                ),
+                padding: const EdgeInsets.all(dp_20),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        Text(
+                          weatherModelWrapper.weatherModel.city,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: fontSize20),
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          onPressed: () async {
+                            weatherModelWrapper.weatherModel.isFavourite
+                                ? await _viewModel.deleteFavouriteCity(
+                                    weatherModelWrapper.weatherModel)
+                                : await _viewModel.addFavouriteCity(
+                                    weatherModelWrapper.weatherModel);
+                            _viewModel.getFavouriteCities();
+                          },
+                          icon: weatherModelWrapper.weatherModel.isFavourite
+                              ? const Icon(
+                                  Icons.favorite,
+                                  color: Colors.white,
+                                )
+                              : const Icon(
+                                  Icons.favorite_border,
+                                  color: Colors.white,
+                                ),
+                        )
+                      ],
+                    ),
+                    Image.network(
+                      weatherModelWrapper.weatherModel.icon,
+                      fit: BoxFit.cover,
+                      width: dp_100,
+                      height: dp_80,
+                    ),
+                    Text(
+                      "${weatherModelWrapper.weatherModel.temperatureC.toString()}${Strings.celsius}",
+                      style: f52RWhiteRoboto,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          weatherModelWrapper.weatherModel.description,
+                          style: f16RWhiteRoboto,
+                        ),
+                        const Spacer(),
+                        Text(
+                          "${Strings.windDirection} '${weatherModelWrapper.weatherModel.windDir}'",
+                          style: f16RWhiteRoboto,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
-      onSuffixTap: () {
-        textController.text == ""
-            ? log(Strings.noCityEntered)
-            : _viewModel.fetchWeatherByCity(false, textController.text);
-
-        FocusScope.of(context).unfocus();
-        textController.clear();
-      },
-      style: f14RBlackLetterSpacing2,
-      onSubmitted: (_) {},
     );
   }
 
   Widget _buildErrorWidget() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        const Text(
-          Strings.somethingWentWrong,
-          style: TextStyle(
-            fontSize: dp_24,
-            fontWeight: FontWeight.bold,
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text(
+            Strings.somethingWentWrong,
+            style: TextStyle(
+              fontSize: dp_24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        const SizedBox(height: dp_20), // Spacer between text and button
-        ElevatedButton(
-          onPressed: () {
-            _viewModel.fetchWeatherByCity(true, "");
-          },
-          child: const Text(Strings.refresh),
-        ),
-      ],
+          const SizedBox(height: dp_20), // Spacer between text and button
+          ElevatedButton(
+            onPressed: () {
+              _viewModel.fetchWeatherByCity(true, "");
+            },
+            child: const Text(Strings.refresh),
+          ),
+        ],
+      ),
     );
   }
 }

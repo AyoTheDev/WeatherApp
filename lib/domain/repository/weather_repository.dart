@@ -9,7 +9,7 @@ abstract class WeatherRepository {
     final String? city,
   );
 
-  Future<SuggestedCitiesModel> fetchAutoCompleteSearchData(
+  Future<List<SuggestedCitiesModel>> fetchAutoCompleteSearchData(
     final String citySuggestion,
   );
 

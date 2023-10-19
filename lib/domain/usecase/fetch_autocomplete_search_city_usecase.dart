@@ -3,12 +3,14 @@ import 'package:flutter_weather_app/domain/models/suggested_cities_model.dart';
 import 'package:flutter_weather_app/domain/repository/weather_repository.dart';
 
 class FetchAutocompleteSearchCityUseCase
-    implements BaseUseCase<String, SuggestedCitiesModel> {
+    implements BaseUseCase<String, List<SuggestedCitiesModel>> {
   final WeatherRepository _weatherRepository;
 
   const FetchAutocompleteSearchCityUseCase(this._weatherRepository);
 
   @override
-  Future<SuggestedCitiesModel> execute({required String input}) =>
-      _weatherRepository.fetchAutoCompleteSearchData(input);
+  Future<List<SuggestedCitiesModel>> execute({required String input}) async =>
+      input == ""
+          ? List<SuggestedCitiesModel>.empty()
+          : await _weatherRepository.fetchAutoCompleteSearchData(input);
 }
