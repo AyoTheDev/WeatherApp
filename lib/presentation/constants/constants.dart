@@ -26,10 +26,17 @@ TextStyle f42RWhiteBold = const TextStyle(
     color: Colors.white,
     fontWeight: FontWeight.bold);
 
-TextStyle f = const TextStyle(
+TextStyle f16RWhiteRoboto = const TextStyle(
     color: Colors.white54,
     fontSize: fontSize16,
     fontFamily: "Roboto");
+
+TextStyle f52RWhiteRoboto = const TextStyle(
+    color: Colors.white,
+    fontSize: fontSize52,
+    fontFamily: "Roboto");
+
+const int durationWithMillis300 = 300;
 
 const double fontSize14 = 14;
 const double fontSize16 = 16;
@@ -49,4 +56,5 @@ const double dp_30 = 30;
 const double dp_50 = 50;
 const double dp_80 = 80;
 const double dp_100 = 100;
+const double dp_150 = 150;
 const double dp_400 = 400;

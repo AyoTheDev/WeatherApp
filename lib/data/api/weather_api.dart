@@ -27,38 +27,35 @@ class WeatherApi {
 
       final response = await dio.get(
         '${baseURL}current.json?q=$cityName&key=${dotenv.env['API_KEY']}',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer ${dotenv.env['API_KEY']}',
-          },
-        ),
       );
       if (response.statusCode == responseCode200) {
         return Weather.fromMap(response.data);
       } else {
         throw CustomException(
-            '${response.statusCode.toString()} error code with ${response.statusMessage.toString()} message');
+            '${response.statusCode.toString()} error code with ${response
+                .statusMessage.toString()} message');
       }
     } catch (e) {
       throw CustomException(e.toString());
     }
   }
 
-  Future<SuggestedCitiesResponse> fetchAutoCompleteSearchData(String citySuggestion) async {
+  Future<List<SuggestedCitiesResponse>> fetchAutoCompleteSearchData(
+      String citySuggestion) async {
     try {
+      if(citySuggestion == "") return List<SuggestedCitiesResponse>.empty();
+
       final response = await dio.get(
         "${baseURL}search.json?q=$citySuggestion&key=${dotenv.env['API_KEY']}",
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer ${dotenv.env['API_KEY']}',
-          },
-        ),
       );
+
       if (response.statusCode == responseCode200) {
-        return SuggestedCitiesResponse.fromMap(response.data);
+        List<dynamic> list = response.data;
+        return list.map((e) => SuggestedCitiesResponse.fromMap(e)).toList();
       } else {
         throw CustomException(
-            '${response.statusCode.toString()} error code with ${response.statusMessage.toString()} message');
+            '${response.statusCode.toString()} error code with ${response
+                .statusMessage.toString()} message');
       }
     } catch (e) {
       throw CustomException(e.toString());

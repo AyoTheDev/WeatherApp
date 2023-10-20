@@ -4,8 +4,8 @@ import 'package:flutter_weather_app/domain/models/cities_list_model.dart';
 
 class CitiesListEntityMapper {
   static CitiesListModel transformCitiesListModelDaoToDomain(
-      final CitiesListModelDao citiesEntity) {
-    final citiesListModelMap = citiesEntity
+      final CitiesListModelDao citiesListEntity) {
+    final citiesListModelMap = citiesListEntity
         .map((entity) => CityEntityMapper.transformCityModelDaoToDomain(entity))
         .toList();
     return CitiesListModel(cityModelList: citiesListModelMap);

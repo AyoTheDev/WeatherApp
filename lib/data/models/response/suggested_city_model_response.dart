@@ -3,6 +3,6 @@ class SuggestedCitiesResponse {
   final String country;
 
   SuggestedCitiesResponse.fromMap(Map<String, dynamic> json)
-      : city = json["name"],
-        country = json["country"];
+      : city = json['name'],
+        country = json['country'];
 }

@@ -7,7 +7,9 @@ class Strings {
   static const aboutUs = 'About Us';
   static const occurred = 'occurred';
   static const settings = 'Settings';
+  static const details = 'Details';
   static const favorites = 'Favorites';
+  static const searchCity = 'Search city';
   static const windDirection = 'Wind Dir:';
   static const changeTheme = 'Change Theme';
   static const noCityEntered = 'No city entered';
