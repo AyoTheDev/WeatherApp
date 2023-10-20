@@ -19,7 +19,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     return ListView(
       children: <Widget>[
         ListTile(
-          title: const Text(Strings.changeTheme),
+          title: Text(Strings.changeTheme, style: styleOnlyWhiteColor,),
           trailing: Switch(
             onChanged: (value) {
               ref.read(appThemeProvider.notifier).state = value;
@@ -32,7 +32,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           endIndent: dp_15,
         ),
         ListTile(
-          title: const Text(Strings.termsAndConditions),
+          title: Text(Strings.termsAndConditions, style: styleOnlyWhiteColor),
           trailing: const Icon(Icons.arrow_forward),
           onTap: () {
             // TODO: Navigate to the Terms & Conditions screen.
@@ -43,7 +43,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           endIndent: dp_15,
         ),
         ListTile(
-          title: const Text(Strings.aboutUs),
+          title: Text(Strings.aboutUs, style: styleOnlyWhiteColor),
           trailing: const Icon(Icons.arrow_forward),
           onTap: () {
             // TODO: Navigate to the About Us screen.

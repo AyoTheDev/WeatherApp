@@ -1,13 +1,26 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/presentation/constants/strings.dart';
 
 enum WeatherNavScreens {
-  home(Strings.home, Icons.home),
-  favourites(Strings.favorites, Icons.favorite),
-  settings(Strings.settings, Icons.settings);
+  home(
+    Strings.home,
+    Strings.homeActiveIconPath,
+    Strings.homeInactiveIconPath,
+  ),
+  favourites(
+    Strings.favorites,
+    Strings.favouriteActiveIconPath,
+    Strings.favouriteInactiveIconPath,
+  ),
+  settings(
+    Strings.settings,
+    Strings.settingsActiveIconPath,
+    Strings.settingsInactiveIconPath,
+  );
 
   final String title;
-  final IconData icon;
+  final String svgPictureActiveIcon;
+  final String svgPictureIcon;
 
-  const WeatherNavScreens(this.title, this.icon);
+  const WeatherNavScreens(
+      this.title, this.svgPictureActiveIcon, this.svgPictureIcon);
 }

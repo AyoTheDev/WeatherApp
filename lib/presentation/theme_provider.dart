@@ -32,15 +32,16 @@ const lightColorScheme = ColorScheme(
 );
 
 
-ThemeData getAppTheme(BuildContext context, bool isDarkTheme) {
+ThemeData getAppTheme(BuildContext context, bool isDarkMode) {
   return ThemeData(
-    colorScheme: isDarkTheme ? darkColorScheme : lightColorScheme,
+    colorScheme: isDarkMode ? darkColorScheme : lightColorScheme,
     useMaterial3: true,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: isDarkMode ? const Color.fromRGBO(68, 58, 135, 1) : const Color.fromRGBO(101, 65, 158, 1),
         elevation: dp_0,
-        selectedItemColor: isDarkTheme ? Colors.white : Colors.white,
+        selectedItemColor: isDarkMode ? Colors.white : Colors.white,
         unselectedItemColor: Colors.blueGrey),
-    scaffoldBackgroundColor: isDarkTheme ? Colors.black : Colors.white,
+    scaffoldBackgroundColor: isDarkMode ? Colors.black : Colors.white,
     textTheme: Theme.of(context)
         .textTheme
         .copyWith(
@@ -48,18 +49,18 @@ ThemeData getAppTheme(BuildContext context, bool isDarkTheme) {
               Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 11),
         )
         .apply(
-          bodyColor: isDarkTheme ? Colors.white : Colors.black,
+          bodyColor: isDarkMode ? Colors.white : Colors.black,
           displayColor: Colors.grey,
         ),
     switchTheme: SwitchThemeData(
       thumbColor:
-          MaterialStateProperty.all(isDarkTheme ? Colors.white : Colors.blue),
+          MaterialStateProperty.all(isDarkMode ? Colors.white : Colors.blue),
     ),
     listTileTheme: ListTileThemeData(
-        iconColor: isDarkTheme ? Colors.orange : Colors.blueAccent),
+        iconColor: isDarkMode ? Colors.orange : Colors.blueAccent),
     appBarTheme: AppBarTheme(
         centerTitle: true,
         iconTheme:
-            IconThemeData(color: isDarkTheme ? Colors.white : Colors.black54)),
+            IconThemeData(color: isDarkMode ? Colors.white : Colors.black54)),
   );
 }

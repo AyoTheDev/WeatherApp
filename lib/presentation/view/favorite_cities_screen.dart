@@ -60,7 +60,7 @@ class _FavoriteCitiesScreenState extends ConsumerState<FavoriteCitiesScreen> {
         return ListTile(
           title: Row(
             children: [
-              Text(citiesListModel.cityModelList[index].city),
+              Text(citiesListModel.cityModelList[index].city, style: styleOnlyWhiteColor),
               const Spacer(),
               IconButton(
                 onPressed: () {
@@ -83,6 +83,7 @@ class _FavoriteCitiesScreenState extends ConsumerState<FavoriteCitiesScreen> {
       },
       separatorBuilder: (context, index) {
         return const Divider(
+          color: Colors.white,
           indent: 15,
           endIndent: 15,
         );

@@ -3,11 +3,11 @@ class Strings {
   static const celsius = '°C';
   static const https = 'https:';
   static const fahrenheit = '°F';
+  static const details = 'Details';
   static const refresh = 'Refresh';
   static const aboutUs = 'About Us';
   static const occurred = 'occurred';
   static const settings = 'Settings';
-  static const details = 'Details';
   static const favorites = 'Favorites';
   static const searchCity = 'Search city';
   static const windDirection = 'Wind Dir:';
@@ -23,4 +23,12 @@ class Strings {
   static const locationServicesDisabled = 'Location services are disabled.';
   static const locationPermissionDenied = 'Location permissions are denied';
   static const locationPermissionPermanentlyDenied = 'Location permissions are permanently denied, we cannot request permissions.';
+
+
+  static const homeActiveIconPath = "assets/ic_home_filled.svg";
+  static const homeInactiveIconPath = "assets/ic_home_empty.svg";
+  static const settingsActiveIconPath = "assets/ic_settings_filled.svg";
+  static const settingsInactiveIconPath = "assets/ic_settings_empty.svg";
+  static const favouriteActiveIconPath = "assets/ic_favourite_filled.svg";
+  static const favouriteInactiveIconPath = "assets/ic_favourite_empty.svg";
 }
