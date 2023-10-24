@@ -1,11 +1,13 @@
 import 'package:flutter_weather_app/data/api/weather_api.dart';
 import 'package:flutter_weather_app/data/datasource/database/weather_database.dart';
+import 'package:flutter_weather_app/data/mappers/api/forecast_model_response_wrapper_mapper.dart';
 import 'package:flutter_weather_app/data/mappers/api/suggested_cities_list_mapper.dart';
 import 'package:flutter_weather_app/data/mappers/api/weather_mapper.dart';
 import 'package:flutter_weather_app/data/mappers/db/cities_list_entity_mapper.dart';
 import 'package:flutter_weather_app/data/mappers/db/city_entity_mapper.dart';
 import 'package:flutter_weather_app/domain/models/cities_list_model.dart';
 import 'package:flutter_weather_app/domain/models/city_model.dart';
+import 'package:flutter_weather_app/domain/models/forecast_model_wrapper.dart';
 import 'package:flutter_weather_app/domain/models/suggested_cities_model.dart';
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
 import 'package:flutter_weather_app/domain/repository/weather_repository.dart';
@@ -49,9 +51,24 @@ class WeatherRepositoryImpl implements WeatherRepository {
 
   @override
   Future<List<SuggestedCitiesModel>> fetchAutoCompleteSearchData(
-      String citySuggestion) async {
+    String citySuggestion,
+  ) async {
     final suggestedCities =
         await weatherApi.fetchAutoCompleteSearchData(citySuggestion);
-    return SuggestedCitiesMapper.transformSuggestedCitiesListResponseToDomain(suggestedCities);
+    return SuggestedCitiesMapper.transformSuggestedCitiesListResponseToDomain(
+        suggestedCities);
+  }
+
+  @override
+  Future<ForecastModelWrapper> fetchForecastWeatherByCity(
+    String cityName,
+  ) async {
+    final forecastWeather = await weatherApi.fetchForecastData(
+      cityName,
+    );
+    return ForecastModelResponseWrapperMapper
+        .transformForecastModelResponseWrapperToDomain(
+      forecastWeather,
+    );
   }
 }

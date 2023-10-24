@@ -4,11 +4,13 @@ import 'package:flutter_weather_app/domain/base/base_usecase.dart';
 import 'package:flutter_weather_app/domain/models/cities_list_model.dart';
 import 'package:flutter_weather_app/domain/models/city_model.dart';
 import 'package:flutter_weather_app/domain/models/empty_input.dart';
+import 'package:flutter_weather_app/domain/models/forecast_model_wrapper.dart';
 import 'package:flutter_weather_app/domain/models/suggested_cities_model.dart';
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
 import 'package:flutter_weather_app/domain/usecase/add_favourite_city_usecase.dart';
 import 'package:flutter_weather_app/domain/usecase/delete_favourite_city_usecase.dart';
 import 'package:flutter_weather_app/domain/usecase/fetch_autocomplete_search_city_usecase.dart';
+import 'package:flutter_weather_app/domain/usecase/fetch_forecast_usecase.dart';
 import 'package:flutter_weather_app/domain/usecase/fetch_weather_by_city_usecase.dart';
 import 'package:flutter_weather_app/domain/usecase/get_city_by_id_usecase.dart';
 import 'package:flutter_weather_app/domain/usecase/get_favourite_cities_list_usecase.dart';
@@ -43,5 +45,11 @@ final getCityByIdUseCaseProvider =
 final fetchAutoCompleteSearchCityUseCaseProvider =
     Provider<BaseUseCase<String, List<SuggestedCitiesModel>>>(
         (ref) => FetchAutocompleteSearchCityUseCase(
+              ref.watch(weathersRepositoryProvider),
+            ));
+
+final fetchForecastUseCaseProvider =
+    Provider<BaseUseCase<String, ForecastModelWrapper>>(
+        (ref) => FetchForecastUseCase(
               ref.watch(weathersRepositoryProvider),
             ));
