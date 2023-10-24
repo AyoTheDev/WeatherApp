@@ -115,17 +115,9 @@ class HomeViewModel extends StateNotifier<State<WeatherModelWrapper>> {
     }
   }
 
-  Future<List<String>> fetchAutocompleteSearchCity(
-      String suggestedKeyWord) async {
-    final result = await _fetchAutoCompleteSearchCityUseCase.execute(
-      input: suggestedKeyWord,
-    );
-    List<String> citiesList = [];
-    for (var element in result) {
-      citiesList.add(element.citySuggestion);
-    }
-    return citiesList;
-  }
+  Future<Iterable<SuggestedCitiesModel>> fetchAutocompleteSearchCity(
+    String suggestedKeyWord,
+  ) => _fetchAutoCompleteSearchCityUseCase.execute(input: suggestedKeyWord);
 
   addFavouriteCity(WeatherModel weatherModel) async {
     try {

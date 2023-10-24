@@ -1,11 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter_weather_app/domain/models/weather_model_wrapper.dart';
 import 'package:flutter_weather_app/presentation/constants/constants.dart';
 import 'package:flutter_weather_app/presentation/constants/strings.dart';
+import 'package:flutter_weather_app/presentation/view/weather_detalis_screen.dart';
 import 'package:flutter_weather_app/presentation/viewmodel/home_screen_viewmodel.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -18,7 +17,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final _homeViewModelProvider = homeViewModelStateNotifierProvider;
   late HomeViewModel _viewModel;
-
 
   @override
   void initState() {
@@ -63,65 +61,64 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Padding(
               padding: const EdgeInsets.only(left: dp_20, right: dp_20),
               child: TypeAheadField(
-                debounceDuration: const Duration(milliseconds: durationWithMillis300),
+                debounceDuration:
+                    const Duration(milliseconds: durationWithMillis300),
                 getImmediateSuggestions: false,
-                textFieldConfiguration: const TextFieldConfiguration(
-                  style: TextStyle(color: Colors.white),
+                textFieldConfiguration: TextFieldConfiguration(
+                  style: styleOnlyWhiteColor,
                   autofocus: true,
                   decoration: InputDecoration(
                     hintText: Strings.searchCity,
-                    hintStyle: TextStyle(color: Colors.white),
-                    prefixIcon: Icon(
+                    hintStyle: styleOnlyWhiteColor,
+                    prefixIcon: const Icon(
                       Icons.search,
                       color: Colors.white,
                     ),
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                   ),
                 ),
                 suggestionsBoxDecoration: const SuggestionsBoxDecoration(
                   color: Colors.white12,
                 ),
-                suggestionsCallback: (suggestedKeyWord) {
-                  final autocompleteSearchSuggestions =
-                      _viewModel.fetchAutocompleteSearchCity(suggestedKeyWord);
-                  return Future.sync(
-                      () => autocompleteSearchSuggestions);
+                suggestionsCallback: (suggestedKeyWord) async {
+                  return await _viewModel
+                      .fetchAutocompleteSearchCity(suggestedKeyWord);
                 },
                 itemBuilder: (context, suggestion) {
                   return ListTile(
-                    title: Text(suggestion, style: const TextStyle(color: Colors.white),),
+                    tileColor: Colors.black45,
+                    title: Text(
+                      suggestion.citySuggestion,
+                      style: styleOnlyWhiteColor,
+                    ),
                     onTap: () {
-                      _viewModel.fetchWeatherByCity(false, suggestion);
+                      _viewModel.fetchWeatherByCity(
+                          false, suggestion.citySuggestion);
                     },
                   );
                 },
-                onSuggestionSelected: (suggestion) {
-                },
+                onSuggestionSelected: (suggestion) {},
               ),
             ),
             GestureDetector(
               onTap: () {
-                //TODO: Navigate to Weather Details Screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WeatherDetailsScreen(
+                      cityName: weatherModelWrapper.weatherModel.city,
+                    ),
+                  ),
+                );
               },
               child: Container(
                 margin: const EdgeInsets.only(
                     left: dp_20, right: dp_20, top: dp_150),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(dp_30),
                   ),
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: <Color>[
-                      Color.fromRGBO(39, 40, 83, 1),
-                      Color.fromRGBO(47, 43, 92, 1),
-                      Color.fromRGBO(56, 49, 106, 1),
-                      Color.fromRGBO(58, 50, 111, 1),
-                      Color.fromRGBO(65, 53, 119, 1),
-                    ],
-                    tileMode: TileMode.mirror,
-                  ),
+                  gradient: weatherItemPurpleGradient,
                 ),
                 padding: const EdgeInsets.all(dp_20),
                 child: Column(

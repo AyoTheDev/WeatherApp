@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_weather_app/navigation/bottom_nav_controller_provider.dart';
 import 'package:flutter_weather_app/navigation/weather_nav_screens.dart';
 import 'package:flutter_weather_app/presentation/constants/constants.dart';
@@ -42,14 +43,18 @@ class _MainNavigatorState extends ConsumerState<MainNavigator> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
           elevation: dp_0,
           currentIndex: _selectedScreen.index,
           items: WeatherNavScreens.values
               .map(
                 (screen) => BottomNavigationBarItem(
-                  icon: Icon(screen.icon),
-                  label: screen.title,
+                  activeIcon: SvgPicture.asset(
+                    screen.svgPictureActiveIcon,
+                  ),
+                  icon: SvgPicture.asset(
+                    screen.svgPictureIcon,
+                  ),
+                  label: "",
                 ),
               )
               .toList(),
@@ -63,34 +68,11 @@ class _MainNavigatorState extends ConsumerState<MainNavigator> {
         ),
         body: Container(
           decoration: isDarkMode
-              ? const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: <Color>[
-                      Color.fromRGBO(22, 15, 69, 1),
-                      Color.fromRGBO(30, 20, 90, 1),
-                      Color.fromRGBO(36, 28, 103, 1),
-                      Color.fromRGBO(63, 53, 140, 1),
-                      Color.fromRGBO(83, 71, 171, 1),
-                      Color.fromRGBO(94, 82, 186, 1),
-                    ],
-                    tileMode: TileMode.mirror,
-                  ),
+              ? BoxDecoration(
+                  gradient: darkModeBlueGradient,
                 )
-              : const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: <Color>[
-                      Color.fromRGBO(27, 35, 68, 1),
-                      Color.fromRGBO(40, 41, 84, 1),
-                      Color.fromRGBO(78, 60, 135, 1),
-                      Color.fromRGBO(109, 76, 178, 1),
-                      Color.fromRGBO(134, 87, 212, 1),
-                    ],
-                    tileMode: TileMode.mirror,
-                  ),
+              : BoxDecoration(
+                  gradient: lightModePurpleGradient,
                 ),
           child: IndexedStack(
             index: _selectedScreen.index,

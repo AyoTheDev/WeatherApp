@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 Color textColor = const Color(0xFF222939);
 Color veryLightTangeloColor = const Color(0xffffb56b);
+Color mediumPurple = const Color.fromRGBO(139, 129, 215, 1.0);
 
 const height25 = SizedBox(
   height: dp_25,
 );
 
+TextStyle styleOnlyWhiteColor = const TextStyle(color: Colors.white);
 
 TextStyle f14RBlackLetterSpacing2 = TextStyle(
     fontSize: fontSize14, fontFamily: 'Poppins', color: textColor, letterSpacing: dp_2);
@@ -35,6 +37,46 @@ TextStyle f52RWhiteRoboto = const TextStyle(
     color: Colors.white,
     fontSize: fontSize52,
     fontFamily: "Roboto");
+
+LinearGradient weatherItemPurpleGradient = const LinearGradient(
+  begin: Alignment.topRight,
+  end: Alignment.bottomLeft,
+  colors: <Color>[
+    Color.fromRGBO(39, 40, 83, 1),
+    Color.fromRGBO(47, 43, 92, 1),
+    Color.fromRGBO(56, 49, 106, 1),
+    Color.fromRGBO(58, 50, 111, 1),
+    Color.fromRGBO(65, 53, 119, 1),
+  ],
+  tileMode: TileMode.mirror,
+);
+
+LinearGradient darkModeBlueGradient = const LinearGradient(
+  begin: Alignment.topRight,
+  end: Alignment.bottomLeft,
+  colors: <Color>[
+    Color.fromRGBO(22, 15, 69, 1),
+    Color.fromRGBO(30, 20, 90, 1),
+    Color.fromRGBO(36, 28, 103, 1),
+    Color.fromRGBO(63, 53, 140, 1),
+    Color.fromRGBO(83, 71, 171, 1),
+    Color.fromRGBO(94, 82, 186, 1),
+  ],
+  tileMode: TileMode.mirror,
+);
+
+LinearGradient lightModePurpleGradient = const LinearGradient(
+  begin: Alignment.topRight,
+  end: Alignment.bottomLeft,
+  colors: <Color>[
+    Color.fromRGBO(27, 35, 68, 1),
+    Color.fromRGBO(40, 41, 84, 1),
+    Color.fromRGBO(78, 60, 135, 1),
+    Color.fromRGBO(109, 76, 178, 1),
+    Color.fromRGBO(134, 87, 212, 1),
+  ],
+  tileMode: TileMode.mirror,
+);
 
 const int durationWithMillis300 = 300;
 
