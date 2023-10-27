@@ -3,15 +3,19 @@ import 'package:flutter_weather_app/domain/models/suggested_cities_model.dart';
 
 class SuggestedCitiesMapper {
   static SuggestedCitiesModel transformSuggestedCitiesResponseToDomain(
-      SuggestedCitiesResponse suggestedCitiesResponse,) =>
+    SuggestedCitiesResponse suggestedCitiesResponse,
+  ) =>
       SuggestedCitiesModel(
         citySuggestion: suggestedCitiesResponse.city,
         country: suggestedCitiesResponse.country,
       );
 
-  static List<SuggestedCitiesModel> transformSuggestedCitiesListResponseToDomain(
-      List<SuggestedCitiesResponse> list
-      ) {
-    return list.map((e) => SuggestedCitiesMapper.transformSuggestedCitiesResponseToDomain(e)).toList();
+  static List<SuggestedCitiesModel>
+      transformSuggestedCitiesListResponseToDomain(
+          List<SuggestedCitiesResponse> list) {
+    return list
+        .map((e) =>
+            SuggestedCitiesMapper.transformSuggestedCitiesResponseToDomain(e))
+        .toList();
   }
 }
