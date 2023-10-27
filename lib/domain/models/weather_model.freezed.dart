@@ -107,11 +107,11 @@ class _$WeatherModelCopyWithImpl<$Res, $Val extends WeatherModel>
 }
 
 /// @nodoc
-abstract class _$$_WeatherModelCopyWith<$Res>
+abstract class _$$WeatherModelImplCopyWith<$Res>
     implements $WeatherModelCopyWith<$Res> {
-  factory _$$_WeatherModelCopyWith(
-          _$_WeatherModel value, $Res Function(_$_WeatherModel) then) =
-      __$$_WeatherModelCopyWithImpl<$Res>;
+  factory _$$WeatherModelImplCopyWith(
+          _$WeatherModelImpl value, $Res Function(_$WeatherModelImpl) then) =
+      __$$WeatherModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -126,11 +126,11 @@ abstract class _$$_WeatherModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_WeatherModelCopyWithImpl<$Res>
-    extends _$WeatherModelCopyWithImpl<$Res, _$_WeatherModel>
-    implements _$$_WeatherModelCopyWith<$Res> {
-  __$$_WeatherModelCopyWithImpl(
-      _$_WeatherModel _value, $Res Function(_$_WeatherModel) _then)
+class __$$WeatherModelImplCopyWithImpl<$Res>
+    extends _$WeatherModelCopyWithImpl<$Res, _$WeatherModelImpl>
+    implements _$$WeatherModelImplCopyWith<$Res> {
+  __$$WeatherModelImplCopyWithImpl(
+      _$WeatherModelImpl _value, $Res Function(_$WeatherModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -145,7 +145,7 @@ class __$$_WeatherModelCopyWithImpl<$Res>
     Object? icon = null,
     Object? windDir = null,
   }) {
-    return _then(_$_WeatherModel(
+    return _then(_$WeatherModelImpl(
       city: null == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
@@ -184,8 +184,8 @@ class __$$_WeatherModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_WeatherModel extends _WeatherModel {
-  const _$_WeatherModel(
+class _$WeatherModelImpl extends _WeatherModel {
+  const _$WeatherModelImpl(
       {required this.city,
       required this.country,
       required this.temperatureF,
@@ -222,7 +222,7 @@ class _$_WeatherModel extends _WeatherModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_WeatherModel &&
+            other is _$WeatherModelImpl &&
             (identical(other.city, city) || other.city == city) &&
             (identical(other.country, country) || other.country == country) &&
             (identical(other.temperatureF, temperatureF) ||
@@ -244,8 +244,8 @@ class _$_WeatherModel extends _WeatherModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_WeatherModelCopyWith<_$_WeatherModel> get copyWith =>
-      __$$_WeatherModelCopyWithImpl<_$_WeatherModel>(this, _$identity);
+  _$$WeatherModelImplCopyWith<_$WeatherModelImpl> get copyWith =>
+      __$$WeatherModelImplCopyWithImpl<_$WeatherModelImpl>(this, _$identity);
 }
 
 abstract class _WeatherModel extends WeatherModel {
@@ -257,7 +257,7 @@ abstract class _WeatherModel extends WeatherModel {
       required final String description,
       required final bool isFavourite,
       required final String icon,
-      required final String windDir}) = _$_WeatherModel;
+      required final String windDir}) = _$WeatherModelImpl;
   const _WeatherModel._() : super._();
 
   @override
@@ -278,6 +278,6 @@ abstract class _WeatherModel extends WeatherModel {
   String get windDir;
   @override
   @JsonKey(ignore: true)
-  _$$_WeatherModelCopyWith<_$_WeatherModel> get copyWith =>
+  _$$WeatherModelImplCopyWith<_$WeatherModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

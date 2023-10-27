@@ -6,6 +6,7 @@ import 'package:flutter_weather_app/presentation/constants/constants.dart';
 import 'package:flutter_weather_app/presentation/constants/strings.dart';
 import 'package:flutter_weather_app/presentation/view/weather_detalis_screen.dart';
 import 'package:flutter_weather_app/presentation/viewmodel/home_screen_viewmodel.dart';
+import 'package:flutter_weather_app/presentation/viewmodel/weather_details_viewmodel.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -102,6 +103,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             GestureDetector(
               onTap: () {
+                ref.read(cityNameProvider.notifier).state = weatherModelWrapper.weatherModel.city;
                 Navigator.push(
                   context,
                   MaterialPageRoute(

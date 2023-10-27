@@ -74,11 +74,11 @@ class _$ForecastModelByHoursCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ForecastModelByHoursCopyWith<$Res>
+abstract class _$$ForecastModelByHoursImplCopyWith<$Res>
     implements $ForecastModelByHoursCopyWith<$Res> {
-  factory _$$_ForecastModelByHoursCopyWith(_$_ForecastModelByHours value,
-          $Res Function(_$_ForecastModelByHours) then) =
-      __$$_ForecastModelByHoursCopyWithImpl<$Res>;
+  factory _$$ForecastModelByHoursImplCopyWith(_$ForecastModelByHoursImpl value,
+          $Res Function(_$ForecastModelByHoursImpl) then) =
+      __$$ForecastModelByHoursImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String hour, ForecastInfoModel forecastInfoModel});
@@ -88,11 +88,11 @@ abstract class _$$_ForecastModelByHoursCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ForecastModelByHoursCopyWithImpl<$Res>
-    extends _$ForecastModelByHoursCopyWithImpl<$Res, _$_ForecastModelByHours>
-    implements _$$_ForecastModelByHoursCopyWith<$Res> {
-  __$$_ForecastModelByHoursCopyWithImpl(_$_ForecastModelByHours _value,
-      $Res Function(_$_ForecastModelByHours) _then)
+class __$$ForecastModelByHoursImplCopyWithImpl<$Res>
+    extends _$ForecastModelByHoursCopyWithImpl<$Res, _$ForecastModelByHoursImpl>
+    implements _$$ForecastModelByHoursImplCopyWith<$Res> {
+  __$$ForecastModelByHoursImplCopyWithImpl(_$ForecastModelByHoursImpl _value,
+      $Res Function(_$ForecastModelByHoursImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +101,7 @@ class __$$_ForecastModelByHoursCopyWithImpl<$Res>
     Object? hour = null,
     Object? forecastInfoModel = null,
   }) {
-    return _then(_$_ForecastModelByHours(
+    return _then(_$ForecastModelByHoursImpl(
       hour: null == hour
           ? _value.hour
           : hour // ignore: cast_nullable_to_non_nullable
@@ -116,8 +116,8 @@ class __$$_ForecastModelByHoursCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ForecastModelByHours extends _ForecastModelByHours {
-  const _$_ForecastModelByHours(
+class _$ForecastModelByHoursImpl extends _ForecastModelByHours {
+  const _$ForecastModelByHoursImpl(
       {required this.hour, required this.forecastInfoModel})
       : super._();
 
@@ -135,7 +135,7 @@ class _$_ForecastModelByHours extends _ForecastModelByHours {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ForecastModelByHours &&
+            other is _$ForecastModelByHoursImpl &&
             (identical(other.hour, hour) || other.hour == hour) &&
             (identical(other.forecastInfoModel, forecastInfoModel) ||
                 other.forecastInfoModel == forecastInfoModel));
@@ -147,16 +147,17 @@ class _$_ForecastModelByHours extends _ForecastModelByHours {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ForecastModelByHoursCopyWith<_$_ForecastModelByHours> get copyWith =>
-      __$$_ForecastModelByHoursCopyWithImpl<_$_ForecastModelByHours>(
-          this, _$identity);
+  _$$ForecastModelByHoursImplCopyWith<_$ForecastModelByHoursImpl>
+      get copyWith =>
+          __$$ForecastModelByHoursImplCopyWithImpl<_$ForecastModelByHoursImpl>(
+              this, _$identity);
 }
 
 abstract class _ForecastModelByHours extends ForecastModelByHours {
   const factory _ForecastModelByHours(
           {required final String hour,
           required final ForecastInfoModel forecastInfoModel}) =
-      _$_ForecastModelByHours;
+      _$ForecastModelByHoursImpl;
   const _ForecastModelByHours._() : super._();
 
   @override
@@ -165,6 +166,6 @@ abstract class _ForecastModelByHours extends ForecastModelByHours {
   ForecastInfoModel get forecastInfoModel;
   @override
   @JsonKey(ignore: true)
-  _$$_ForecastModelByHoursCopyWith<_$_ForecastModelByHours> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ForecastModelByHoursImplCopyWith<_$ForecastModelByHoursImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

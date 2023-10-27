@@ -6,6 +6,6 @@ part 'forecast_info_model.freezed.dart';
 class ForecastInfoModel with _$ForecastInfoModel {
   const factory ForecastInfoModel({
     required String icon,
-    required String temperature,
+    required double temperature,
   }) = _ForecastInfoModel;
 }

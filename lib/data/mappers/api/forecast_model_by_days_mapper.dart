@@ -6,7 +6,7 @@ class ForecastModelByDaysMapper {
   static ForecastModelByDays transformForecastModelByDaysResponseToDomain(
           ForecastModelByDaysResponse responseByDays) =>
       ForecastModelByDays(
-        day: responseByDays.days,
+        date: responseByDays.date,
         forecastInfoModel:
             ForecastInfoResponseMapper.transformForecastInfoResponseToDomain(
           responseByDays.forecastInfo,

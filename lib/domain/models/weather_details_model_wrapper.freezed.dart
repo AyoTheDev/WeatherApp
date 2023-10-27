@@ -87,12 +87,12 @@ class _$WeatherDetailsModelWrapperCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_WeatherDetailsModelWrapperCopyWith<$Res>
+abstract class _$$WeatherDetailsModelWrapperImplCopyWith<$Res>
     implements $WeatherDetailsModelWrapperCopyWith<$Res> {
-  factory _$$_WeatherDetailsModelWrapperCopyWith(
-          _$_WeatherDetailsModelWrapper value,
-          $Res Function(_$_WeatherDetailsModelWrapper) then) =
-      __$$_WeatherDetailsModelWrapperCopyWithImpl<$Res>;
+  factory _$$WeatherDetailsModelWrapperImplCopyWith(
+          _$WeatherDetailsModelWrapperImpl value,
+          $Res Function(_$WeatherDetailsModelWrapperImpl) then) =
+      __$$WeatherDetailsModelWrapperImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -105,13 +105,13 @@ abstract class _$$_WeatherDetailsModelWrapperCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_WeatherDetailsModelWrapperCopyWithImpl<$Res>
+class __$$WeatherDetailsModelWrapperImplCopyWithImpl<$Res>
     extends _$WeatherDetailsModelWrapperCopyWithImpl<$Res,
-        _$_WeatherDetailsModelWrapper>
-    implements _$$_WeatherDetailsModelWrapperCopyWith<$Res> {
-  __$$_WeatherDetailsModelWrapperCopyWithImpl(
-      _$_WeatherDetailsModelWrapper _value,
-      $Res Function(_$_WeatherDetailsModelWrapper) _then)
+        _$WeatherDetailsModelWrapperImpl>
+    implements _$$WeatherDetailsModelWrapperImplCopyWith<$Res> {
+  __$$WeatherDetailsModelWrapperImplCopyWithImpl(
+      _$WeatherDetailsModelWrapperImpl _value,
+      $Res Function(_$WeatherDetailsModelWrapperImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -120,7 +120,7 @@ class __$$_WeatherDetailsModelWrapperCopyWithImpl<$Res>
     Object? weatherModel = null,
     Object? forecastModelWrapper = null,
   }) {
-    return _then(_$_WeatherDetailsModelWrapper(
+    return _then(_$WeatherDetailsModelWrapperImpl(
       weatherModel: null == weatherModel
           ? _value.weatherModel
           : weatherModel // ignore: cast_nullable_to_non_nullable
@@ -135,8 +135,8 @@ class __$$_WeatherDetailsModelWrapperCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_WeatherDetailsModelWrapper extends _WeatherDetailsModelWrapper {
-  const _$_WeatherDetailsModelWrapper(
+class _$WeatherDetailsModelWrapperImpl extends _WeatherDetailsModelWrapper {
+  const _$WeatherDetailsModelWrapperImpl(
       {required this.weatherModel, required this.forecastModelWrapper})
       : super._();
 
@@ -154,7 +154,7 @@ class _$_WeatherDetailsModelWrapper extends _WeatherDetailsModelWrapper {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_WeatherDetailsModelWrapper &&
+            other is _$WeatherDetailsModelWrapperImpl &&
             (identical(other.weatherModel, weatherModel) ||
                 other.weatherModel == weatherModel) &&
             (identical(other.forecastModelWrapper, forecastModelWrapper) ||
@@ -168,16 +168,16 @@ class _$_WeatherDetailsModelWrapper extends _WeatherDetailsModelWrapper {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_WeatherDetailsModelWrapperCopyWith<_$_WeatherDetailsModelWrapper>
-      get copyWith => __$$_WeatherDetailsModelWrapperCopyWithImpl<
-          _$_WeatherDetailsModelWrapper>(this, _$identity);
+  _$$WeatherDetailsModelWrapperImplCopyWith<_$WeatherDetailsModelWrapperImpl>
+      get copyWith => __$$WeatherDetailsModelWrapperImplCopyWithImpl<
+          _$WeatherDetailsModelWrapperImpl>(this, _$identity);
 }
 
 abstract class _WeatherDetailsModelWrapper extends WeatherDetailsModelWrapper {
   const factory _WeatherDetailsModelWrapper(
           {required final WeatherModel weatherModel,
           required final ForecastModelWrapper forecastModelWrapper}) =
-      _$_WeatherDetailsModelWrapper;
+      _$WeatherDetailsModelWrapperImpl;
   const _WeatherDetailsModelWrapper._() : super._();
 
   @override
@@ -186,6 +186,6 @@ abstract class _WeatherDetailsModelWrapper extends WeatherDetailsModelWrapper {
   ForecastModelWrapper get forecastModelWrapper;
   @override
   @JsonKey(ignore: true)
-  _$$_WeatherDetailsModelWrapperCopyWith<_$_WeatherDetailsModelWrapper>
+  _$$WeatherDetailsModelWrapperImplCopyWith<_$WeatherDetailsModelWrapperImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

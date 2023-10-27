@@ -97,11 +97,11 @@ class _$WeatherModelWrapperCopyWithImpl<$Res, $Val extends WeatherModelWrapper>
 }
 
 /// @nodoc
-abstract class _$$_WeatherModelWrapperCopyWith<$Res>
+abstract class _$$WeatherModelWrapperImplCopyWith<$Res>
     implements $WeatherModelWrapperCopyWith<$Res> {
-  factory _$$_WeatherModelWrapperCopyWith(_$_WeatherModelWrapper value,
-          $Res Function(_$_WeatherModelWrapper) then) =
-      __$$_WeatherModelWrapperCopyWithImpl<$Res>;
+  factory _$$WeatherModelWrapperImplCopyWith(_$WeatherModelWrapperImpl value,
+          $Res Function(_$WeatherModelWrapperImpl) then) =
+      __$$WeatherModelWrapperImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -116,11 +116,11 @@ abstract class _$$_WeatherModelWrapperCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_WeatherModelWrapperCopyWithImpl<$Res>
-    extends _$WeatherModelWrapperCopyWithImpl<$Res, _$_WeatherModelWrapper>
-    implements _$$_WeatherModelWrapperCopyWith<$Res> {
-  __$$_WeatherModelWrapperCopyWithImpl(_$_WeatherModelWrapper _value,
-      $Res Function(_$_WeatherModelWrapper) _then)
+class __$$WeatherModelWrapperImplCopyWithImpl<$Res>
+    extends _$WeatherModelWrapperCopyWithImpl<$Res, _$WeatherModelWrapperImpl>
+    implements _$$WeatherModelWrapperImplCopyWith<$Res> {
+  __$$WeatherModelWrapperImplCopyWithImpl(_$WeatherModelWrapperImpl _value,
+      $Res Function(_$WeatherModelWrapperImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -130,7 +130,7 @@ class __$$_WeatherModelWrapperCopyWithImpl<$Res>
     Object? suggestedCitiesModel = freezed,
     Object? suggestions = freezed,
   }) {
-    return _then(_$_WeatherModelWrapper(
+    return _then(_$WeatherModelWrapperImpl(
       weatherModel: null == weatherModel
           ? _value.weatherModel
           : weatherModel // ignore: cast_nullable_to_non_nullable
@@ -149,8 +149,8 @@ class __$$_WeatherModelWrapperCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_WeatherModelWrapper extends _WeatherModelWrapper {
-  const _$_WeatherModelWrapper(
+class _$WeatherModelWrapperImpl extends _WeatherModelWrapper {
+  const _$WeatherModelWrapperImpl(
       {required this.weatherModel,
       this.suggestedCitiesModel,
       final List<String>? suggestions})
@@ -180,7 +180,7 @@ class _$_WeatherModelWrapper extends _WeatherModelWrapper {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_WeatherModelWrapper &&
+            other is _$WeatherModelWrapperImpl &&
             (identical(other.weatherModel, weatherModel) ||
                 other.weatherModel == weatherModel) &&
             (identical(other.suggestedCitiesModel, suggestedCitiesModel) ||
@@ -196,8 +196,8 @@ class _$_WeatherModelWrapper extends _WeatherModelWrapper {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_WeatherModelWrapperCopyWith<_$_WeatherModelWrapper> get copyWith =>
-      __$$_WeatherModelWrapperCopyWithImpl<_$_WeatherModelWrapper>(
+  _$$WeatherModelWrapperImplCopyWith<_$WeatherModelWrapperImpl> get copyWith =>
+      __$$WeatherModelWrapperImplCopyWithImpl<_$WeatherModelWrapperImpl>(
           this, _$identity);
 }
 
@@ -205,7 +205,7 @@ abstract class _WeatherModelWrapper extends WeatherModelWrapper {
   const factory _WeatherModelWrapper(
       {required final WeatherModel weatherModel,
       final SuggestedCitiesModel? suggestedCitiesModel,
-      final List<String>? suggestions}) = _$_WeatherModelWrapper;
+      final List<String>? suggestions}) = _$WeatherModelWrapperImpl;
   const _WeatherModelWrapper._() : super._();
 
   @override
@@ -216,6 +216,6 @@ abstract class _WeatherModelWrapper extends WeatherModelWrapper {
   List<String>? get suggestions;
   @override
   @JsonKey(ignore: true)
-  _$$_WeatherModelWrapperCopyWith<_$_WeatherModelWrapper> get copyWith =>
+  _$$WeatherModelWrapperImplCopyWith<_$WeatherModelWrapperImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

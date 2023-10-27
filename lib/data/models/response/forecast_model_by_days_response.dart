@@ -1,22 +1,22 @@
 class ForecastModelByHoursResponse {
-  final String time;
+  final String date;
   final ForecastInfo forecastInfo;
 
   ForecastModelByHoursResponse.fromMap(Map<String, dynamic> json)
-      : time = json["date"],
+      : date = json["time"],
         forecastInfo = ForecastInfo(
-          icon: json["day"]["condition"]["icon"],
+          icon: json["condition"]["icon"],
           temperatureC: json["temp_c"],
         );
 }
 
 class ForecastModelByDaysResponse {
-  String days;
+  String date;
   String description;
   ForecastInfo forecastInfo;
 
   ForecastModelByDaysResponse.fromMap(Map<String, dynamic> json)
-      : days = json["date"],
+      : date = json["date"],
         forecastInfo = ForecastInfo(
           icon: json["day"]["condition"]["icon"],
           temperatureC: json["day"]["avgtemp_c"],
@@ -26,7 +26,7 @@ class ForecastModelByDaysResponse {
 
 class ForecastInfo {
   final String icon;
-  final String temperatureC;
+  final double temperatureC;
 
   ForecastInfo({required this.icon, required this.temperatureC});
 }

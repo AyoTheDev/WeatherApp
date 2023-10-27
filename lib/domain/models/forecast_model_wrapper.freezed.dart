@@ -68,11 +68,11 @@ class _$ForecastModelWrapperCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ForecastModelWrapperCopyWith<$Res>
+abstract class _$$ForecastModelWrapperImplCopyWith<$Res>
     implements $ForecastModelWrapperCopyWith<$Res> {
-  factory _$$_ForecastModelWrapperCopyWith(_$_ForecastModelWrapper value,
-          $Res Function(_$_ForecastModelWrapper) then) =
-      __$$_ForecastModelWrapperCopyWithImpl<$Res>;
+  factory _$$ForecastModelWrapperImplCopyWith(_$ForecastModelWrapperImpl value,
+          $Res Function(_$ForecastModelWrapperImpl) then) =
+      __$$ForecastModelWrapperImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -81,11 +81,11 @@ abstract class _$$_ForecastModelWrapperCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ForecastModelWrapperCopyWithImpl<$Res>
-    extends _$ForecastModelWrapperCopyWithImpl<$Res, _$_ForecastModelWrapper>
-    implements _$$_ForecastModelWrapperCopyWith<$Res> {
-  __$$_ForecastModelWrapperCopyWithImpl(_$_ForecastModelWrapper _value,
-      $Res Function(_$_ForecastModelWrapper) _then)
+class __$$ForecastModelWrapperImplCopyWithImpl<$Res>
+    extends _$ForecastModelWrapperCopyWithImpl<$Res, _$ForecastModelWrapperImpl>
+    implements _$$ForecastModelWrapperImplCopyWith<$Res> {
+  __$$ForecastModelWrapperImplCopyWithImpl(_$ForecastModelWrapperImpl _value,
+      $Res Function(_$ForecastModelWrapperImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_ForecastModelWrapperCopyWithImpl<$Res>
     Object? forecastModelByDays = null,
     Object? forecastModelByHours = null,
   }) {
-    return _then(_$_ForecastModelWrapper(
+    return _then(_$ForecastModelWrapperImpl(
       forecastModelByDays: null == forecastModelByDays
           ? _value._forecastModelByDays
           : forecastModelByDays // ignore: cast_nullable_to_non_nullable
@@ -109,8 +109,8 @@ class __$$_ForecastModelWrapperCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ForecastModelWrapper extends _ForecastModelWrapper {
-  const _$_ForecastModelWrapper(
+class _$ForecastModelWrapperImpl extends _ForecastModelWrapper {
+  const _$ForecastModelWrapperImpl(
       {required final List<ForecastModelByDays> forecastModelByDays,
       required final List<ForecastModelByHours> forecastModelByHours})
       : _forecastModelByDays = forecastModelByDays,
@@ -144,7 +144,7 @@ class _$_ForecastModelWrapper extends _ForecastModelWrapper {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ForecastModelWrapper &&
+            other is _$ForecastModelWrapperImpl &&
             const DeepCollectionEquality()
                 .equals(other._forecastModelByDays, _forecastModelByDays) &&
             const DeepCollectionEquality()
@@ -160,16 +160,17 @@ class _$_ForecastModelWrapper extends _ForecastModelWrapper {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ForecastModelWrapperCopyWith<_$_ForecastModelWrapper> get copyWith =>
-      __$$_ForecastModelWrapperCopyWithImpl<_$_ForecastModelWrapper>(
-          this, _$identity);
+  _$$ForecastModelWrapperImplCopyWith<_$ForecastModelWrapperImpl>
+      get copyWith =>
+          __$$ForecastModelWrapperImplCopyWithImpl<_$ForecastModelWrapperImpl>(
+              this, _$identity);
 }
 
 abstract class _ForecastModelWrapper extends ForecastModelWrapper {
   const factory _ForecastModelWrapper(
           {required final List<ForecastModelByDays> forecastModelByDays,
           required final List<ForecastModelByHours> forecastModelByHours}) =
-      _$_ForecastModelWrapper;
+      _$ForecastModelWrapperImpl;
   const _ForecastModelWrapper._() : super._();
 
   @override
@@ -178,6 +179,6 @@ abstract class _ForecastModelWrapper extends ForecastModelWrapper {
   List<ForecastModelByHours> get forecastModelByHours;
   @override
   @JsonKey(ignore: true)
-  _$$_ForecastModelWrapperCopyWith<_$_ForecastModelWrapper> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ForecastModelWrapperImplCopyWith<_$ForecastModelWrapperImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

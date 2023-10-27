@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ForecastInfoModel {
   String get icon => throw _privateConstructorUsedError;
-  String get temperature => throw _privateConstructorUsedError;
+  double get temperature => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ForecastInfoModelCopyWith<ForecastInfoModel> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $ForecastInfoModelCopyWith<$Res> {
           ForecastInfoModel value, $Res Function(ForecastInfoModel) then) =
       _$ForecastInfoModelCopyWithImpl<$Res, ForecastInfoModel>;
   @useResult
-  $Res call({String icon, String temperature});
+  $Res call({String icon, double temperature});
 }
 
 /// @nodoc
@@ -57,28 +57,28 @@ class _$ForecastInfoModelCopyWithImpl<$Res, $Val extends ForecastInfoModel>
       temperature: null == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_ForecastInfoModelCopyWith<$Res>
+abstract class _$$ForecastInfoModelImplCopyWith<$Res>
     implements $ForecastInfoModelCopyWith<$Res> {
-  factory _$$_ForecastInfoModelCopyWith(_$_ForecastInfoModel value,
-          $Res Function(_$_ForecastInfoModel) then) =
-      __$$_ForecastInfoModelCopyWithImpl<$Res>;
+  factory _$$ForecastInfoModelImplCopyWith(_$ForecastInfoModelImpl value,
+          $Res Function(_$ForecastInfoModelImpl) then) =
+      __$$ForecastInfoModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String icon, String temperature});
+  $Res call({String icon, double temperature});
 }
 
 /// @nodoc
-class __$$_ForecastInfoModelCopyWithImpl<$Res>
-    extends _$ForecastInfoModelCopyWithImpl<$Res, _$_ForecastInfoModel>
-    implements _$$_ForecastInfoModelCopyWith<$Res> {
-  __$$_ForecastInfoModelCopyWithImpl(
-      _$_ForecastInfoModel _value, $Res Function(_$_ForecastInfoModel) _then)
+class __$$ForecastInfoModelImplCopyWithImpl<$Res>
+    extends _$ForecastInfoModelCopyWithImpl<$Res, _$ForecastInfoModelImpl>
+    implements _$$ForecastInfoModelImplCopyWith<$Res> {
+  __$$ForecastInfoModelImplCopyWithImpl(_$ForecastInfoModelImpl _value,
+      $Res Function(_$ForecastInfoModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_ForecastInfoModelCopyWithImpl<$Res>
     Object? icon = null,
     Object? temperature = null,
   }) {
-    return _then(_$_ForecastInfoModel(
+    return _then(_$ForecastInfoModelImpl(
       icon: null == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -95,20 +95,21 @@ class __$$_ForecastInfoModelCopyWithImpl<$Res>
       temperature: null == temperature
           ? _value.temperature
           : temperature // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_ForecastInfoModel implements _ForecastInfoModel {
-  const _$_ForecastInfoModel({required this.icon, required this.temperature});
+class _$ForecastInfoModelImpl implements _ForecastInfoModel {
+  const _$ForecastInfoModelImpl(
+      {required this.icon, required this.temperature});
 
   @override
   final String icon;
   @override
-  final String temperature;
+  final double temperature;
 
   @override
   String toString() {
@@ -119,7 +120,7 @@ class _$_ForecastInfoModel implements _ForecastInfoModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ForecastInfoModel &&
+            other is _$ForecastInfoModelImpl &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.temperature, temperature) ||
                 other.temperature == temperature));
@@ -131,22 +132,22 @@ class _$_ForecastInfoModel implements _ForecastInfoModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ForecastInfoModelCopyWith<_$_ForecastInfoModel> get copyWith =>
-      __$$_ForecastInfoModelCopyWithImpl<_$_ForecastInfoModel>(
+  _$$ForecastInfoModelImplCopyWith<_$ForecastInfoModelImpl> get copyWith =>
+      __$$ForecastInfoModelImplCopyWithImpl<_$ForecastInfoModelImpl>(
           this, _$identity);
 }
 
 abstract class _ForecastInfoModel implements ForecastInfoModel {
   const factory _ForecastInfoModel(
       {required final String icon,
-      required final String temperature}) = _$_ForecastInfoModel;
+      required final double temperature}) = _$ForecastInfoModelImpl;
 
   @override
   String get icon;
   @override
-  String get temperature;
+  double get temperature;
   @override
   @JsonKey(ignore: true)
-  _$$_ForecastInfoModelCopyWith<_$_ForecastInfoModel> get copyWith =>
+  _$$ForecastInfoModelImplCopyWith<_$ForecastInfoModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
