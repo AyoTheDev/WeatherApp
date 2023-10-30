@@ -57,22 +57,22 @@ class _$CitiesListModelCopyWithImpl<$Res, $Val extends CitiesListModel>
 }
 
 /// @nodoc
-abstract class _$$_CitiesListModelCopyWith<$Res>
+abstract class _$$CitiesListModelImplCopyWith<$Res>
     implements $CitiesListModelCopyWith<$Res> {
-  factory _$$_CitiesListModelCopyWith(
-          _$_CitiesListModel value, $Res Function(_$_CitiesListModel) then) =
-      __$$_CitiesListModelCopyWithImpl<$Res>;
+  factory _$$CitiesListModelImplCopyWith(_$CitiesListModelImpl value,
+          $Res Function(_$CitiesListModelImpl) then) =
+      __$$CitiesListModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<CityModel> cityModelList});
 }
 
 /// @nodoc
-class __$$_CitiesListModelCopyWithImpl<$Res>
-    extends _$CitiesListModelCopyWithImpl<$Res, _$_CitiesListModel>
-    implements _$$_CitiesListModelCopyWith<$Res> {
-  __$$_CitiesListModelCopyWithImpl(
-      _$_CitiesListModel _value, $Res Function(_$_CitiesListModel) _then)
+class __$$CitiesListModelImplCopyWithImpl<$Res>
+    extends _$CitiesListModelCopyWithImpl<$Res, _$CitiesListModelImpl>
+    implements _$$CitiesListModelImplCopyWith<$Res> {
+  __$$CitiesListModelImplCopyWithImpl(
+      _$CitiesListModelImpl _value, $Res Function(_$CitiesListModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -80,7 +80,7 @@ class __$$_CitiesListModelCopyWithImpl<$Res>
   $Res call({
     Object? cityModelList = null,
   }) {
-    return _then(_$_CitiesListModel(
+    return _then(_$CitiesListModelImpl(
       cityModelList: null == cityModelList
           ? _value._cityModelList
           : cityModelList // ignore: cast_nullable_to_non_nullable
@@ -91,8 +91,8 @@ class __$$_CitiesListModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CitiesListModel extends _CitiesListModel {
-  const _$_CitiesListModel({required final List<CityModel> cityModelList})
+class _$CitiesListModelImpl extends _CitiesListModel {
+  const _$CitiesListModelImpl({required final List<CityModel> cityModelList})
       : _cityModelList = cityModelList,
         super._();
 
@@ -113,7 +113,7 @@ class _$_CitiesListModel extends _CitiesListModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CitiesListModel &&
+            other is _$CitiesListModelImpl &&
             const DeepCollectionEquality()
                 .equals(other._cityModelList, _cityModelList));
   }
@@ -125,19 +125,20 @@ class _$_CitiesListModel extends _CitiesListModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CitiesListModelCopyWith<_$_CitiesListModel> get copyWith =>
-      __$$_CitiesListModelCopyWithImpl<_$_CitiesListModel>(this, _$identity);
+  _$$CitiesListModelImplCopyWith<_$CitiesListModelImpl> get copyWith =>
+      __$$CitiesListModelImplCopyWithImpl<_$CitiesListModelImpl>(
+          this, _$identity);
 }
 
 abstract class _CitiesListModel extends CitiesListModel {
   const factory _CitiesListModel(
-      {required final List<CityModel> cityModelList}) = _$_CitiesListModel;
+      {required final List<CityModel> cityModelList}) = _$CitiesListModelImpl;
   const _CitiesListModel._() : super._();
 
   @override
   List<CityModel> get cityModelList;
   @override
   @JsonKey(ignore: true)
-  _$$_CitiesListModelCopyWith<_$_CitiesListModel> get copyWith =>
+  _$$CitiesListModelImplCopyWith<_$CitiesListModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

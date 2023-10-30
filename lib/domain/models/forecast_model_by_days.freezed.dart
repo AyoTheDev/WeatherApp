@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ForecastModelByDays {
-  String get day => throw _privateConstructorUsedError;
+  String get date => throw _privateConstructorUsedError;
   ForecastInfoModel get forecastInfoModel => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
 
@@ -32,7 +32,7 @@ abstract class $ForecastModelByDaysCopyWith<$Res> {
       _$ForecastModelByDaysCopyWithImpl<$Res, ForecastModelByDays>;
   @useResult
   $Res call(
-      {String day, ForecastInfoModel forecastInfoModel, String description});
+      {String date, ForecastInfoModel forecastInfoModel, String description});
 
   $ForecastInfoModelCopyWith<$Res> get forecastInfoModel;
 }
@@ -50,14 +50,14 @@ class _$ForecastModelByDaysCopyWithImpl<$Res, $Val extends ForecastModelByDays>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? day = null,
+    Object? date = null,
     Object? forecastInfoModel = null,
     Object? description = null,
   }) {
     return _then(_value.copyWith(
-      day: null == day
-          ? _value.day
-          : day // ignore: cast_nullable_to_non_nullable
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
               as String,
       forecastInfoModel: null == forecastInfoModel
           ? _value.forecastInfoModel
@@ -80,39 +80,39 @@ class _$ForecastModelByDaysCopyWithImpl<$Res, $Val extends ForecastModelByDays>
 }
 
 /// @nodoc
-abstract class _$$_ForecastModelByDaysCopyWith<$Res>
+abstract class _$$ForecastModelByDaysImplCopyWith<$Res>
     implements $ForecastModelByDaysCopyWith<$Res> {
-  factory _$$_ForecastModelByDaysCopyWith(_$_ForecastModelByDays value,
-          $Res Function(_$_ForecastModelByDays) then) =
-      __$$_ForecastModelByDaysCopyWithImpl<$Res>;
+  factory _$$ForecastModelByDaysImplCopyWith(_$ForecastModelByDaysImpl value,
+          $Res Function(_$ForecastModelByDaysImpl) then) =
+      __$$ForecastModelByDaysImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String day, ForecastInfoModel forecastInfoModel, String description});
+      {String date, ForecastInfoModel forecastInfoModel, String description});
 
   @override
   $ForecastInfoModelCopyWith<$Res> get forecastInfoModel;
 }
 
 /// @nodoc
-class __$$_ForecastModelByDaysCopyWithImpl<$Res>
-    extends _$ForecastModelByDaysCopyWithImpl<$Res, _$_ForecastModelByDays>
-    implements _$$_ForecastModelByDaysCopyWith<$Res> {
-  __$$_ForecastModelByDaysCopyWithImpl(_$_ForecastModelByDays _value,
-      $Res Function(_$_ForecastModelByDays) _then)
+class __$$ForecastModelByDaysImplCopyWithImpl<$Res>
+    extends _$ForecastModelByDaysCopyWithImpl<$Res, _$ForecastModelByDaysImpl>
+    implements _$$ForecastModelByDaysImplCopyWith<$Res> {
+  __$$ForecastModelByDaysImplCopyWithImpl(_$ForecastModelByDaysImpl _value,
+      $Res Function(_$ForecastModelByDaysImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? day = null,
+    Object? date = null,
     Object? forecastInfoModel = null,
     Object? description = null,
   }) {
-    return _then(_$_ForecastModelByDays(
-      day: null == day
-          ? _value.day
-          : day // ignore: cast_nullable_to_non_nullable
+    return _then(_$ForecastModelByDaysImpl(
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
               as String,
       forecastInfoModel: null == forecastInfoModel
           ? _value.forecastInfoModel
@@ -128,15 +128,15 @@ class __$$_ForecastModelByDaysCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ForecastModelByDays extends _ForecastModelByDays {
-  const _$_ForecastModelByDays(
-      {required this.day,
+class _$ForecastModelByDaysImpl extends _ForecastModelByDays {
+  const _$ForecastModelByDaysImpl(
+      {required this.date,
       required this.forecastInfoModel,
       required this.description})
       : super._();
 
   @override
-  final String day;
+  final String date;
   @override
   final ForecastInfoModel forecastInfoModel;
   @override
@@ -144,15 +144,15 @@ class _$_ForecastModelByDays extends _ForecastModelByDays {
 
   @override
   String toString() {
-    return 'ForecastModelByDays(day: $day, forecastInfoModel: $forecastInfoModel, description: $description)';
+    return 'ForecastModelByDays(date: $date, forecastInfoModel: $forecastInfoModel, description: $description)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ForecastModelByDays &&
-            (identical(other.day, day) || other.day == day) &&
+            other is _$ForecastModelByDaysImpl &&
+            (identical(other.date, date) || other.date == date) &&
             (identical(other.forecastInfoModel, forecastInfoModel) ||
                 other.forecastInfoModel == forecastInfoModel) &&
             (identical(other.description, description) ||
@@ -161,31 +161,31 @@ class _$_ForecastModelByDays extends _ForecastModelByDays {
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, day, forecastInfoModel, description);
+      Object.hash(runtimeType, date, forecastInfoModel, description);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ForecastModelByDaysCopyWith<_$_ForecastModelByDays> get copyWith =>
-      __$$_ForecastModelByDaysCopyWithImpl<_$_ForecastModelByDays>(
+  _$$ForecastModelByDaysImplCopyWith<_$ForecastModelByDaysImpl> get copyWith =>
+      __$$ForecastModelByDaysImplCopyWithImpl<_$ForecastModelByDaysImpl>(
           this, _$identity);
 }
 
 abstract class _ForecastModelByDays extends ForecastModelByDays {
   const factory _ForecastModelByDays(
-      {required final String day,
+      {required final String date,
       required final ForecastInfoModel forecastInfoModel,
-      required final String description}) = _$_ForecastModelByDays;
+      required final String description}) = _$ForecastModelByDaysImpl;
   const _ForecastModelByDays._() : super._();
 
   @override
-  String get day;
+  String get date;
   @override
   ForecastInfoModel get forecastInfoModel;
   @override
   String get description;
   @override
   @JsonKey(ignore: true)
-  _$$_ForecastModelByDaysCopyWith<_$_ForecastModelByDays> get copyWith =>
+  _$$ForecastModelByDaysImplCopyWith<_$ForecastModelByDaysImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

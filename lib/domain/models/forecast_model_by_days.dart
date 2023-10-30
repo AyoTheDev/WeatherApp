@@ -6,7 +6,7 @@ part 'forecast_model_by_days.freezed.dart';
 @freezed
 class ForecastModelByDays with _$ForecastModelByDays {
   const factory ForecastModelByDays({
-    required String day,
+    required String date,
     required ForecastInfoModel forecastInfoModel,
     required String description,
   }) = _ForecastModelByDays;

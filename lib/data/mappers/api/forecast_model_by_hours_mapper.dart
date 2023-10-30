@@ -6,7 +6,7 @@ class ForecastModelByHoursMapper {
   static ForecastModelByHours transformForecastModelByHoursResponseToDomain(
           ForecastModelByHoursResponse responseByHours) =>
       ForecastModelByHours(
-        hour: responseByHours.time,
+        hour: responseByHours.date,
         forecastInfoModel:
             ForecastInfoResponseMapper.transformForecastInfoResponseToDomain(
           responseByHours.forecastInfo,

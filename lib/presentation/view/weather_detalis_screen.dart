@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_weather_app/domain/models/weather_model_wrapper.dart';
+import 'package:flutter_weather_app/domain/models/weather_details_model_wrapper.dart';
 import 'package:flutter_weather_app/presentation/constants/constants.dart';
 import 'package:flutter_weather_app/presentation/constants/strings.dart';
 import 'package:flutter_weather_app/presentation/theme_provider.dart';
-import 'package:flutter_weather_app/presentation/viewmodel/home_screen_viewmodel.dart';
+import 'package:flutter_weather_app/presentation/viewmodel/weather_details_viewmodel.dart';
 
 class WeatherDetailsScreen extends ConsumerStatefulWidget {
   final String cityName;
@@ -17,8 +17,8 @@ class WeatherDetailsScreen extends ConsumerStatefulWidget {
 }
 
 class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
-  final _homeViewModelProvider = homeViewModelStateNotifierProvider;
-  late HomeViewModel _viewModel;
+  final _homeViewModelProvider = weatherDetailsViewModelStateNotifierProvider;
+  late WeatherDetailsViewModel _viewModel;
 
   @override
   void initState() {
@@ -70,9 +70,11 @@ class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
   Widget _buildLoadingWidget() =>
       const Center(child: CircularProgressIndicator());
 
-  Widget _buildSuccessWidget(WeatherModelWrapper weatherModelWrapper) {
+  Widget _buildSuccessWidget(
+      WeatherDetailsModelWrapper weatherDetailsModelWrapper) {
     return SafeArea(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             margin:
@@ -85,11 +87,11 @@ class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
             ),
             padding: const EdgeInsets.all(dp_20),
             child: Column(
-              children: <Widget>[
+              children: [
                 Row(
                   children: [
                     Text(
-                      weatherModelWrapper.weatherModel.city,
+                      weatherDetailsModelWrapper.weatherModel.city,
                       style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -98,14 +100,14 @@ class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
                     const Spacer(),
                     IconButton(
                       onPressed: () async {
-                        weatherModelWrapper.weatherModel.isFavourite
+                        weatherDetailsModelWrapper.weatherModel.isFavourite
                             ? await _viewModel.deleteFavouriteCity(
-                                weatherModelWrapper.weatherModel)
+                                weatherDetailsModelWrapper.weatherModel)
                             : await _viewModel.addFavouriteCity(
-                                weatherModelWrapper.weatherModel);
+                                weatherDetailsModelWrapper.weatherModel);
                         _viewModel.getFavouriteCities();
                       },
-                      icon: weatherModelWrapper.weatherModel.isFavourite
+                      icon: weatherDetailsModelWrapper.weatherModel.isFavourite
                           ? const Icon(
                               Icons.favorite,
                               color: Colors.white,
@@ -118,24 +120,24 @@ class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
                   ],
                 ),
                 Image.network(
-                  weatherModelWrapper.weatherModel.icon,
+                  weatherDetailsModelWrapper.weatherModel.icon,
                   fit: BoxFit.cover,
                   width: dp_100,
                   height: dp_80,
                 ),
                 Text(
-                  "${weatherModelWrapper.weatherModel.temperatureC.toString()}${Strings.celsius}",
+                  "${weatherDetailsModelWrapper.weatherModel.temperatureC.toString()}${Strings.celsius}",
                   style: f52RWhiteRoboto,
                 ),
                 Row(
                   children: [
                     Text(
-                      weatherModelWrapper.weatherModel.description,
+                      weatherDetailsModelWrapper.weatherModel.description,
                       style: f16RWhiteRoboto,
                     ),
                     const Spacer(),
                     Text(
-                      "${Strings.windDirection} '${weatherModelWrapper.weatherModel.windDir}'",
+                      "${Strings.windDirection} '${weatherDetailsModelWrapper.weatherModel.windDir}'",
                       style: f16RWhiteRoboto,
                     ),
                   ],
@@ -143,7 +145,103 @@ class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
               ],
             ),
           ),
-          //TODO: add forecast API call for current city up to 10 hours
+          Padding(
+            padding: const EdgeInsets.all(dp_16),
+            child: Container(
+              padding: const EdgeInsets.all(dp_16),
+              decoration: BoxDecoration(
+                color: sageViolet,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(dp_30),
+                ),
+              ),
+              width: double.infinity,
+              height: dp_126,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: weatherDetailsModelWrapper
+                    .forecastModelWrapper.forecastModelByHours.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.all(dp_2),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          weatherDetailsModelWrapper.forecastModelWrapper
+                              .forecastModelByHours[index].hour,
+                          style: f16WhiteRoboto,
+                        ),
+                        Image.network(
+                          weatherDetailsModelWrapper
+                              .forecastModelWrapper
+                              .forecastModelByHours[index]
+                              .forecastInfoModel
+                              .icon,
+                          width: dp_50,
+                          height: dp_50,
+                          fit: BoxFit.cover,
+                        ),
+                        Text(
+                          "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByHours[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
+                          style: f16WhiteRoboto,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(dp_16),
+            child: Container(
+              padding: const EdgeInsets.all(dp_16),
+              decoration: BoxDecoration(
+                color: sageViolet,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(dp_30),
+                ),
+              ),
+              width: double.infinity,
+              height: dp_126,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: weatherDetailsModelWrapper
+                    .forecastModelWrapper.forecastModelByDays.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.all(dp_2),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          weatherDetailsModelWrapper.forecastModelWrapper
+                              .forecastModelByDays[index].date,
+                          style: f16WhiteRoboto,
+                        ),
+                        Image.network(
+                          weatherDetailsModelWrapper
+                              .forecastModelWrapper
+                              .forecastModelByDays[index]
+                              .forecastInfoModel
+                              .icon,
+                          width: dp_50,
+                          height: dp_50,
+                          fit: BoxFit.cover,
+                        ),
+                        Text(
+                          "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByDays[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
+                          style: f16WhiteRoboto,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          const Spacer()
         ],
       ),
     );
@@ -164,7 +262,7 @@ class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
           const SizedBox(height: dp_20), // Spacer between text and button
           ElevatedButton(
             onPressed: () {
-              _viewModel.fetchWeatherByCity(true, widget.cityName);
+              _viewModel.fetchWeatherByCity(widget.cityName);
             },
             child: const Text(Strings.refresh),
           ),

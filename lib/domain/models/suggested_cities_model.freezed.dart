@@ -64,22 +64,22 @@ class _$SuggestedCitiesModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_SuggestedCitiesModelCopyWith<$Res>
+abstract class _$$SuggestedCitiesModelImplCopyWith<$Res>
     implements $SuggestedCitiesModelCopyWith<$Res> {
-  factory _$$_SuggestedCitiesModelCopyWith(_$_SuggestedCitiesModel value,
-          $Res Function(_$_SuggestedCitiesModel) then) =
-      __$$_SuggestedCitiesModelCopyWithImpl<$Res>;
+  factory _$$SuggestedCitiesModelImplCopyWith(_$SuggestedCitiesModelImpl value,
+          $Res Function(_$SuggestedCitiesModelImpl) then) =
+      __$$SuggestedCitiesModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String citySuggestion, String country});
 }
 
 /// @nodoc
-class __$$_SuggestedCitiesModelCopyWithImpl<$Res>
-    extends _$SuggestedCitiesModelCopyWithImpl<$Res, _$_SuggestedCitiesModel>
-    implements _$$_SuggestedCitiesModelCopyWith<$Res> {
-  __$$_SuggestedCitiesModelCopyWithImpl(_$_SuggestedCitiesModel _value,
-      $Res Function(_$_SuggestedCitiesModel) _then)
+class __$$SuggestedCitiesModelImplCopyWithImpl<$Res>
+    extends _$SuggestedCitiesModelCopyWithImpl<$Res, _$SuggestedCitiesModelImpl>
+    implements _$$SuggestedCitiesModelImplCopyWith<$Res> {
+  __$$SuggestedCitiesModelImplCopyWithImpl(_$SuggestedCitiesModelImpl _value,
+      $Res Function(_$SuggestedCitiesModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -88,7 +88,7 @@ class __$$_SuggestedCitiesModelCopyWithImpl<$Res>
     Object? citySuggestion = null,
     Object? country = null,
   }) {
-    return _then(_$_SuggestedCitiesModel(
+    return _then(_$SuggestedCitiesModelImpl(
       citySuggestion: null == citySuggestion
           ? _value.citySuggestion
           : citySuggestion // ignore: cast_nullable_to_non_nullable
@@ -103,8 +103,8 @@ class __$$_SuggestedCitiesModelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SuggestedCitiesModel extends _SuggestedCitiesModel {
-  const _$_SuggestedCitiesModel(
+class _$SuggestedCitiesModelImpl extends _SuggestedCitiesModel {
+  const _$SuggestedCitiesModelImpl(
       {required this.citySuggestion, required this.country})
       : super._();
 
@@ -122,7 +122,7 @@ class _$_SuggestedCitiesModel extends _SuggestedCitiesModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SuggestedCitiesModel &&
+            other is _$SuggestedCitiesModelImpl &&
             (identical(other.citySuggestion, citySuggestion) ||
                 other.citySuggestion == citySuggestion) &&
             (identical(other.country, country) || other.country == country));
@@ -134,15 +134,16 @@ class _$_SuggestedCitiesModel extends _SuggestedCitiesModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SuggestedCitiesModelCopyWith<_$_SuggestedCitiesModel> get copyWith =>
-      __$$_SuggestedCitiesModelCopyWithImpl<_$_SuggestedCitiesModel>(
-          this, _$identity);
+  _$$SuggestedCitiesModelImplCopyWith<_$SuggestedCitiesModelImpl>
+      get copyWith =>
+          __$$SuggestedCitiesModelImplCopyWithImpl<_$SuggestedCitiesModelImpl>(
+              this, _$identity);
 }
 
 abstract class _SuggestedCitiesModel extends SuggestedCitiesModel {
   const factory _SuggestedCitiesModel(
       {required final String citySuggestion,
-      required final String country}) = _$_SuggestedCitiesModel;
+      required final String country}) = _$SuggestedCitiesModelImpl;
   const _SuggestedCitiesModel._() : super._();
 
   @override
@@ -151,6 +152,6 @@ abstract class _SuggestedCitiesModel extends SuggestedCitiesModel {
   String get country;
   @override
   @JsonKey(ignore: true)
-  _$$_SuggestedCitiesModelCopyWith<_$_SuggestedCitiesModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SuggestedCitiesModelImplCopyWith<_$SuggestedCitiesModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
