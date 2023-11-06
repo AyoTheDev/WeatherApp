@@ -23,9 +23,9 @@ TextStyle f16PW = const TextStyle(
   fontSize: fontSize16,
 );
 
-TextStyle f16WhiteRoboto = const TextStyle(
+TextStyle f12WhiteRoboto = const TextStyle(
   color: Colors.white,
-  fontSize: fontSize16,
+  fontSize: fontSize12,
   fontFamily: "Roboto",
 );
 
@@ -97,6 +97,7 @@ LinearGradient lightModePurpleGradient = const LinearGradient(
 
 const int durationWithMillis300 = 300;
 
+const double fontSize12 = 12;
 const double fontSize14 = 14;
 const double fontSize16 = 16;
 const double fontSize20 = 20;

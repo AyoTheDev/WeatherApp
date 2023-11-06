@@ -67,7 +67,7 @@ class _FavoriteCitiesScreenState extends ConsumerState<FavoriteCitiesScreen> {
                   _viewModel.deleteFavouriteCity(citiesListModel[index]);
                   ref
                       .read(homeViewModelStateNotifierProvider.notifier)
-                      .updateCurrentFavouriteState();
+                      .updateCurrentFavouriteState(false);
                 },
                 padding: const EdgeInsets.all(dp_0),
                 icon: const Icon(Icons.favorite),

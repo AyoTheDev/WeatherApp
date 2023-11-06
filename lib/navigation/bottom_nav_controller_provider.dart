@@ -8,7 +8,5 @@ final bottomNavControllerProvider = StateNotifierProvider.autoDispose<
 class BottomNavControllerNotifier extends StateNotifier<WeatherNavScreens> {
   BottomNavControllerNotifier() : super(WeatherNavScreens.home);
 
-  void setSelectedScreen(WeatherNavScreens screen) {
-    state = screen;
-  }
+  void setSelectedScreen(WeatherNavScreens screen) => state = screen;
 }
