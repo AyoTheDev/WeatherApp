@@ -24,13 +24,14 @@ class FetchWeatherProvider {
     bool isCurrent,
     String? city,
   ) async {
-      final WeatherModel weather = await _fetchWeatherByCityUseCase.execute(
-          input: WeatherRequestModel(isCurrent, city));
+    final WeatherModel weather = await _fetchWeatherByCityUseCase.execute(
+        input: WeatherRequestModel(isCurrent, city));
 
-      final String cityId = "${weather.city}_${weather.country}";
-      final cityModel = await _getCityByIdUseCase.execute(input: cityId);
-      final isCityFavorite = weather.country == cityModel?.country &&
-          weather.city == cityModel?.city;
-      return weather.copyWith(isFavourite: isCityFavorite);
+    final String cityId = "${weather.city}_${weather.country}";
+    final cityModel = await _getCityByIdUseCase.execute(input: cityId);
+    final isCityFavorite = weather.country == cityModel?.country &&
+        weather.city == cityModel?.city;
+
+    return weather.copyWith(isFavourite: isCityFavorite);
   }
 }

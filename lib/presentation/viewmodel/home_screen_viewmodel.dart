@@ -58,7 +58,6 @@ class HomeViewModel extends StateNotifier<State<WeatherModelWrapper>> {
 
   addFavouriteCity(WeatherModel weatherModel) async {
     try {
-      state = const State.loading();
       final bool favouriteCity = await _addFavouriteCityUseCase.execute(
         input: CityModel.fromWeatherModel(weatherModel),
       );
@@ -76,7 +75,6 @@ class HomeViewModel extends StateNotifier<State<WeatherModelWrapper>> {
 
   deleteFavouriteCity(WeatherModel weatherModel) async {
     try {
-      state = const State.loading();
       final bool isDeleted = await _deleteFavouriteCityUseCase.execute(
         input: CityModel.fromWeatherModel(weatherModel),
       );
@@ -92,15 +90,14 @@ class HomeViewModel extends StateNotifier<State<WeatherModelWrapper>> {
     }
   }
 
-  void updateCurrentFavouriteState() {
+  void updateCurrentFavouriteState(bool isFavourite) {
     final data = state.data;
-    if (data != null) {
-      state = State.success(
-        WeatherModelWrapper(
-          weatherModel: data.weatherModel.copyWith(isFavourite: false),
-        ),
-      );
-    }
+    if (data == null) return;
+    state = State.success(
+      WeatherModelWrapper(
+        weatherModel: data.weatherModel.copyWith(isFavourite: isFavourite),
+      ),
+    );
   }
 
   void getFavouriteCities() {

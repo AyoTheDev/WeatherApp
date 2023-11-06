@@ -1,12 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_weather_app/domain/base/base_usecase.dart';
 import 'package:flutter_weather_app/domain/domain_module.dart';
+import 'package:flutter_weather_app/domain/models/city_model.dart';
 import 'package:flutter_weather_app/domain/models/forecast_model_wrapper.dart';
 import 'package:flutter_weather_app/domain/models/weather_details_model_wrapper.dart';
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
 import 'package:flutter_weather_app/presentation/state/state.dart';
 import 'package:flutter_weather_app/presentation/viewmodel/fetch_weather_provider.dart';
 import 'package:flutter_weather_app/presentation/viewmodel/home_screen_viewmodel.dart';
+import 'package:intl/intl.dart';
 
 final weatherDetailsViewModelStateNotifierProvider = StateNotifierProvider
     .autoDispose<WeatherDetailsViewModel, State<WeatherDetailsModelWrapper>>(
@@ -15,6 +17,8 @@ final weatherDetailsViewModelStateNotifierProvider = StateNotifierProvider
     ref.read(homeViewModelStateNotifierProvider.notifier),
     ref.watch(cityNameProvider),
     ref.watch(fetchWeatherProvider),
+    ref.watch(addFavouriteWeatherByCityUseCaseProvider),
+    ref.watch(deleteFavouriteWeatherByCityUseCaseProvider),
   ),
 );
 
@@ -27,6 +31,9 @@ class WeatherDetailsViewModel
   final BaseUseCase<String, ForecastModelWrapper>
       _fetchForecastWeatherByCityUseCase;
 
+  final BaseUseCase<CityModel, bool> _addFavouriteCityUseCase;
+  final BaseUseCase<CityModel, bool> _deleteFavouriteCityUseCase;
+
   final String _cityName;
 
   WeatherDetailsViewModel(
@@ -34,6 +41,8 @@ class WeatherDetailsViewModel
     this._homeViewModel,
     this._cityName,
     this._fetchWeatherProvider,
+    this._addFavouriteCityUseCase,
+    this._deleteFavouriteCityUseCase,
   ) : super(const State.init()) {
     fetchWeatherByCity(_cityName);
   }
@@ -59,22 +68,27 @@ class WeatherDetailsViewModel
         })
       ]);
 
-      final modifiedForecastModelByHours = forecastModelWrapper.forecastModelByHours.map((e) {
+      final modifiedForecastModelByHours =
+          forecastModelWrapper.forecastModelByHours.map((e) {
         DateTime dateTime = DateTime.parse(e.hour);
         int hour = dateTime.hour;
         int second = dateTime.second;
         return e.copyWith(hour: "$hour:$second");
       }).toList();
 
-      final modifiedForecastModelByDays = forecastModelWrapper.forecastModelByDays.map((e) {
+      final modifiedForecastModelByDays =
+          forecastModelWrapper.forecastModelByDays.map((e) {
         DateTime dateTime = DateTime.parse(e.date);
-        int day = dateTime.day;
-        return e.copyWith(date: day.toString());
+        String formattedDate = DateFormat('EEEE').format(dateTime);
+        return e.copyWith(date: formattedDate);
       }).toList();
+
       state = State.success(
         WeatherDetailsModelWrapper(
           weatherModel: weatherModel,
-          forecastModelWrapper: ForecastModelWrapper(forecastModelByDays: modifiedForecastModelByDays, forecastModelByHours: modifiedForecastModelByHours),
+          forecastModelWrapper: ForecastModelWrapper(
+              forecastModelByDays: modifiedForecastModelByDays,
+              forecastModelByHours: modifiedForecastModelByHours),
         ),
       );
     } on Exception catch (e) {
@@ -82,15 +96,38 @@ class WeatherDetailsViewModel
     }
   }
 
-  addFavouriteCity(WeatherModel weatherModel) async =>
-      await _homeViewModel.addFavouriteCity(weatherModel);
-
-  deleteFavouriteCity(WeatherModel weatherModel) async =>
-      await _homeViewModel.deleteFavouriteCity(weatherModel);
-
-  void updateCurrentFavouriteState() {
-    _homeViewModel.updateCurrentFavouriteState();
+  addFavouriteCity(WeatherModel weatherModel) async {
+    try {
+      final bool favouriteCity = await _addFavouriteCityUseCase.execute(
+        input: CityModel.fromWeatherModel(weatherModel),
+      );
+      state = State.success(state.data!.copyWith(
+          weatherModel: weatherModel.copyWith(
+        isFavourite: favouriteCity,
+      )));
+      updateCurrentFavouriteState(true);
+    } on Exception catch (e) {
+      state = State.error(e);
+    }
   }
+
+  deleteFavouriteCity(WeatherModel weatherModel) async {
+    try {
+      final bool isDeleted = await _deleteFavouriteCityUseCase.execute(
+        input: CityModel.fromWeatherModel(weatherModel),
+      );
+      state = State.success(state.data!.copyWith(
+          weatherModel: weatherModel.copyWith(
+        isFavourite: !isDeleted,
+      )));
+      updateCurrentFavouriteState(false);
+    } on Exception catch (e) {
+      state = State.error(e);
+    }
+  }
+
+  void updateCurrentFavouriteState(bool isFavourite) =>
+      _homeViewModel.updateCurrentFavouriteState(isFavourite);
 
   void getFavouriteCities() => _homeViewModel.getFavouriteCities();
 }

@@ -11,7 +11,7 @@ Follow these steps to get started with the project:
 1. **Clone the Repository:**
 
    ```bash
-   git clone git@bitbucket.org:bitthink/flutter_weather_app.git
+   git clone git@github.com:YesayanHarutyun/flutter_weather_app.git
    cd flutter-weather-app
    ```
 
@@ -92,4 +92,4 @@ Here is a list of dependencies used in this project:
 
 ## Support and Issues
 
-If you encounter any issues or have questions regarding this project, feel free to open an issue in the Bitbucket repository, and we'll be happy to assist you.
+If you encounter any issues or have questions regarding this project, feel free to open an issue in the Github repository, and we'll be happy to assist you.

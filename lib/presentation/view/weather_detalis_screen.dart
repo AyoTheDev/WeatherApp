@@ -170,7 +170,7 @@ class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
                         Text(
                           weatherDetailsModelWrapper.forecastModelWrapper
                               .forecastModelByHours[index].hour,
-                          style: f16WhiteRoboto,
+                          style: f12WhiteRoboto,
                         ),
                         Image.network(
                           weatherDetailsModelWrapper
@@ -184,7 +184,7 @@ class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
                         ),
                         Text(
                           "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByHours[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
-                          style: f16WhiteRoboto,
+                          style: f12WhiteRoboto,
                         ),
                       ],
                     ),
@@ -193,52 +193,76 @@ class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
               ),
             ),
           ),
-          Padding(
+          Container(
             padding: const EdgeInsets.all(dp_16),
-            child: Container(
-              padding: const EdgeInsets.all(dp_16),
-              decoration: BoxDecoration(
-                color: sageViolet,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(dp_30),
-                ),
+            decoration: const BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.all(
+                Radius.circular(dp_30),
               ),
-              width: double.infinity,
-              height: dp_126,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: weatherDetailsModelWrapper
-                    .forecastModelWrapper.forecastModelByDays.length,
-                itemBuilder: (context, index) {
-                  return Container(
+            ),
+            width: double.infinity,
+            height: 220,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: weatherDetailsModelWrapper
+                  .forecastModelWrapper.forecastModelByDays.length,
+              itemBuilder: (context, index) {
+                return Container(
+                    width: 90,
                     margin: const EdgeInsets.all(dp_2),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          weatherDetailsModelWrapper.forecastModelWrapper
-                              .forecastModelByDays[index].date,
-                          style: f16WhiteRoboto,
-                        ),
-                        Image.network(
-                          weatherDetailsModelWrapper
-                              .forecastModelWrapper
-                              .forecastModelByDays[index]
-                              .forecastInfoModel
-                              .icon,
-                          width: dp_50,
-                          height: dp_50,
-                          fit: BoxFit.cover,
-                        ),
-                        Text(
-                          "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByDays[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
-                          style: f16WhiteRoboto,
-                        ),
-                      ],
+                    decoration: BoxDecoration(
+                      color: sageViolet,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(14),
+                      ),
                     ),
-                  );
-                },
-              ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(18),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            maxLines: 5,
+                            overflow: TextOverflow.ellipsis,
+                            weatherDetailsModelWrapper.forecastModelWrapper
+                                .forecastModelByDays[index].date,
+                            style: f12WhiteRoboto,
+                            textAlign: TextAlign.center,
+                          ),
+                          Image.network(
+                            weatherDetailsModelWrapper
+                                .forecastModelWrapper
+                                .forecastModelByDays[index]
+                                .forecastInfoModel
+                                .icon,
+                            width: dp_50,
+                            height: dp_50,
+                            fit: BoxFit.cover,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: dp_10),
+                            child: Text(
+                              "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByDays[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
+                              style: f12WhiteRoboto,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: dp_10),
+                            child: Text(
+                              maxLines: 5,
+                              overflow: TextOverflow.ellipsis,
+                              weatherDetailsModelWrapper.forecastModelWrapper
+                                  .forecastModelByDays[index].description,
+                              style: f12WhiteRoboto,
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        ],
+                      ),
+                    ));
+              },
             ),
           ),
           const Spacer()
