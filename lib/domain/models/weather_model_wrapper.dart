@@ -8,8 +8,6 @@ part 'weather_model_wrapper.freezed.dart';
 class WeatherModelWrapper with _$WeatherModelWrapper {
   const factory WeatherModelWrapper({
     required WeatherModel weatherModel,
-    SuggestedCitiesModel? suggestedCitiesModel,
-    List<String>? suggestions,
   }) = _WeatherModelWrapper;
 
   const WeatherModelWrapper._();

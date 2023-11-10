@@ -4,26 +4,23 @@ import 'package:flutter_weather_app/presentation/constants/constants.dart';
 import 'package:flutter_weather_app/presentation/constants/strings.dart';
 import 'package:flutter_weather_app/presentation/theme_provider.dart';
 
-class SettingsScreen extends ConsumerStatefulWidget {
+//TODO: add theme state to shared prefs
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
-  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-//TODO: add theme state to shared prefs and read from there every time when opening app
-class _SettingsScreenState extends ConsumerState<SettingsScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(appThemeProvider);
     return ListView(
-      children: <Widget>[
+      children: [
         ListTile(
-          title: Text(Strings.changeTheme, style: styleOnlyWhiteColor,),
+          title: Text(
+            Strings.changeTheme,
+            style: styleOnlyWhiteColor,
+          ),
           trailing: Switch(
-            onChanged: (value) {
-              ref.read(appThemeProvider.notifier).state = value;
-            },
+            onChanged: (value) =>
+                ref.read(appThemeProvider.notifier).state = value,
             value: isDarkMode,
           ),
         ),

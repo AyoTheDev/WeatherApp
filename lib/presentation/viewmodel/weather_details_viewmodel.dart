@@ -70,10 +70,9 @@ class WeatherDetailsViewModel
 
       final modifiedForecastModelByHours =
           forecastModelWrapper.forecastModelByHours.map((e) {
-        DateTime dateTime = DateTime.parse(e.hour);
-        int hour = dateTime.hour;
-        int second = dateTime.second;
-        return e.copyWith(hour: "$hour:$second");
+        DateTime dateTime = DateTime.parse(e.date);
+        String formattedDate = DateFormat('HH:mm').format(dateTime);
+        return e.copyWith(date: formattedDate);
       }).toList();
 
       final modifiedForecastModelByDays =

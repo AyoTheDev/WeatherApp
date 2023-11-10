@@ -293,21 +293,21 @@ void main() {
         ],
         forecastModelByHours: [
           ForecastModelByHours(
-            hour: "2022-01-01 00:00",
+            date: "2022-01-01 00:00",
             forecastInfoModel: ForecastInfoModel(
               icon: "https://icon_url",
               temperature: 16.1,
             ),
           ),
           ForecastModelByHours(
-            hour: "2022-01-01 01:00",
+            date: "2022-01-01 01:00",
             forecastInfoModel: ForecastInfoModel(
               icon: "https://icon_url",
               temperature: 17.2,
             ),
           ),
           ForecastModelByHours(
-            hour: "2022-01-01 02:00",
+            date: "2022-01-01 02:00",
             forecastInfoModel: ForecastInfoModel(
               icon: "https://icon_url",
               temperature: 18.3,
