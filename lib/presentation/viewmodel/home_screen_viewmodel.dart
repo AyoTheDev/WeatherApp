@@ -101,6 +101,6 @@ class HomeViewModel extends StateNotifier<State<WeatherModelWrapper>> {
   }
 
   void getFavouriteCities() {
-    _favouriteCitiesViewModel.getFavouriteCitiesFromDB();
+    _favouriteCitiesViewModel.loadFavouriteCities();
   }
 }

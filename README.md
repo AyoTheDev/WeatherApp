@@ -1,8 +1,8 @@
-# Flutter Weather Application README
+# Flutter Weather Application
 
 ## Overview
 
-This Flutter weather application is designed to provide you with a quick and easy way to access weather information from [weatherapi.com](https://weatherapi.com). This README will guide you through the process of obtaining an API key, setting it in the environment file, and understanding the libraries and patterns used in the project.
+This Flutter weather application is designed to provide you with a quick and easy way to access weather information from [weatherapi.com](https://weatherapi.com). This readme will guide you through the process of obtaining an API key, setting it in the environment file, and understanding the libraries and patterns used in the project.
 
 ## Getting Started
 

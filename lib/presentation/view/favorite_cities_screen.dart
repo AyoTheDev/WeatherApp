@@ -108,7 +108,7 @@ class FavoriteCitiesScreen extends ConsumerWidget {
         const SizedBox(height: dp_20), // Spacer between text and button
         ElevatedButton(
           onPressed: () {
-            viewModel.getFavouriteCitiesFromDB();
+            viewModel.loadFavouriteCities();
           },
           child: const Text(Strings.refresh),
         ),

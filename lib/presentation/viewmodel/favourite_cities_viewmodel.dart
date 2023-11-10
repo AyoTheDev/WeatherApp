@@ -4,8 +4,6 @@ import 'package:flutter_weather_app/domain/domain_module.dart';
 import 'package:flutter_weather_app/domain/models/cities_list_model.dart';
 import 'package:flutter_weather_app/domain/models/city_model.dart';
 import 'package:flutter_weather_app/domain/models/empty_input.dart';
-import 'package:flutter_weather_app/domain/models/weather_model.dart';
-import 'package:flutter_weather_app/domain/usecase/fetch_weather_by_city_usecase.dart';
 import 'package:flutter_weather_app/presentation/state/state.dart';
 
 final favouriteCitiesViewModelStateNotifierProvider = StateNotifierProvider
@@ -13,25 +11,21 @@ final favouriteCitiesViewModelStateNotifierProvider = StateNotifierProvider
   (ref) => FavouriteCitiesViewModel(
     ref.watch(deleteFavouriteWeatherByCityUseCaseProvider),
     ref.watch(getFavouriteWeatherByCityUseCaseProvider),
-    ref.watch(fetchWeatherByCityUseCaseProvider),
   ),
 );
 
 class FavouriteCitiesViewModel extends StateNotifier<State<CitiesListModel>> {
   final BaseUseCase<CityModel, bool> _deleteFavouriteCityUseCase;
   final BaseUseCase<EmptyInput, CitiesListModel> _getFavouriteCitiesListUseCase;
-  final BaseUseCase<WeatherRequestModel, WeatherModel>
-      _fetchWeatherByCityUseCase;
 
   FavouriteCitiesViewModel(
     this._deleteFavouriteCityUseCase,
     this._getFavouriteCitiesListUseCase,
-    this._fetchWeatherByCityUseCase,
   ) : super(const State.init()) {
-    getFavouriteCitiesFromDB();
+    loadFavouriteCities();
   }
 
-  getFavouriteCitiesFromDB() async {
+  loadFavouriteCities() async {
     try {
       state = const State.loading();
       final favouriteCitiesList = await _getFavouriteCitiesListUseCase.execute(
@@ -40,11 +34,6 @@ class FavouriteCitiesViewModel extends StateNotifier<State<CitiesListModel>> {
     } on Exception catch (e) {
       state = State.error(e);
     }
-  }
-
-  fetchWeatherByCity(String cityName) {
-    _fetchWeatherByCityUseCase.execute(
-        input: WeatherRequestModel(false, cityName));
   }
 
   deleteFavouriteCity(CityModel cityModel) async {
