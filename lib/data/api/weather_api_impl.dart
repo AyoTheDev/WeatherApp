@@ -12,10 +12,14 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 const String baseURL = 'https://api.weatherapi.com/v1/';
+//todo handle other common HTTP status codes (404, 500, etc)
 const int responseCode200 = 200;
 
 class WeatherApiImpl implements WeatherApi {
-  final dio = Dio();
+
+  Dio dio;
+
+  WeatherApiImpl(this.dio);
 
   @override
   Future<Weather> fetchWeatherByCity(bool isCurrent, String? cityName) async {

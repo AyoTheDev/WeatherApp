@@ -89,7 +89,3 @@ Here is a list of dependencies used in this project:
 - `flutter_localizations: sdk: flutter`
 - `mockito: ^5.3.2`
 - `flutter_test: sdk: flutter`
-
-## Support and Issues
-
-If you encounter any issues or have questions regarding this project, feel free to open an issue in the Github repository, and we'll be happy to assist you.
