@@ -86,7 +86,8 @@ class WeatherApiImpl implements WeatherApi {
           forecastByDays.add(ForecastModelByDaysResponse.fromMap(forecastDay));
           for (Map<String, dynamic> forecastHour in forecastDay["hour"]) {
             if (forecastByHours.length == 24) break;
-            int timeMillis = forecastHour["time_epoch"] * 1000;
+            int timeMillis =
+                DateTime.parse(forecastHour["time"]).millisecondsSinceEpoch;
             if (timeMillis >=
                 DateTime.now().roundDown().millisecondsSinceEpoch) {
               forecastByHours

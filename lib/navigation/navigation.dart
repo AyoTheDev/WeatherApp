@@ -9,25 +9,18 @@ import 'package:flutter_weather_app/presentation/view/favorite_cities_screen.dar
 import 'package:flutter_weather_app/presentation/view/home_screen.dart';
 import 'package:flutter_weather_app/presentation/view/settings_screen.dart';
 
-class MainNavigator extends ConsumerStatefulWidget {
-  const MainNavigator({super.key});
+class MainNavigator extends ConsumerWidget {
+  MainNavigator({super.key});
 
-  @override
-  ConsumerState<MainNavigator> createState() => _MainNavigatorState();
-}
-
-class _MainNavigatorState extends ConsumerState<MainNavigator> {
-  late WeatherNavScreens _selectedScreen;
-
-  final List<Widget> _screens = const [
+  final List<Widget> _screens = [
     HomeScreen(),
     FavoriteCitiesScreen(),
-    SettingsScreen()
+    SettingsScreen(),
   ];
 
   @override
-  Widget build(BuildContext context) {
-    _selectedScreen = ref.watch(bottomNavControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final WeatherNavScreens selectedScreen = ref.watch(bottomNavControllerProvider);
     final isDarkMode = ref.watch(appThemeProvider);
     return Scaffold(
         extendBody: true,
@@ -36,7 +29,7 @@ class _MainNavigatorState extends ConsumerState<MainNavigator> {
           backgroundColor: Colors.transparent,
           elevation: dp_0,
           title: Text(
-            _selectedScreen.title,
+            selectedScreen.title,
             style: const TextStyle(
               color: Colors.blueAccent,
             ),
@@ -44,7 +37,7 @@ class _MainNavigatorState extends ConsumerState<MainNavigator> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           elevation: dp_0,
-          currentIndex: _selectedScreen.index,
+          currentIndex: selectedScreen.index,
           items: WeatherNavScreens.values
               .map(
                 (screen) => BottomNavigationBarItem(
@@ -59,11 +52,9 @@ class _MainNavigatorState extends ConsumerState<MainNavigator> {
               )
               .toList(),
           onTap: (i) {
-            setState(() {
-              ref
-                  .read(bottomNavControllerProvider.notifier)
-                  .setSelectedScreen(WeatherNavScreens.values[i]);
-            });
+            ref
+                .read(bottomNavControllerProvider.notifier)
+                .setSelectedScreen(WeatherNavScreens.values[i]);
           },
         ),
         body: Container(
@@ -75,7 +66,7 @@ class _MainNavigatorState extends ConsumerState<MainNavigator> {
                   gradient: lightModePurpleGradient,
                 ),
           child: IndexedStack(
-            index: _selectedScreen.index,
+            index: selectedScreen.index,
             children: _screens,
           ),
         ));

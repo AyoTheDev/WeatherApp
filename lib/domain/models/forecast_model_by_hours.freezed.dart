@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ForecastModelByHours {
-  String get hour => throw _privateConstructorUsedError;
+  String get date => throw _privateConstructorUsedError;
   ForecastInfoModel get forecastInfoModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +30,7 @@ abstract class $ForecastModelByHoursCopyWith<$Res> {
           $Res Function(ForecastModelByHours) then) =
       _$ForecastModelByHoursCopyWithImpl<$Res, ForecastModelByHours>;
   @useResult
-  $Res call({String hour, ForecastInfoModel forecastInfoModel});
+  $Res call({String date, ForecastInfoModel forecastInfoModel});
 
   $ForecastInfoModelCopyWith<$Res> get forecastInfoModel;
 }
@@ -49,13 +49,13 @@ class _$ForecastModelByHoursCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hour = null,
+    Object? date = null,
     Object? forecastInfoModel = null,
   }) {
     return _then(_value.copyWith(
-      hour: null == hour
-          ? _value.hour
-          : hour // ignore: cast_nullable_to_non_nullable
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
               as String,
       forecastInfoModel: null == forecastInfoModel
           ? _value.forecastInfoModel
@@ -81,7 +81,7 @@ abstract class _$$ForecastModelByHoursImplCopyWith<$Res>
       __$$ForecastModelByHoursImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String hour, ForecastInfoModel forecastInfoModel});
+  $Res call({String date, ForecastInfoModel forecastInfoModel});
 
   @override
   $ForecastInfoModelCopyWith<$Res> get forecastInfoModel;
@@ -98,13 +98,13 @@ class __$$ForecastModelByHoursImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hour = null,
+    Object? date = null,
     Object? forecastInfoModel = null,
   }) {
     return _then(_$ForecastModelByHoursImpl(
-      hour: null == hour
-          ? _value.hour
-          : hour // ignore: cast_nullable_to_non_nullable
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
               as String,
       forecastInfoModel: null == forecastInfoModel
           ? _value.forecastInfoModel
@@ -118,17 +118,17 @@ class __$$ForecastModelByHoursImplCopyWithImpl<$Res>
 
 class _$ForecastModelByHoursImpl extends _ForecastModelByHours {
   const _$ForecastModelByHoursImpl(
-      {required this.hour, required this.forecastInfoModel})
+      {required this.date, required this.forecastInfoModel})
       : super._();
 
   @override
-  final String hour;
+  final String date;
   @override
   final ForecastInfoModel forecastInfoModel;
 
   @override
   String toString() {
-    return 'ForecastModelByHours(hour: $hour, forecastInfoModel: $forecastInfoModel)';
+    return 'ForecastModelByHours(date: $date, forecastInfoModel: $forecastInfoModel)';
   }
 
   @override
@@ -136,13 +136,13 @@ class _$ForecastModelByHoursImpl extends _ForecastModelByHours {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ForecastModelByHoursImpl &&
-            (identical(other.hour, hour) || other.hour == hour) &&
+            (identical(other.date, date) || other.date == date) &&
             (identical(other.forecastInfoModel, forecastInfoModel) ||
                 other.forecastInfoModel == forecastInfoModel));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, hour, forecastInfoModel);
+  int get hashCode => Object.hash(runtimeType, date, forecastInfoModel);
 
   @JsonKey(ignore: true)
   @override
@@ -155,13 +155,13 @@ class _$ForecastModelByHoursImpl extends _ForecastModelByHours {
 
 abstract class _ForecastModelByHours extends ForecastModelByHours {
   const factory _ForecastModelByHours(
-          {required final String hour,
+          {required final String date,
           required final ForecastInfoModel forecastInfoModel}) =
       _$ForecastModelByHoursImpl;
   const _ForecastModelByHours._() : super._();
 
   @override
-  String get hour;
+  String get date;
   @override
   ForecastInfoModel get forecastInfoModel;
   @override

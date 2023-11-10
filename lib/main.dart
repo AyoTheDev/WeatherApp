@@ -6,6 +6,7 @@ import 'package:flutter_weather_app/presentation/theme_provider.dart';
 import 'navigation/navigation.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -22,7 +23,7 @@ class MyApp extends ConsumerWidget {
         context,
         ref.watch(appThemeProvider),
       ),
-      home: const MainNavigator(),
+      home: MainNavigator(),
     );
   }
 }

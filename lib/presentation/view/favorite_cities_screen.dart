@@ -8,63 +8,45 @@ import 'package:flutter_weather_app/presentation/constants/strings.dart';
 import 'package:flutter_weather_app/presentation/viewmodel/favourite_cities_viewmodel.dart';
 import 'package:flutter_weather_app/presentation/viewmodel/home_screen_viewmodel.dart';
 
-class FavoriteCitiesScreen extends ConsumerStatefulWidget {
-  const FavoriteCitiesScreen({super.key});
+class FavoriteCitiesScreen extends ConsumerWidget {
+  FavoriteCitiesScreen({super.key});
 
-  @override
-  ConsumerState<FavoriteCitiesScreen> createState() =>
-      _FavoriteCitiesScreenState();
-}
-
-class _FavoriteCitiesScreenState extends ConsumerState<FavoriteCitiesScreen> {
   final _favouriteCitiesViewModelProvider =
       favouriteCitiesViewModelStateNotifierProvider;
-  late FavouriteCitiesViewModel _viewModel;
 
   @override
-  void initState() {
-    super.initState();
-    setState(() {
-      _viewModel = ref.read(_favouriteCitiesViewModelProvider.notifier);
-    });
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ref.watch(_favouriteCitiesViewModelProvider).maybeWhen(
+        success: (data) => data.length != 0
+            ? _buildSuccessWidget(data, ref)
+            : const Center(
+                child: Text(
+                Strings.thereIsNoFavouriteCity,
+                style: TextStyle(fontSize: dp_20),
+              )),
+        error: (_) => _buildErrorWidget(ref),
+        loading: () => const CircularProgressIndicator(),
+        orElse: () => const Center(
+                child: Text(
+              Strings.thereIsNoFavouriteCity,
+              style: TextStyle(fontSize: dp_20),
+            )));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, _) {
-        var data = ref.watch(_favouriteCitiesViewModelProvider).data;
-        return ref.watch(_favouriteCitiesViewModelProvider).maybeWhen(
-            success: (content) => data?.length != 0
-                ? _buildSuccessWidget(data!)
-                : const Center(
-                    child: Text(
-                    Strings.thereIsNoFavouriteCity,
-                    style: TextStyle(fontSize: dp_20),
-                  )),
-            error: (_) => _buildErrorWidget(),
-            loading: () => const CircularProgressIndicator(),
-            orElse: () => const Center(
-                    child: Text(
-                  Strings.thereIsNoFavouriteCity,
-                  style: TextStyle(fontSize: dp_20),
-                )));
-      },
-    );
-  }
-
-  Widget _buildSuccessWidget(CitiesListModel citiesListModel) {
+  Widget _buildSuccessWidget(CitiesListModel citiesListModel, WidgetRef ref) {
+    final viewModel = ref.read(_favouriteCitiesViewModelProvider.notifier);
     return ListView.separated(
       itemCount: citiesListModel.length,
       itemBuilder: (context, index) {
         return ListTile(
           title: Row(
             children: [
-              Text(citiesListModel.cityModelList[index].city, style: styleOnlyWhiteColor),
+              Text(citiesListModel.cityModelList[index].city,
+                  style: styleOnlyWhiteColor),
               const Spacer(),
               IconButton(
                 onPressed: () {
-                  _viewModel.deleteFavouriteCity(citiesListModel[index]);
+                  viewModel.deleteFavouriteCity(citiesListModel[index]);
                   ref
                       .read(homeViewModelStateNotifierProvider.notifier)
                       .updateCurrentFavouriteState(false);
@@ -77,21 +59,22 @@ class _FavoriteCitiesScreenState extends ConsumerState<FavoriteCitiesScreen> {
             ],
           ),
           onTap: () {
-            fetchSelectedCityWeather(citiesListModel.cityModelList[index].city);
+            fetchSelectedCityWeather(
+                citiesListModel.cityModelList[index].city, ref);
           },
         );
       },
       separatorBuilder: (context, index) {
         return const Divider(
           color: Colors.white,
-          indent: 15,
-          endIndent: 15,
+          indent: dp_15,
+          endIndent: dp_15,
         );
       },
     );
   }
 
-  void fetchSelectedCityWeather(String city) {
+  void fetchSelectedCityWeather(String city, WidgetRef ref) {
     ref
         .read(
           bottomNavControllerProvider.notifier,
@@ -109,7 +92,8 @@ class _FavoriteCitiesScreenState extends ConsumerState<FavoriteCitiesScreen> {
         );
   }
 
-  Widget _buildErrorWidget() {
+  Widget _buildErrorWidget(WidgetRef ref) {
+    final viewModel = ref.read(_favouriteCitiesViewModelProvider.notifier);
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +108,7 @@ class _FavoriteCitiesScreenState extends ConsumerState<FavoriteCitiesScreen> {
         const SizedBox(height: dp_20), // Spacer between text and button
         ElevatedButton(
           onPressed: () {
-            _viewModel.getFavouriteCitiesFromDB();
+            viewModel.getFavouriteCitiesFromDB();
           },
           child: const Text(Strings.refresh),
         ),

@@ -4,10 +4,12 @@ import 'package:flutter_weather_app/data/models/response/weather_model_response.
 
 abstract class WeatherApi {
   Future<Weather> fetchWeatherByCity(bool isCurrent, String? cityName);
+
   Future<List<SuggestedCitiesResponse>> fetchAutoCompleteSearchData(
-      String citySuggestion,
-      );
+    String citySuggestion,
+  );
+
   Future<ForecastModelResponseWrapper> fetchForecastData(
-      String cityName,
-      );
+    String cityName,
+  );
 }

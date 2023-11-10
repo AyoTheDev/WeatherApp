@@ -6,30 +6,16 @@ import 'package:flutter_weather_app/presentation/constants/strings.dart';
 import 'package:flutter_weather_app/presentation/theme_provider.dart';
 import 'package:flutter_weather_app/presentation/viewmodel/weather_details_viewmodel.dart';
 
-class WeatherDetailsScreen extends ConsumerStatefulWidget {
+class WeatherDetailsScreen extends ConsumerWidget {
   final String cityName;
 
-  const WeatherDetailsScreen({required this.cityName, super.key});
+  WeatherDetailsScreen({required this.cityName, super.key});
+
+  final _weatherDetailsViewModelProvider =
+      weatherDetailsViewModelStateNotifierProvider;
 
   @override
-  ConsumerState<WeatherDetailsScreen> createState() =>
-      _WeatherDetailsScreenState();
-}
-
-class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
-  final _homeViewModelProvider = weatherDetailsViewModelStateNotifierProvider;
-  late WeatherDetailsViewModel _viewModel;
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      _viewModel = ref.read(_homeViewModelProvider.notifier);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(appThemeProvider);
     return Scaffold(
         extendBody: true,
@@ -49,229 +35,249 @@ class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
               : BoxDecoration(
                   gradient: lightModePurpleGradient,
                 ),
-          child: buildConsumer(),
+          child: _buildWidgetState(context, isDarkMode, ref),
         ));
   }
 
-  Widget buildConsumer() {
-    return Consumer(
-      builder: (context, ref, _) {
-        var data = ref.watch(_homeViewModelProvider).data;
-        return ref.watch(_homeViewModelProvider).maybeWhen(
-              loading: () => _buildLoadingWidget(),
-              success: (content) => _buildSuccessWidget(data!),
-              error: (_) => _buildErrorWidget(),
-              orElse: () => _buildLoadingWidget(),
-            );
-      },
-    );
+  Widget _buildWidgetState(
+    BuildContext context,
+    bool isDarkMode,
+    WidgetRef ref,
+  ) {
+    return ref.watch(_weatherDetailsViewModelProvider).maybeWhen(
+          loading: () => _buildLoadingWidget(),
+          success: (date) => _buildSuccessWidget(date, isDarkMode, ref),
+          error: (_) => _buildErrorWidget(ref),
+          orElse: () => _buildLoadingWidget(),
+        );
   }
 
   Widget _buildLoadingWidget() =>
       const Center(child: CircularProgressIndicator());
 
   Widget _buildSuccessWidget(
-      WeatherDetailsModelWrapper weatherDetailsModelWrapper) {
+    WeatherDetailsModelWrapper weatherDetailsModelWrapper,
+    bool isDarkMode,
+    WidgetRef ref,
+  ) {
     return SafeArea(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            margin:
-                const EdgeInsets.only(left: dp_20, right: dp_20, top: dp_50),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(dp_30),
-              ),
-              gradient: weatherItemPurpleGradient,
-            ),
-            padding: const EdgeInsets.all(dp_20),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      weatherDetailsModelWrapper.weatherModel.city,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: fontSize20),
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () async {
-                        weatherDetailsModelWrapper.weatherModel.isFavourite
-                            ? await _viewModel.deleteFavouriteCity(
-                                weatherDetailsModelWrapper.weatherModel)
-                            : await _viewModel.addFavouriteCity(
-                                weatherDetailsModelWrapper.weatherModel);
-                        _viewModel.getFavouriteCities();
-                      },
-                      icon: weatherDetailsModelWrapper.weatherModel.isFavourite
-                          ? const Icon(
-                              Icons.favorite,
-                              color: Colors.white,
-                            )
-                          : const Icon(
-                              Icons.favorite_border,
-                              color: Colors.white,
-                            ),
-                    )
-                  ],
-                ),
-                Image.network(
-                  weatherDetailsModelWrapper.weatherModel.icon,
-                  fit: BoxFit.cover,
-                  width: dp_100,
-                  height: dp_80,
-                ),
-                Text(
-                  "${weatherDetailsModelWrapper.weatherModel.temperatureC.toString()}${Strings.celsius}",
-                  style: f52RWhiteRoboto,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      weatherDetailsModelWrapper.weatherModel.description,
-                      style: f16RWhiteRoboto,
-                    ),
-                    const Spacer(),
-                    Text(
-                      "${Strings.windDirection} '${weatherDetailsModelWrapper.weatherModel.windDir}'",
-                      style: f16RWhiteRoboto,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(dp_16),
-            child: Container(
-              padding: const EdgeInsets.all(dp_16),
-              decoration: BoxDecoration(
-                color: sageViolet,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(dp_30),
-                ),
-              ),
-              width: double.infinity,
-              height: dp_126,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: weatherDetailsModelWrapper
-                    .forecastModelWrapper.forecastModelByHours.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.all(dp_2),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          weatherDetailsModelWrapper.forecastModelWrapper
-                              .forecastModelByHours[index].hour,
-                          style: f12WhiteRoboto,
-                        ),
-                        Image.network(
-                          weatherDetailsModelWrapper
-                              .forecastModelWrapper
-                              .forecastModelByHours[index]
-                              .forecastInfoModel
-                              .icon,
-                          width: dp_50,
-                          height: dp_50,
-                          fit: BoxFit.cover,
-                        ),
-                        Text(
-                          "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByHours[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
-                          style: f12WhiteRoboto,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(dp_16),
-            decoration: const BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.all(
-                Radius.circular(dp_30),
-              ),
-            ),
-            width: double.infinity,
-            height: 220,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: weatherDetailsModelWrapper
-                  .forecastModelWrapper.forecastModelByDays.length,
-              itemBuilder: (context, index) {
-                return Container(
-                    width: 90,
-                    margin: const EdgeInsets.all(dp_2),
-                    decoration: BoxDecoration(
-                      color: sageViolet,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(14),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(18),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            maxLines: 5,
-                            overflow: TextOverflow.ellipsis,
-                            weatherDetailsModelWrapper.forecastModelWrapper
-                                .forecastModelByDays[index].date,
-                            style: f12WhiteRoboto,
-                            textAlign: TextAlign.center,
-                          ),
-                          Image.network(
-                            weatherDetailsModelWrapper
-                                .forecastModelWrapper
-                                .forecastModelByDays[index]
-                                .forecastInfoModel
-                                .icon,
-                            width: dp_50,
-                            height: dp_50,
-                            fit: BoxFit.cover,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: dp_10),
-                            child: Text(
-                              "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByDays[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
-                              style: f12WhiteRoboto,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: dp_10),
-                            child: Text(
-                              maxLines: 5,
-                              overflow: TextOverflow.ellipsis,
-                              weatherDetailsModelWrapper.forecastModelWrapper
-                                  .forecastModelByDays[index].description,
-                              style: f12WhiteRoboto,
-                              textAlign: TextAlign.center,
-                            ),
-                          )
-                        ],
-                      ),
-                    ));
-              },
-            ),
-          ),
+          _buildCityWeatherInfo(weatherDetailsModelWrapper, isDarkMode, ref),
+          _buildForecastWeatherByHours(weatherDetailsModelWrapper, ref),
+          _buildForecastWeatherByDays(weatherDetailsModelWrapper, ref),
           const Spacer()
         ],
       ),
     );
   }
 
-  Widget _buildErrorWidget() {
+  Widget _buildCityWeatherInfo(
+    WeatherDetailsModelWrapper weatherDetailsModelWrapper,
+    bool isDarkMode,
+    WidgetRef ref,
+  ) {
+    final viewModel = ref.read(_weatherDetailsViewModelProvider.notifier);
+    return Container(
+      margin: const EdgeInsets.only(left: dp_20, right: dp_20, top: dp_50),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(dp_30),
+        ),
+        gradient: isDarkMode
+            ? weatherItemDarkModeGradient
+            : weatherItemLightModeGradient,
+      ),
+      padding: const EdgeInsets.all(dp_20),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                weatherDetailsModelWrapper.weatherModel.city,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: fontSize20),
+              ),
+              const Spacer(),
+              IconButton(
+                onPressed: () async {
+                  weatherDetailsModelWrapper.weatherModel.isFavourite
+                      ? await viewModel.deleteFavouriteCity(
+                          weatherDetailsModelWrapper.weatherModel)
+                      : await viewModel.addFavouriteCity(
+                          weatherDetailsModelWrapper.weatherModel);
+                  viewModel.getFavouriteCities();
+                },
+                icon: weatherDetailsModelWrapper.weatherModel.isFavourite
+                    ? const Icon(
+                        Icons.favorite,
+                        color: Colors.white,
+                      )
+                    : const Icon(
+                        Icons.favorite_border,
+                        color: Colors.white,
+                      ),
+              )
+            ],
+          ),
+          Image.network(
+            weatherDetailsModelWrapper.weatherModel.icon,
+            fit: BoxFit.cover,
+            width: dp_100,
+            height: dp_80,
+          ),
+          Text(
+            "${weatherDetailsModelWrapper.weatherModel.temperatureC.toString()}${Strings.celsius}",
+            style: f52RWhiteRoboto,
+          ),
+          Row(
+            children: [
+              Text(
+                weatherDetailsModelWrapper.weatherModel.description,
+                style: f16RWhiteRoboto,
+              ),
+              const Spacer(),
+              Text(
+                "${Strings.windDirection} '${weatherDetailsModelWrapper.weatherModel.windDir}'",
+                style: f16RWhiteRoboto,
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildForecastWeatherByHours(
+    WeatherDetailsModelWrapper weatherDetailsModelWrapper,
+    WidgetRef ref,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.all(dp_16),
+      child: Container(
+        padding: const EdgeInsets.all(dp_16),
+        decoration: BoxDecoration(
+          color: sageViolet,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(dp_30),
+          ),
+        ),
+        width: double.infinity,
+        height: dp_126,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: weatherDetailsModelWrapper
+              .forecastModelWrapper.forecastModelByHours.length,
+          itemBuilder: (context, index) {
+            return Container(
+              margin: const EdgeInsets.all(dp_2),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    weatherDetailsModelWrapper
+                        .forecastModelWrapper.forecastModelByHours[index].date,
+                    style: f12WhiteRoboto,
+                  ),
+                  Image.network(
+                    weatherDetailsModelWrapper.forecastModelWrapper
+                        .forecastModelByHours[index].forecastInfoModel.icon,
+                    width: dp_50,
+                    height: dp_50,
+                    fit: BoxFit.cover,
+                  ),
+                  Text(
+                    "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByHours[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
+                    style: f12WhiteRoboto,
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildForecastWeatherByDays(
+    WeatherDetailsModelWrapper weatherDetailsModelWrapper,
+    WidgetRef ref,
+  ) {
+    return Container(
+      padding: const EdgeInsets.all(dp_16),
+      decoration: const BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.all(
+          Radius.circular(dp_30),
+        ),
+      ),
+      width: double.infinity,
+      height: 220,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: weatherDetailsModelWrapper
+            .forecastModelWrapper.forecastModelByDays.length,
+        itemBuilder: (context, index) {
+          return Container(
+              width: 90,
+              margin: const EdgeInsets.all(dp_2),
+              decoration: BoxDecoration(
+                color: sageViolet,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(14),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(18),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      overflow: TextOverflow.ellipsis,
+                      weatherDetailsModelWrapper
+                          .forecastModelWrapper.forecastModelByDays[index].date,
+                      style: f12WhiteRoboto,
+                      textAlign: TextAlign.center,
+                    ),
+                    Image.network(
+                      weatherDetailsModelWrapper.forecastModelWrapper
+                          .forecastModelByDays[index].forecastInfoModel.icon,
+                      width: dp_50,
+                      height: dp_50,
+                      fit: BoxFit.cover,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: dp_10),
+                      child: Text(
+                        "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByDays[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
+                        style: f12WhiteRoboto,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: dp_10),
+                      child: Text(
+                        maxLines: 5,
+                        overflow: TextOverflow.ellipsis,
+                        weatherDetailsModelWrapper.forecastModelWrapper
+                            .forecastModelByDays[index].description,
+                        style: f12WhiteRoboto,
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  ],
+                ),
+              ));
+        },
+      ),
+    );
+  }
+
+  Widget _buildErrorWidget(WidgetRef ref) {
+    final viewModel = ref.read(_weatherDetailsViewModelProvider.notifier);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -286,7 +292,7 @@ class _WeatherDetailsScreenState extends ConsumerState<WeatherDetailsScreen> {
           const SizedBox(height: dp_20), // Spacer between text and button
           ElevatedButton(
             onPressed: () {
-              _viewModel.fetchWeatherByCity(widget.cityName);
+              viewModel.fetchWeatherByCity(cityName);
             },
             child: const Text(Strings.refresh),
           ),

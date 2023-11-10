@@ -55,7 +55,7 @@ TextStyle f52RWhiteRoboto = const TextStyle(
   fontFamily: "Roboto",
 );
 
-LinearGradient weatherItemPurpleGradient = const LinearGradient(
+LinearGradient weatherItemLightModeGradient = const LinearGradient(
   begin: Alignment.topRight,
   end: Alignment.bottomLeft,
   colors: <Color>[
@@ -64,6 +64,19 @@ LinearGradient weatherItemPurpleGradient = const LinearGradient(
     Color.fromRGBO(56, 49, 106, 1),
     Color.fromRGBO(58, 50, 111, 1),
     Color.fromRGBO(65, 53, 119, 1),
+  ],
+  tileMode: TileMode.mirror,
+);
+
+LinearGradient weatherItemDarkModeGradient = const LinearGradient(
+  begin: Alignment.topRight,
+  end: Alignment.bottomLeft,
+  colors: <Color>[
+    Color.fromRGBO(35, 31, 93, 1),
+    Color.fromRGBO(40, 36, 101, 1),
+    Color.fromRGBO(44, 40, 107, 1),
+    Color.fromRGBO(48, 43, 111, 1),
+    Color.fromRGBO(50, 46, 115, 1),
   ],
   tileMode: TileMode.mirror,
 );
