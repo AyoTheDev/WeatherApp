@@ -7,7 +7,7 @@ import 'package:flutter_weather_app/domain/models/weather_model.dart';
 import 'package:flutter_weather_app/domain/models/weather_model_wrapper.dart';
 import 'package:flutter_weather_app/presentation/state/state.dart';
 import 'package:flutter_weather_app/presentation/viewmodel/favourite_cities_viewmodel.dart';
-import 'package:flutter_weather_app/presentation/viewmodel/fetch_weather_provider.dart';
+import '../../utils/pair.dart';
 
 final homeViewModelStateNotifierProvider = StateNotifierProvider.autoDispose<
     HomeViewModel, State<WeatherModelWrapper>>(
@@ -16,14 +16,13 @@ final homeViewModelStateNotifierProvider = StateNotifierProvider.autoDispose<
     ref.watch(deleteFavouriteWeatherByCityUseCaseProvider),
     ref.read(favouriteCitiesViewModelStateNotifierProvider.notifier),
     ref.watch(fetchAutoCompleteSearchCityUseCaseProvider),
-    ref.watch(fetchWeatherProvider),
+    ref.watch(fetchWeatherUseCaseProvider),
   ),
 );
 
 class HomeViewModel extends StateNotifier<State<WeatherModelWrapper>> {
   final FavouriteCitiesViewModel _favouriteCitiesViewModel;
-  final FetchWeatherProvider _fetchWeatherProvider;
-
+  final BaseUseCase<Pair<bool, String?>, WeatherModel> _fetchWeatherUseCase;
   final BaseUseCase<CityModel, bool> _addFavouriteCityUseCase;
   final BaseUseCase<CityModel, bool> _deleteFavouriteCityUseCase;
   final BaseUseCase<String, List<SuggestedCitiesModel>>
@@ -34,15 +33,16 @@ class HomeViewModel extends StateNotifier<State<WeatherModelWrapper>> {
     this._deleteFavouriteCityUseCase,
     this._favouriteCitiesViewModel,
     this._fetchAutoCompleteSearchCityUseCase,
-    this._fetchWeatherProvider,
+    this._fetchWeatherUseCase,
   ) : super(const State.init()) {
     fetchWeatherByCity(true, "");
   }
 
   fetchWeatherByCity(bool isCurrent, String? city) async {
     try {
+      final Pair<bool, String?> input = Pair(isCurrent, city);
       state = const State.loading();
-      final result = await _fetchWeatherProvider.execute(isCurrent, city);
+      final result = await _fetchWeatherUseCase.execute(input: input);
       state = State.success(
         WeatherModelWrapper(weatherModel: result),
       );

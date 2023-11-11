@@ -4,6 +4,7 @@ import 'package:flutter_weather_app/domain/repository/weather_repository.dart';
 
 class FetchAutocompleteSearchCityUseCase
     implements BaseUseCase<String, List<SuggestedCitiesModel>> {
+
   final WeatherRepository _weatherRepository;
 
   const FetchAutocompleteSearchCityUseCase(this._weatherRepository);
