@@ -25,6 +25,7 @@ class MainNavigator extends ConsumerWidget {
     return Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
+
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: dp_0,

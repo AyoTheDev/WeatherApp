@@ -6,9 +6,9 @@ import 'package:flutter_weather_app/domain/models/forecast_model_wrapper.dart';
 import 'package:flutter_weather_app/domain/models/weather_details_model_wrapper.dart';
 import 'package:flutter_weather_app/domain/models/weather_model.dart';
 import 'package:flutter_weather_app/presentation/state/state.dart';
-import 'package:flutter_weather_app/presentation/viewmodel/fetch_weather_provider.dart';
 import 'package:flutter_weather_app/presentation/viewmodel/home_screen_viewmodel.dart';
 import 'package:intl/intl.dart';
+import '../../utils/pair.dart';
 
 final weatherDetailsViewModelStateNotifierProvider = StateNotifierProvider
     .autoDispose<WeatherDetailsViewModel, State<WeatherDetailsModelWrapper>>(
@@ -16,7 +16,7 @@ final weatherDetailsViewModelStateNotifierProvider = StateNotifierProvider
     ref.watch(fetchForecastUseCaseProvider),
     ref.read(homeViewModelStateNotifierProvider.notifier),
     ref.watch(cityNameProvider),
-    ref.watch(fetchWeatherProvider),
+    ref.watch(fetchWeatherUseCaseProvider),
     ref.watch(addFavouriteWeatherByCityUseCaseProvider),
     ref.watch(deleteFavouriteWeatherByCityUseCaseProvider),
   ),
@@ -26,8 +26,10 @@ final cityNameProvider = StateProvider<String>((ref) => "");
 
 class WeatherDetailsViewModel
     extends StateNotifier<State<WeatherDetailsModelWrapper>> {
-  final FetchWeatherProvider _fetchWeatherProvider;
+
   final HomeViewModel _homeViewModel;
+  final BaseUseCase<Pair<bool, String?>, WeatherModel>
+  _fetchWeatherUseCase;
   final BaseUseCase<String, ForecastModelWrapper>
       _fetchForecastWeatherByCityUseCase;
 
@@ -40,7 +42,7 @@ class WeatherDetailsViewModel
     this._fetchForecastWeatherByCityUseCase,
     this._homeViewModel,
     this._cityName,
-    this._fetchWeatherProvider,
+    this._fetchWeatherUseCase,
     this._addFavouriteCityUseCase,
     this._deleteFavouriteCityUseCase,
   ) : super(const State.init()) {
@@ -52,12 +54,9 @@ class WeatherDetailsViewModel
       state = const State.loading();
       late WeatherModel weatherModel;
       late ForecastModelWrapper forecastModelWrapper;
+      final Pair<bool, String?> input = Pair(false, city);
       await Future.wait([
-        _fetchWeatherProvider
-            .execute(
-              false,
-              city,
-            )
+        _fetchWeatherUseCase.execute(input: input)
             .then((value) => weatherModel = value),
         _fetchForecastWeatherByCityUseCase
             .execute(
