@@ -22,7 +22,7 @@ final homeViewModelStateNotifierProvider = StateNotifierProvider.autoDispose<
 
 class HomeViewModel extends StateNotifier<State<WeatherModelWrapper>> {
   final FavouriteCitiesViewModel _favouriteCitiesViewModel;
-  final BaseUseCase<Pair<bool, String?>, WeatherModel> _fetchCurrentWeatherUseCase;
+  final BaseUseCase<Pair<bool, String?>, WeatherModel> _fetchWeatherUseCase;
   final BaseUseCase<CityModel, bool> _addFavouriteCityUseCase;
   final BaseUseCase<CityModel, bool> _deleteFavouriteCityUseCase;
   final BaseUseCase<String, List<SuggestedCitiesModel>>
@@ -33,7 +33,7 @@ class HomeViewModel extends StateNotifier<State<WeatherModelWrapper>> {
     this._deleteFavouriteCityUseCase,
     this._favouriteCitiesViewModel,
     this._fetchAutoCompleteSearchCityUseCase,
-    this._fetchCurrentWeatherUseCase,
+    this._fetchWeatherUseCase,
   ) : super(const State.init()) {
     fetchWeatherByCity(true, "");
   }
@@ -42,7 +42,7 @@ class HomeViewModel extends StateNotifier<State<WeatherModelWrapper>> {
     try {
       final Pair<bool, String?> input = Pair(isCurrent, city);
       state = const State.loading();
-      final result = await _fetchCurrentWeatherUseCase.execute(input: input);
+      final result = await _fetchWeatherUseCase.execute(input: input);
       state = State.success(
         WeatherModelWrapper(weatherModel: result),
       );
