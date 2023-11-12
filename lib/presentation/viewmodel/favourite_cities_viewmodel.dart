@@ -25,7 +25,7 @@ class FavouriteCitiesViewModel extends StateNotifier<State<CitiesListModel>> {
     loadFavouriteCities();
   }
 
-  Future<void> getFavouriteCitiesFromDB() async {
+  Future<void> loadFavouriteCities() async {
     try {
       state = const State.loading();
       final favouriteCitiesList = await _getFavouriteCitiesListUseCase.execute(
