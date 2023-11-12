@@ -1,4 +1,4 @@
-//TODO Differentiate between different type of exceptions (network, parsing, etc)
+//TODO Differentiate between different type of exceptions (network, parsing, location etc)
 class CustomException implements Exception {
   final String message;
 
