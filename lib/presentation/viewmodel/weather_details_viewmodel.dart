@@ -49,7 +49,7 @@ class WeatherDetailsViewModel
     fetchWeatherByCity(_cityName);
   }
 
-  void fetchWeatherByCity(String city) async {
+  Future<void> fetchWeatherByCity(String city) async {
     try {
       state = const State.loading();
       late WeatherModel weatherModel;

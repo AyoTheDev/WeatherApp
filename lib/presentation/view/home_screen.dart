@@ -21,33 +21,39 @@ class HomeScreen extends ConsumerWidget {
         body: _buildWidgetState(ref, context),
       );
 
+          );
   Widget _buildWidgetState(WidgetRef ref, BuildContext context) =>
       ref.watch(_homeViewModelProvider).maybeWhen(
-            loading: () => _buildLoadingWidget(),
-            success: (data) => _buildSuccessWidget(data, ref, context),
-            error: (_) => _buildErrorWidget(ref),
-            orElse: () => _buildErrorWidget(ref),
-          );
+        loading: () => _buildLoadingWidget(),
+        success: (data) => _buildSuccessWidget(data, ref, context),
+        error: (_) => _buildErrorWidget(ref),
+        orElse: () => _buildErrorWidget(ref),
+      );
 
-  Widget _buildLoadingWidget() => const Center(
+  Widget _buildLoadingWidget() =>
+      const Center(
         child: CircularProgressIndicator(),
       );
 
-  Widget _buildSuccessWidget(
-    WeatherModelWrapper weatherModelWrapper,
-    WidgetRef ref,
-    BuildContext context,
-  ) {
+  Widget _buildSuccessWidget(WeatherModelWrapper weatherModelWrapper,
+      WidgetRef ref,
+      BuildContext context,) {
     final isDarkMode = ref.watch(appThemeProvider);
-    return SingleChildScrollView(
-      child: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.only(top: dp_50),
-          child: Column(
-            children: [
-              _buildSearch(ref),
-              _buildCityInfo(weatherModelWrapper, isDarkMode, ref, context),
-            ],
+    return RefreshIndicator(
+      onRefresh: () async => ref.refresh(_homeViewModelProvider),
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: SafeArea(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.only(top: dp_50),
+            child: Column(
+              children: [
+                _buildSearch(ref),
+                _buildCityInfo(
+                    weatherModelWrapper, isDarkMode, ref, context),
+              ],
+            ),
           ),
         ),
       ),
@@ -97,23 +103,24 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildCityInfo(
-    WeatherModelWrapper weatherModelWrapper,
-    bool isDarkMode,
-    WidgetRef ref,
-    BuildContext context,
-  ) {
+  Widget _buildCityInfo(WeatherModelWrapper weatherModelWrapper,
+      bool isDarkMode,
+      WidgetRef ref,
+      BuildContext context,) {
     final viewModel = ref.read(_homeViewModelProvider.notifier);
     return GestureDetector(
       onTap: () {
-        ref.read(cityNameProvider.notifier).state =
+        ref
+            .read(cityNameProvider.notifier)
+            .state =
             weatherModelWrapper.weatherModel.city;
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => WeatherDetailsScreen(
-              cityName: weatherModelWrapper.weatherModel.city,
-            ),
+            builder: (context) =>
+                WeatherDetailsScreen(
+                  cityName: weatherModelWrapper.weatherModel.city,
+                ),
           ),
         );
       },
@@ -144,20 +151,20 @@ class HomeScreen extends ConsumerWidget {
                   onPressed: () async {
                     weatherModelWrapper.weatherModel.isFavourite
                         ? await viewModel.deleteFavouriteCity(
-                            weatherModelWrapper.weatherModel)
+                        weatherModelWrapper.weatherModel)
                         : await viewModel
-                            .addFavouriteCity(weatherModelWrapper.weatherModel);
+                        .addFavouriteCity(weatherModelWrapper.weatherModel);
                     viewModel.getFavouriteCities();
                   },
                   icon: weatherModelWrapper.weatherModel.isFavourite
                       ? const Icon(
-                          Icons.favorite,
-                          color: Colors.white,
-                        )
+                    Icons.favorite,
+                    color: Colors.white,
+                  )
                       : const Icon(
-                          Icons.favorite_border,
-                          color: Colors.white,
-                        ),
+                    Icons.favorite_border,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -168,7 +175,8 @@ class HomeScreen extends ConsumerWidget {
               height: dp_80,
             ),
             Text(
-              "${weatherModelWrapper.weatherModel.temperatureC.toString()}${Strings.celsius}",
+              "${weatherModelWrapper.weatherModel.temperatureC
+                  .toString()}${Strings.celsius}",
               style: f52RWhiteRoboto,
             ),
             Row(
@@ -179,7 +187,8 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 const Spacer(),
                 Text(
-                  "${Strings.windDirection} '${weatherModelWrapper.weatherModel.windDir}'",
+                  "${Strings.windDirection} '${weatherModelWrapper.weatherModel
+                      .windDir}'",
                   style: f16RWhiteRoboto,
                 ),
               ],
@@ -190,9 +199,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildErrorWidget(
-    WidgetRef ref,
-  ) {
+  Widget _buildErrorWidget(WidgetRef ref) {
     final viewModel = ref.read(_homeViewModelProvider.notifier);
     return Center(
       child: Column(

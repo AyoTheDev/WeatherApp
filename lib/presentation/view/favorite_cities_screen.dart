@@ -15,62 +15,75 @@ class FavoriteCitiesScreen extends ConsumerWidget {
       favouriteCitiesViewModelStateNotifierProvider;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(_favouriteCitiesViewModelProvider).maybeWhen(
-        success: (data) => data.length != 0
-            ? _buildSuccessWidget(data, ref)
-            : const Center(
-                child: Text(
-                Strings.thereIsNoFavouriteCity,
-                style: TextStyle(fontSize: dp_20),
-              )),
-        error: (_) => _buildErrorWidget(ref),
-        loading: () => const CircularProgressIndicator(),
-        orElse: () => const Center(
-                child: Text(
-              Strings.thereIsNoFavouriteCity,
-              style: TextStyle(fontSize: dp_20),
-            )));
-  }
+  Widget build(BuildContext context, WidgetRef ref) =>
+      ref.watch(_favouriteCitiesViewModelProvider).maybeWhen(
+            success: (data) => _buildSuccessWidget(data, ref),
+            error: (_) => _buildErrorWidget(ref),
+            loading: () => _buildLoadingWidget(),
+            orElse: () => _buildDefaultWidget(),
+          );
+
+  Widget _buildLoadingWidget() => const Center(
+        child: CircularProgressIndicator(),
+      );
+
+  Widget _buildDefaultWidget() => const Center(
+        child: Text(
+          Strings.thereIsNoFavouriteCity,
+          style: TextStyle(fontSize: dp_20),
+        ),
+      );
 
   Widget _buildSuccessWidget(CitiesListModel citiesListModel, WidgetRef ref) {
     final viewModel = ref.read(_favouriteCitiesViewModelProvider.notifier);
-    return ListView.separated(
-      itemCount: citiesListModel.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Row(
-            children: [
-              Text(citiesListModel.cityModelList[index].city,
-                  style: styleOnlyWhiteColor),
-              const Spacer(),
-              IconButton(
-                onPressed: () {
-                  viewModel.deleteFavouriteCity(citiesListModel[index]);
-                  ref
-                      .read(homeViewModelStateNotifierProvider.notifier)
-                      .updateCurrentFavouriteState(false);
-                },
-                padding: const EdgeInsets.all(dp_0),
-                icon: const Icon(Icons.favorite),
-                color: Colors.red,
-                iconSize: dp_30,
-              ),
-            ],
-          ),
-          onTap: () {
-            fetchSelectedCityWeather(
-                citiesListModel.cityModelList[index].city, ref);
-          },
-        );
-      },
-      separatorBuilder: (context, index) {
-        return const Divider(
-          color: Colors.white,
-          indent: dp_15,
-          endIndent: dp_15,
-        );
-      },
+
+    if (citiesListModel.length == 0) {
+      return const Center(
+        child: Text(
+          Strings.thereIsNoFavouriteCity,
+          style: TextStyle(fontSize: dp_20),
+        ),
+      );
+    }
+    return RefreshIndicator(
+      onRefresh: () async => ref.refresh(_favouriteCitiesViewModelProvider),
+      child: ListView.separated(
+        itemCount: citiesListModel.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Row(
+              children: [
+                Text(citiesListModel.cityModelList[index].city,
+                    style: styleOnlyWhiteColor),
+                const Spacer(),
+                IconButton(
+                  onPressed: () {
+                    viewModel.deleteFavouriteCity(citiesListModel[index]);
+                    ref
+                        .read(homeViewModelStateNotifierProvider.notifier)
+                        .updateCurrentFavouriteState(false);
+                  },
+                  padding: const EdgeInsets.all(dp_0),
+                  icon: const Icon(Icons.favorite),
+                  color: Colors.red,
+                  iconSize: dp_30,
+                ),
+              ],
+            ),
+            onTap: () {
+              fetchSelectedCityWeather(
+                  citiesListModel.cityModelList[index].city, ref);
+            },
+          );
+        },
+        separatorBuilder: (context, index) {
+          return const Divider(
+            color: Colors.white,
+            indent: dp_15,
+            endIndent: dp_15,
+          );
+        },
+      ),
     );
   }
 

@@ -38,7 +38,7 @@ class HomeViewModel extends StateNotifier<State<WeatherModelWrapper>> {
     fetchWeatherByCity(true, "");
   }
 
-  fetchWeatherByCity(bool isCurrent, String? city) async {
+  Future<void> fetchWeatherByCity(bool isCurrent, String? city) async {
     try {
       final Pair<bool, String?> input = Pair(isCurrent, city);
       state = const State.loading();
