@@ -43,14 +43,13 @@ class WeatherDetailsScreen extends ConsumerWidget {
     BuildContext context,
     bool isDarkMode,
     WidgetRef ref,
-  ) {
-    return ref.watch(_weatherDetailsViewModelProvider).maybeWhen(
-          loading: () => _buildLoadingWidget(),
-          success: (date) => _buildSuccessWidget(date, isDarkMode, ref),
-          error: (_) => _buildErrorWidget(ref),
-          orElse: () => _buildLoadingWidget(),
-        );
-  }
+  ) =>
+      ref.watch(_weatherDetailsViewModelProvider).maybeWhen(
+            loading: () => _buildLoadingWidget(),
+            success: (date) => _buildSuccessWidget(date, isDarkMode, ref),
+            error: (_) => _buildErrorWidget(ref),
+            orElse: () => _buildLoadingWidget(),
+          );
 
   Widget _buildLoadingWidget() =>
       const Center(child: CircularProgressIndicator());
@@ -59,19 +58,29 @@ class WeatherDetailsScreen extends ConsumerWidget {
     WeatherDetailsModelWrapper weatherDetailsModelWrapper,
     bool isDarkMode,
     WidgetRef ref,
-  ) {
-    return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildCityWeatherInfo(weatherDetailsModelWrapper, isDarkMode, ref),
-          _buildForecastWeatherByHours(weatherDetailsModelWrapper, ref),
-          _buildForecastWeatherByDays(weatherDetailsModelWrapper, ref),
-          const Spacer()
-        ],
-      ),
-    );
-  }
+  ) =>
+      RefreshIndicator(
+        onRefresh: () async => ref.refresh(_weatherDetailsViewModelProvider),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: true,
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    _buildCityWeatherInfo(
+                        weatherDetailsModelWrapper, isDarkMode, ref),
+                    _buildForecastWeatherByHours(
+                        weatherDetailsModelWrapper, ref),
+                    _buildForecastWeatherByDays(
+                        weatherDetailsModelWrapper, ref),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 
   Widget _buildCityWeatherInfo(
     WeatherDetailsModelWrapper weatherDetailsModelWrapper,
@@ -154,127 +163,125 @@ class WeatherDetailsScreen extends ConsumerWidget {
   Widget _buildForecastWeatherByHours(
     WeatherDetailsModelWrapper weatherDetailsModelWrapper,
     WidgetRef ref,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.all(dp_16),
-      child: Container(
+  ) =>
+      Padding(
         padding: const EdgeInsets.all(dp_16),
-        decoration: BoxDecoration(
-          color: sageViolet,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(dp_30),
+        child: Container(
+          padding: const EdgeInsets.all(dp_16),
+          decoration: BoxDecoration(
+            color: sageViolet,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(dp_30),
+            ),
           ),
-        ),
-        width: double.infinity,
-        height: dp_126,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: weatherDetailsModelWrapper
-              .forecastModelWrapper.forecastModelByHours.length,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.all(dp_2),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    weatherDetailsModelWrapper
-                        .forecastModelWrapper.forecastModelByHours[index].date,
-                    style: f12WhiteRoboto,
-                  ),
-                  Image.network(
-                    weatherDetailsModelWrapper.forecastModelWrapper
-                        .forecastModelByHours[index].forecastInfoModel.icon,
-                    width: dp_50,
-                    height: dp_50,
-                    fit: BoxFit.cover,
-                  ),
-                  Text(
-                    "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByHours[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
-                    style: f12WhiteRoboto,
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildForecastWeatherByDays(
-    WeatherDetailsModelWrapper weatherDetailsModelWrapper,
-    WidgetRef ref,
-  ) {
-    return Container(
-      padding: const EdgeInsets.all(dp_16),
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.all(
-          Radius.circular(dp_30),
-        ),
-      ),
-      width: double.infinity,
-      height: 220,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: weatherDetailsModelWrapper
-            .forecastModelWrapper.forecastModelByDays.length,
-        itemBuilder: (context, index) {
-          return Container(
-              width: 90,
-              margin: const EdgeInsets.all(dp_2),
-              decoration: BoxDecoration(
-                color: sageViolet,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(14),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(18),
+          width: double.infinity,
+          height: dp_126,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: weatherDetailsModelWrapper
+                .forecastModelWrapper.forecastModelByHours.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.all(dp_2),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      overflow: TextOverflow.ellipsis,
-                      weatherDetailsModelWrapper
-                          .forecastModelWrapper.forecastModelByDays[index].date,
+                      weatherDetailsModelWrapper.forecastModelWrapper
+                          .forecastModelByHours[index].date,
                       style: f12WhiteRoboto,
-                      textAlign: TextAlign.center,
                     ),
                     Image.network(
                       weatherDetailsModelWrapper.forecastModelWrapper
-                          .forecastModelByDays[index].forecastInfoModel.icon,
+                          .forecastModelByHours[index].forecastInfoModel.icon,
                       width: dp_50,
                       height: dp_50,
                       fit: BoxFit.cover,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: dp_10),
-                      child: Text(
-                        "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByDays[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
-                        style: f12WhiteRoboto,
-                        textAlign: TextAlign.center,
-                      ),
+                    Text(
+                      "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByHours[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
+                      style: f12WhiteRoboto,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: dp_10),
-                      child: Text(
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                        weatherDetailsModelWrapper.forecastModelWrapper
-                            .forecastModelByDays[index].description,
-                        style: f12WhiteRoboto,
-                        textAlign: TextAlign.center,
-                      ),
-                    )
                   ],
                 ),
-              ));
-        },
-      ),
-    );
-  }
+              );
+            },
+          ),
+        ),
+      );
+
+  Widget _buildForecastWeatherByDays(
+    WeatherDetailsModelWrapper weatherDetailsModelWrapper,
+    WidgetRef ref,
+  ) =>
+      Container(
+        padding: const EdgeInsets.all(dp_16),
+        decoration: const BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.all(
+            Radius.circular(dp_30),
+          ),
+        ),
+        width: double.infinity,
+        height: 220,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: weatherDetailsModelWrapper
+              .forecastModelWrapper.forecastModelByDays.length,
+          itemBuilder: (context, index) {
+            return Container(
+                width: 90,
+                margin: const EdgeInsets.all(dp_2),
+                decoration: BoxDecoration(
+                  color: sageViolet,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(14),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        overflow: TextOverflow.ellipsis,
+                        weatherDetailsModelWrapper.forecastModelWrapper
+                            .forecastModelByDays[index].date,
+                        style: f12WhiteRoboto,
+                        textAlign: TextAlign.center,
+                      ),
+                      Image.network(
+                        weatherDetailsModelWrapper.forecastModelWrapper
+                            .forecastModelByDays[index].forecastInfoModel.icon,
+                        width: dp_50,
+                        height: dp_50,
+                        fit: BoxFit.cover,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: dp_10),
+                        child: Text(
+                          "${weatherDetailsModelWrapper.forecastModelWrapper.forecastModelByDays[index].forecastInfoModel.temperature.toString()}${Strings.celsius}",
+                          style: f12WhiteRoboto,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: dp_10),
+                        child: Text(
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis,
+                          weatherDetailsModelWrapper.forecastModelWrapper
+                              .forecastModelByDays[index].description,
+                          style: f12WhiteRoboto,
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                ));
+          },
+        ),
+      );
 
   Widget _buildErrorWidget(WidgetRef ref) {
     final viewModel = ref.read(_weatherDetailsViewModelProvider.notifier);
