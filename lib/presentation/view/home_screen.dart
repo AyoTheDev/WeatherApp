@@ -15,21 +15,19 @@ class HomeScreen extends ConsumerWidget {
   final _homeViewModelProvider = homeViewModelStateNotifierProvider;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: _buildWidgetState(ref, context),
-    );
-  }
+  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.transparent,
+        body: _buildWidgetState(ref, context),
+      );
 
-  Widget _buildWidgetState(WidgetRef ref, BuildContext context) {
-    return ref.watch(_homeViewModelProvider).maybeWhen(
-          loading: () => _buildLoadingWidget(),
-          success: (data) => _buildSuccessWidget(data, ref, context),
-          error: (_) => _buildErrorWidget(ref),
-          orElse: () => _buildErrorWidget(ref),
-        );
-  }
+  Widget _buildWidgetState(WidgetRef ref, BuildContext context) =>
+      ref.watch(_homeViewModelProvider).maybeWhen(
+            loading: () => _buildLoadingWidget(),
+            success: (data) => _buildSuccessWidget(data, ref, context),
+            error: (_) => _buildErrorWidget(ref),
+            orElse: () => _buildErrorWidget(ref),
+          );
 
   Widget _buildLoadingWidget() => const Center(
         child: CircularProgressIndicator(),
@@ -41,14 +39,16 @@ class HomeScreen extends ConsumerWidget {
     BuildContext context,
   ) {
     final isDarkMode = ref.watch(appThemeProvider);
-    return SafeArea(
-      child: Container(
-        padding: const EdgeInsets.only(top: dp_50),
-        child: Column(
-          children: [
-            _buildSearch(ref),
-            _buildCityInfo(weatherModelWrapper, isDarkMode, ref, context),
-          ],
+    return SingleChildScrollView(
+      child: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.only(top: dp_50),
+          child: Column(
+            children: [
+              _buildSearch(ref),
+              _buildCityInfo(weatherModelWrapper, isDarkMode, ref, context),
+            ],
+          ),
         ),
       ),
     );
@@ -190,7 +190,9 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildErrorWidget(WidgetRef ref, ) {
+  Widget _buildErrorWidget(
+    WidgetRef ref,
+  ) {
     final viewModel = ref.read(_homeViewModelProvider.notifier);
     return Center(
       child: Column(
